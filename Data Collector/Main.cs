@@ -123,5 +123,13 @@ namespace Data_Collector {
             }
 
         }
+
+        private void ts_ManageDocument_Click(object sender, EventArgs e) {
+            new Engineering.ManageDocument().ShowDialog();
+        }
+
+        private void mannagePartNumberToolStripMenuItem_Click(object sender, EventArgs e) {
+            new Engineering.ManagePartNumber().ShowDialog();
+        }
     }
 }

@@ -79,6 +79,24 @@
   <ItemGroup>
     <Compile Include="DataTools\BlankSQlite.cs" />
     <Compile Include="DataTools\DataMaster.cs" />
+    <Compile Include="Engineering\ManageDocument.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Engineering\ManageDocument.Designer.cs">
+      <DependentUpon>ManageDocument.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Engineering\ManagePartNumber.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Engineering\ManagePartNumber.Designer.cs">
+      <DependentUpon>ManagePartNumber.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Engineering\QueryDocuments.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Engineering\QueryDocuments.Designer.cs">
+      <DependentUpon>QueryDocuments.cs</DependentUpon>
+    </Compile>
     <Compile Include="Main.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -87,6 +105,15 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Engineering\ManageDocument.resx">
+      <DependentUpon>ManageDocument.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Engineering\ManagePartNumber.resx">
+      <DependentUpon>ManagePartNumber.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Engineering\QueryDocuments.resx">
+      <DependentUpon>QueryDocuments.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
     </EmbeddedResource>

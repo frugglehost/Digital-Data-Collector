@@ -32,7 +32,7 @@
             this.manualPartNumberModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editDataPointsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mannagePartNumberToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.manageDocumentsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ts_ManageDocument = new System.Windows.Forms.ToolStripMenuItem();
             this.databaseToolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ts_CreateTables = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -123,7 +123,7 @@
             this.manualPartNumberModeToolStripMenuItem,
             this.editDataPointsToolStripMenuItem,
             this.mannagePartNumberToolStripMenuItem,
-            this.manageDocumentsToolStripMenuItem});
+            this.ts_ManageDocument});
             this.engineeringToolStripMenuItem.Name = "engineeringToolStripMenuItem";
             this.engineeringToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.engineeringToolStripMenuItem.Text = "Engineering";
@@ -145,12 +145,14 @@
             this.mannagePartNumberToolStripMenuItem.Name = "mannagePartNumberToolStripMenuItem";
             this.mannagePartNumberToolStripMenuItem.Size = new System.Drawing.Size(219, 22);
             this.mannagePartNumberToolStripMenuItem.Text = "Mannage Part Number";
+            this.mannagePartNumberToolStripMenuItem.Click += new System.EventHandler(this.mannagePartNumberToolStripMenuItem_Click);
             // 
-            // manageDocumentsToolStripMenuItem
+            // ts_ManageDocument
             // 
-            this.manageDocumentsToolStripMenuItem.Name = "manageDocumentsToolStripMenuItem";
-            this.manageDocumentsToolStripMenuItem.Size = new System.Drawing.Size(219, 22);
-            this.manageDocumentsToolStripMenuItem.Text = "Manage Documents";
+            this.ts_ManageDocument.Name = "ts_ManageDocument";
+            this.ts_ManageDocument.Size = new System.Drawing.Size(219, 22);
+            this.ts_ManageDocument.Text = "Manage Documents";
+            this.ts_ManageDocument.Click += new System.EventHandler(this.ts_ManageDocument_Click);
             // 
             // databaseToolsToolStripMenuItem
             // 
@@ -163,7 +165,7 @@
             // ts_CreateTables
             // 
             this.ts_CreateTables.Name = "ts_CreateTables";
-            this.ts_CreateTables.Size = new System.Drawing.Size(180, 22);
+            this.ts_CreateTables.Size = new System.Drawing.Size(156, 22);
             this.ts_CreateTables.Text = "Create All Table";
             this.ts_CreateTables.Click += new System.EventHandler(this.ts_CreateTables_Click);
             // 
@@ -524,7 +526,7 @@
         private System.Windows.Forms.ToolStripMenuItem manualPartNumberModeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem editDataPointsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem mannagePartNumberToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem manageDocumentsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ts_ManageDocument;
         private System.Windows.Forms.ToolStripMenuItem databaseToolsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ts_CreateTables;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
