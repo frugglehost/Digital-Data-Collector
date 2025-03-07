@@ -27,7 +27,7 @@
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.supportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.supervisorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.manageShopOrderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ts_ShoOrder = new System.Windows.Forms.ToolStripMenuItem();
             this.engineeringToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.manualPartNumberModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editDataPointsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -106,16 +106,17 @@
             // supervisorToolStripMenuItem
             // 
             this.supervisorToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.manageShopOrderToolStripMenuItem});
+            this.ts_ShoOrder});
             this.supervisorToolStripMenuItem.Name = "supervisorToolStripMenuItem";
             this.supervisorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.supervisorToolStripMenuItem.Text = "Supervisor";
             // 
-            // manageShopOrderToolStripMenuItem
+            // ts_ShoOrder
             // 
-            this.manageShopOrderToolStripMenuItem.Name = "manageShopOrderToolStripMenuItem";
-            this.manageShopOrderToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.manageShopOrderToolStripMenuItem.Text = "Manage Shop Order";
+            this.ts_ShoOrder.Name = "ts_ShoOrder";
+            this.ts_ShoOrder.Size = new System.Drawing.Size(195, 22);
+            this.ts_ShoOrder.Text = "Manage / Create Order";
+            this.ts_ShoOrder.Click += new System.EventHandler(this.ts_ShoOrder_Click);
             // 
             // engineeringToolStripMenuItem
             // 
@@ -255,6 +256,7 @@
             this.cob_PartNumber.TabIndex = 9;
             this.cob_PartNumber.SelectedIndexChanged += new System.EventHandler(this.cob_PartNumber_SelectedIndexChanged);
             this.cob_PartNumber.Enter += new System.EventHandler(this.cob_PartNumber_Enter);
+            this.cob_PartNumber.Leave += new System.EventHandler(this.cob_PartNumber_Leave);
             // 
             // cob_Rev
             // 
@@ -264,6 +266,7 @@
             this.cob_Rev.Size = new System.Drawing.Size(75, 21);
             this.cob_Rev.TabIndex = 10;
             this.cob_Rev.SelectedIndexChanged += new System.EventHandler(this.cob_Rev_SelectedIndexChanged);
+            this.cob_Rev.Leave += new System.EventHandler(this.cob_Rev_Leave);
             // 
             // tb_PartID
             // 
@@ -370,6 +373,7 @@
             // 
             this.cob_DocList.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.cob_DocList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cob_DocList.FormattingEnabled = true;
             this.cob_DocList.Location = new System.Drawing.Point(3, 3);
             this.cob_DocList.Name = "cob_DocList";
@@ -521,7 +525,7 @@
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem supportToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem supervisorToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem manageShopOrderToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ts_ShoOrder;
         private System.Windows.Forms.ToolStripMenuItem engineeringToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem manualPartNumberModeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem editDataPointsToolStripMenuItem;

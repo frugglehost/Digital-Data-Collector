@@ -39,6 +39,7 @@
             this.btn_Down = new System.Windows.Forms.Button();
             this.btn_Save = new System.Windows.Forms.Button();
             this.dgv_btn_Change = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.dgv_tb_RowID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_tb_DocID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_tb_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_tb_Rev = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -139,6 +140,7 @@
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dgv_btn_Change,
+            this.dgv_tb_RowID,
             this.dgv_tb_DocID,
             this.dgv_tb_Name,
             this.dgv_tb_Rev,
@@ -171,6 +173,7 @@
             this.btn_delete.TabIndex = 10;
             this.btn_delete.Text = "Remove Row";
             this.btn_delete.UseVisualStyleBackColor = true;
+            this.btn_delete.Click += new System.EventHandler(this.btn_delete_Click);
             // 
             // btn_Up
             // 
@@ -214,6 +217,13 @@
             this.dgv_btn_Change.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.dgv_btn_Change.Text = "Edit";
             this.dgv_btn_Change.Width = 75;
+            // 
+            // dgv_tb_RowID
+            // 
+            this.dgv_tb_RowID.HeaderText = "RowID";
+            this.dgv_tb_RowID.Name = "dgv_tb_RowID";
+            this.dgv_tb_RowID.ReadOnly = true;
+            this.dgv_tb_RowID.Visible = false;
             // 
             // dgv_tb_DocID
             // 
@@ -292,6 +302,7 @@
         private System.Windows.Forms.Button btn_Down;
         private System.Windows.Forms.Button btn_Save;
         private System.Windows.Forms.DataGridViewButtonColumn dgv_btn_Change;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_tb_RowID;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_tb_DocID;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_tb_Name;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_tb_Rev;

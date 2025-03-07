@@ -82,7 +82,7 @@ namespace Data_Collector.Engineering {
 
 
         private void btn_Add_Click(object sender, EventArgs e) {
-            dataGridView1.Rows.Add("Edit");
+            dataGridView1.Rows.Add("Edit", -1);
         }
 
         private void tb_PartID_TextChanged(object sender, EventArgs e) {
@@ -101,16 +101,23 @@ namespace Data_Collector.Engineering {
 
                 if (WarnningResults != DialogResult.No) {
                     dataGridView1.Rows.Clear();
-                    DataTable DocumentList = DataTools.DataMaster.GetDocListIDbyPartID(Convert.ToInt64(tb_PartID.Text));
+                    DataTable DocumentList = DataTools.DataMaster.GetDocsPN_PartID(Convert.ToInt64(tb_PartID.Text));
 
                     foreach (DataRow row in DocumentList.Rows) {
-
+                        Int64 TempRowID = row.Field<Int64>("ID");
                         Int64 TempDocID = row.Field<Int64>("DocID");
-                        DataTable dt_TempDocID = DataTools.DataMaster.GetUniqueDocbyDocID(TempDocID);
+                        string TempName = "Error";
+                        Int64 Temprev = 0;
+                        DataTable dt_TempDocID = DataTools.DataMaster.GetUniqueDoc_DocID(TempDocID);
 
 
+                        if (dt_TempDocID.Rows.Count > 0) {
+                            TempName = dt_TempDocID.Rows[0].Field<string>("Name");
+                            Temprev = dt_TempDocID.Rows[0].Field<Int64>("Revison");
+                        }
 
-                        dataGridView1.Rows.Add("Edit", TempDocID, dt_TempDocID.Rows[0].Field<string>("Name"), dt_TempDocID.Rows[0].Field<Int64>("Revison"), TempDocID);
+                        dataGridView1.Rows.Add("Edit", TempRowID, TempDocID, TempName, Temprev, TempDocID);
+
                     }
                 }
 
@@ -193,14 +200,14 @@ namespace Data_Collector.Engineering {
                 string results = subform.DocID_F2;
 
 
-                DataTable UniqueDocument = DataTools.DataMaster.GetUniqueDocbyDocID(Convert.ToInt64(results));
+                DataTable UniqueDocument = DataTools.DataMaster.GetUniqueDoc_DocID(Convert.ToInt64(results));
 
 
-
-                dataGridView1.Rows[e.RowIndex].Cells[1].Value = results;
-                dataGridView1.Rows[e.RowIndex].Cells[2].Value = UniqueDocument.Rows[0].Field<string>("Name");
-                dataGridView1.Rows[e.RowIndex].Cells[3].Value = UniqueDocument.Rows[0].Field<Int64>("Revison");
-                dataGridView1.Rows[e.RowIndex].Cells[4].Value = results;
+                
+                dataGridView1.Rows[e.RowIndex].Cells[2].Value = results;
+                dataGridView1.Rows[e.RowIndex].Cells[3].Value = UniqueDocument.Rows[0].Field<string>("Name");
+                dataGridView1.Rows[e.RowIndex].Cells[4].Value = UniqueDocument.Rows[0].Field<Int64>("Revison");
+                dataGridView1.Rows[e.RowIndex].Cells[5].Value = results;
             }
 
 
@@ -209,13 +216,74 @@ namespace Data_Collector.Engineering {
 
         private void btn_Save_Click(object sender, EventArgs e) {
 
+            int RowNumber = 1;
 
-            foreach (DataRowView drv in dataGridView1.Rows) {
+            foreach (DataGridViewRow drv in dataGridView1.Rows) {
+                Int64 TempRowID=Convert.ToInt64(drv.Cells[1].Value);
+                Int64 TempDocID = Convert.ToInt64(drv.Cells[2].Value);
+
+
+
+                if (TempRowID == -1) {
+                    //Insert Code
+                    DataTools.DataMaster.InsertDocsPN_NewRow(Convert.ToInt64(tb_PartID.Text), TempDocID, RowNumber);
+                } else {
+                    //Update Code
+                    DataTools.DataMaster.UpdateDocsPN_RowID(TempRowID, TempDocID, RowNumber);
+
+                }
+
+
+
+
+
+
+
+                RowNumber++;
+            }
+
+
+        }
+
+        private void btn_delete_Click(object sender, EventArgs e) {
+
+            if (this.dataGridView1.CurrentCell.RowIndex >= 0) {
+
+                DataGridView view = this.dataGridView1;
+                try {
+                    int index = view.SelectedCells[0].OwningRow.Index;
+
+                    DataGridViewRow dataGridViewRow = view.Rows[index];
+
+
+
+                    Int64 TempRowID = Convert.ToInt64(dataGridView1.Rows[index].Cells[1].Value);
+                    Int64 TempDocID = Convert.ToInt64(dataGridView1.Rows[index].Cells[2].Value);
+
+
+
+                    if (TempRowID > 0) {
+                        // Kill data base record.
+                        DataTools.DataMaster.DeleteDocsPN_RowID(TempRowID);
+                    }
+
+
+
+                    view.Rows.Remove(dataGridViewRow);
+
+                } catch {
+                }
 
 
 
             }
 
+
+
+                
+
+
+            
 
         }
     }
