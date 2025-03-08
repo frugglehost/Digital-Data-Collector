@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO.Ports;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -75,6 +76,117 @@ namespace Data_Collector.DataTools {
                 SqliteCommand command = new SqliteCommand(str);
 
                 command.Parameters.AddWithValue("@p_PN", PartNumber);
+
+                command.Connection = connection;
+                tempTable.Load(command.ExecuteReader());
+
+            }
+            return tempTable;
+        }
+
+
+        public static DataTable GetUserGroup_UserID(string UserNTID) {
+            DataTable tempTable = new DataTable();
+            using (SqliteConnection connection = CreateConnection()) {
+
+                string str = "SELECT * FROM [UserGroup] WHERE [UserTID]=@p_UserNTID ORDER BY [UserType] DESC;";
+                SqliteCommand command = new SqliteCommand(str);
+
+                command.Parameters.AddWithValue("@p_UserNTID", UserNTID);
+
+                command.Connection = connection;
+                tempTable.Load(command.ExecuteReader());
+
+            }
+            return tempTable;
+        }
+
+        public static DataTable OrderInspPN_PartID(Int64 PartID) {
+            DataTable tempTable = new DataTable();
+            using (SqliteConnection connection = CreateConnection()) {
+
+                string str = "SELECT * FROM [OrderInspPN] WHERE [PartID]=@p_PartID ORDER BY [Order] ASC;";
+                SqliteCommand command = new SqliteCommand(str);
+
+                command.Parameters.AddWithValue("@p_PartID", PartID);
+
+                command.Connection = connection;
+                tempTable.Load(command.ExecuteReader());
+
+            }
+            return tempTable;
+        }
+
+        public static DataTable GetOrderInspPN_RowID(Int64 ROWID) {
+            DataTable tempTable = new DataTable();
+            using (SqliteConnection connection = CreateConnection()) {
+
+                string str = "SELECT * FROM [OrderInspPN] WHERE [ROWID]=@p_ROWID;";
+                SqliteCommand command = new SqliteCommand(str);
+
+                command.Parameters.AddWithValue("@p_ROWID", ROWID);
+
+                command.Connection = connection;
+                tempTable.Load(command.ExecuteReader());
+
+            }
+            return tempTable;
+        }
+
+        public static DataTable GetOrderInspPN_PartID(Int64 PartID) {
+            DataTable tempTable = new DataTable();
+            using (SqliteConnection connection = CreateConnection()) {
+
+                string str = "SELECT * FROM [OrderInspPN] WHERE [PartID]=@p_PartID ORDER BY [Order] ASC;";
+                SqliteCommand command = new SqliteCommand(str);
+
+                command.Parameters.AddWithValue("@p_PartID", PartID);
+
+                command.Connection = connection;
+                tempTable.Load(command.ExecuteReader());
+
+            }
+            return tempTable;
+        }
+
+        public static DataTable GetInspCriteria_DataPointID(Int64 DataPointID) {
+            DataTable tempTable = new DataTable();
+            using (SqliteConnection connection = CreateConnection()) {
+
+                string str = "SELECT * FROM [InspCriteria] WHERE [DataPointID]=@p_DataPointID;";
+                SqliteCommand command = new SqliteCommand(str);
+
+                command.Parameters.AddWithValue("@p_DataPointID", DataPointID);
+
+                command.Connection = connection;
+                tempTable.Load(command.ExecuteReader());
+
+            }
+            return tempTable;
+        }
+
+
+        public static DataTable GetInspCriteria_DataPointID_Bulk(List<Int64> DataPointID) {
+            DataTable tempTable = new DataTable();
+            using (SqliteConnection connection = CreateConnection()) {
+
+                string str = "SELECT * FROM [InspCriteria] WHERE [DataPointID]=@p_DataPointID0";
+                
+                for(int i=1; i < DataPointID.Count; i++) {
+
+                    str = str + " OR [DataPointID]=@p_DataPointID" + i;
+                }
+
+
+                SqliteCommand command = new SqliteCommand(str);
+
+                command.Parameters.AddWithValue("@p_DataPointID0", DataPointID[0]);
+
+                for (int i = 1; i < DataPointID.Count; i++) {
+                    command.Parameters.AddWithValue("@p_DataPointID" + i, DataPointID[i]);
+                }
+
+                command.Parameters.AddWithValue("@p_DataPointID", DataPointID);
 
                 command.Connection = connection;
                 tempTable.Load(command.ExecuteReader());
@@ -299,6 +411,87 @@ namespace Data_Collector.DataTools {
                     command.Parameters.AddWithValue("@p_PartID", PartID);
                     command.Parameters.AddWithValue("@p_DocID", DocID);
                     command.Parameters.AddWithValue("@p_DocOrder", DocOrder);
+                    table.Load(command.ExecuteReader());
+
+                }
+            }
+            return table;
+        }
+
+        public static DataTable InsertInspCriteria(Int64 DocID) {
+
+            DataTable table = new DataTable();
+            using (SqliteConnection connection = CreateConnection()) {
+                using (SqliteCommand command = new SqliteCommand("INSERT INTO [InspCriteria] ([DocID]) VALUES (@p_DocID); SELECT last_insert_rowid();", connection)) {
+                    command.Connection = connection;
+                    command.Parameters.AddWithValue("@p_DocID", DocID);
+                    table.Load(command.ExecuteReader());
+
+                }
+            }
+            return table;
+        }
+
+        public static void UpdateInspCriteria(Int64 RowID, string Type, string DataPointName,string Description, string UserType, Int64 Mandatory, Int64 DocID, string DocPosition) {
+
+            DataTable table = new DataTable();
+            using (SqliteConnection connection = CreateConnection()) {
+                using (SqliteCommand command = new SqliteCommand("UPDATE [InspCriteria] SET [Type]=@p_Type, " +
+                    "[DataPointName]=@p_DataPointName, " +
+                    "[Description]=@p_Description, " +
+                    "[UserType]=@p_UserType, " +
+                    "[Mandatory]=@p_Mandatory, " +
+                    "[DocID]=@p_DocID," +
+                    "[DocPosition]=@p_DocPosition WHERE [DataPointID]=@p_RowID;", connection)) {
+
+                    command.Connection = connection;
+                    command.Parameters.AddWithValue("@p_RowID", RowID);
+                    command.Parameters.AddWithValue("@p_Type", Type);
+                    command.Parameters.AddWithValue("@p_DataPointName", DataPointName);
+                    command.Parameters.AddWithValue("@p_Description", Description);
+                    command.Parameters.AddWithValue("@p_UserType", UserType);
+                    command.Parameters.AddWithValue("@p_Mandatory", Mandatory);
+                    command.Parameters.AddWithValue("@p_DocID", DocID);
+                    command.Parameters.AddWithValue("@p_DocPosition", DocPosition);
+                    table.Load(command.ExecuteReader());
+
+                }
+            }
+        }
+
+        public static void UpdateOrderInspPN(Int64 RowID, Int64 PartID, Int64 DataPointID, Int64 ReqOpen, Int64 ReqClose, Int64 Order) {
+
+            DataTable table = new DataTable();
+            using (SqliteConnection connection = CreateConnection()) {
+                using (SqliteCommand command = new SqliteCommand("UPDATE [OrderInspPN] SET [PartID]=@p_PartID, " +
+                    "[DataPointID]=@p_DataPointID, " +
+                    "[ReqOpen]=@p_ReqOpen, " +
+                    "[ReqClose]=@p_ReqClose, " +
+                    "[Order]=@p_Order WHERE [ROWID]=@p_RowID;", connection)) {
+
+                    command.Connection = connection;
+                    command.Parameters.AddWithValue("@p_RowID", RowID);
+                    command.Parameters.AddWithValue("@p_PartID", PartID);
+                    command.Parameters.AddWithValue("@p_DataPointID", DataPointID);
+                    command.Parameters.AddWithValue("@p_ReqOpen", ReqOpen);
+                    command.Parameters.AddWithValue("@p_ReqClose", ReqClose);
+                    command.Parameters.AddWithValue("@p_Order", Order);
+                    table.Load(command.ExecuteReader());
+
+                }
+            }
+        }
+
+
+        public static DataTable InsertOrderInspPN(Int64 PartID, Int64 DataPointID, int Order) {
+
+            DataTable table = new DataTable();
+            using (SqliteConnection connection = CreateConnection()) {
+                using (SqliteCommand command = new SqliteCommand("INSERT INTO [OrderInspPN] ([PartID], [DataPointID], [Order]) VALUES (@p_PartID,@p_DataPointID,@p_Order); SELECT last_insert_rowid();", connection)) {
+                    command.Connection = connection;
+                    command.Parameters.AddWithValue("@p_PartID", PartID);
+                    command.Parameters.AddWithValue("@p_DataPointID", DataPointID);
+                    command.Parameters.AddWithValue("@p_Order", Order);
                     table.Load(command.ExecuteReader());
 
                 }

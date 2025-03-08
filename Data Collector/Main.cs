@@ -1,14 +1,17 @@
 ﻿using PdfiumViewer;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Data_Collector {
@@ -24,7 +27,7 @@ namespace Data_Collector {
                 Directory.CreateDirectory(LocalFolder);
             }
 
-            if (!Directory.Exists(LocalFolder+@"\OfflineDB")) {
+            if (!Directory.Exists(LocalFolder + @"\OfflineDB")) {
                 Directory.CreateDirectory(LocalFolder + @"\OfflineDB");
             }
             if (!Directory.Exists(LocalFolder + @"\OfflinePDF")) {
@@ -32,11 +35,7 @@ namespace Data_Collector {
             }
         }
 
-        private void btn_Test_Click(object sender, EventArgs e) {
 
-            pdf_Document.Document?.Dispose();
-            pdf_Document.Load(PdfDocument.Load(@"C:\Users\jedwo\Downloads\732181_3672185_Dworak.pdf"));
-        }
 
         private void btn_Search_Click(object sender, EventArgs e) {
 
@@ -63,7 +62,7 @@ namespace Data_Collector {
 
 
                     //Get details of the PartID for the display.
-                    DataTable DetailsPartID=DataTools.DataMaster.GetUniquePN_PartID(TempPartID);
+                    DataTable DetailsPartID = DataTools.DataMaster.GetUniquePN_PartID(TempPartID);
 
                     if (DetailsPartID.Rows.Count > 0) {
                         cob_PartNumber.Text = DetailsPartID.Rows[0].Field<string>("PartNumber");
@@ -80,7 +79,7 @@ namespace Data_Collector {
 
 
 
-                    
+
 
 
 
@@ -139,44 +138,20 @@ namespace Data_Collector {
 
             //Great Time to go and change the Rev.
 
-            DataTable PartID = DataTools.DataMaster.GetPartIDbyPNandRev(cob_PartNumber.Text,Convert.ToInt32(cob_Rev.Text));
+            DataTable PartID = DataTools.DataMaster.GetPartIDbyPNandRev(cob_PartNumber.Text, Convert.ToInt32(cob_Rev.Text));
             Int64 int_PartID = 0;
 
             if (PartID.Rows.Count != 1) {
                 //failed to find a valid Part ID.
             } else {
                 int_PartID = PartID.Rows[0].Field<Int64>("PartID");
-                tb_PartID.Text= int_PartID.ToString();
+                tb_PartID.Text = int_PartID.ToString();
 
             }
 
 
 
-            //Get a unique PartID to fill in the boxes.
-            DataTable DocumentsList = DataTools.DataMaster.GetDocsPN_PartID(int_PartID);
 
-            DataTable DetailDocList = new DataTable();
-            DetailDocList.Columns.Add("Display");
-            DetailDocList.Columns.Add("Value");
-
-            foreach (DataRow Row in DocumentsList.Rows) {
-                string TempDisplay = "";
-                Int64 TempValue = 0;
-
-                TempValue = Row.Field<Int64>("DocID");
-
-                DataTable TempDocuDetails = DataTools.DataMaster.GetUniqueDoc_DocID(TempValue);
-
-                if (TempDocuDetails.Rows.Count > 0) {
-                    TempDisplay = TempDocuDetails.Rows[0].Field<string>("Name") + " Rev " + TempDocuDetails.Rows[0].Field<Int64>("Revison").ToString();
-
-                    DetailDocList.Rows.Add(TempDisplay, TempValue);
-                }
-            }
-
-            cob_DocList.ValueMember = "Value";
-            cob_DocList.DisplayMember = "Display";
-            cob_DocList.DataSource = DetailDocList;
 
 
 
@@ -232,6 +207,399 @@ namespace Data_Collector {
             }
 
 
+        }
+
+        private void cob_DocList_SelectedIndexChanged(object sender, EventArgs e) {
+
+            var TempDocID = cob_DocList.SelectedValue;
+
+            pdf_Document.Document?.Dispose();
+            pdf_Document.Load(PdfDocument.Load(LocalFolder + @"\OfflinePDF\" + TempDocID + ".pdf"));
+
+
+
+
+
+
+        }
+
+        private void tb_PartID_TextChanged(object sender, EventArgs e) {
+
+            dgv_DataPoints.Rows.Clear();
+
+            if (!string.IsNullOrEmpty(tb_PartID.Text)) {
+
+
+
+                Int64 intPartID = Convert.ToInt64(tb_PartID.Text);
+
+                //Get a unique PartID to fill in the boxes.
+                DataTable DocumentsList = DataTools.DataMaster.GetDocsPN_PartID(intPartID);
+
+                DataTable DetailDocList = new DataTable();
+                DetailDocList.Columns.Add("Display");
+                DetailDocList.Columns.Add("Value");
+
+                foreach (DataRow Row in DocumentsList.Rows) {
+                    string TempDisplay = "";
+                    Int64 TempValue = 0;
+
+                    TempValue = Row.Field<Int64>("DocID");
+
+                    DataTable TempDocuDetails = DataTools.DataMaster.GetUniqueDoc_DocID(TempValue);
+
+                    if (TempDocuDetails.Rows.Count > 0) {
+                        TempDisplay = TempDocuDetails.Rows[0].Field<string>("Name") + " Rev " + TempDocuDetails.Rows[0].Field<Int64>("Revison").ToString();
+
+                        DetailDocList.Rows.Add(TempDisplay, TempValue);
+
+                        File.Copy(@TempDocuDetails.Rows[0].Field<string>("Path"), LocalFolder + @"\OfflinePDF\" + TempValue + ".pdf", true);
+
+                    }
+                }
+
+                cob_DocList.ValueMember = "Value";
+                cob_DocList.DisplayMember = "Display";
+                cob_DocList.DataSource = DetailDocList;
+
+
+
+                //We now have the documents now we need to get a list of Inspection points.
+                DataTable OrderInspPN = DataTools.DataMaster.GetOrderInspPN_PartID(intPartID);
+                List<Int64> InspectionCriteriaID = new List<Int64>();
+
+                foreach (DataRow Row in OrderInspPN.Rows) {
+                    Int64? OrderID = Row.Field<Int64?>("ROWID");
+                    Int64 InpCrID = Row.Field<Int64?>("DataPointID") ?? 0;
+                    Int64? ReqOpen = Row.Field<Int64?>("ReqOpen");
+                    Int64? ReqClos = Row.Field<Int64?>("ReqClose");
+
+                    dgv_DataPoints.Rows.Add(OrderID, InpCrID, ReqOpen, ReqClos);
+                    InspectionCriteriaID.Add(InpCrID);
+                }
+
+                DataTable Records = DataTools.DataMaster.GetInspCriteria_DataPointID_Bulk(InspectionCriteriaID);
+
+                foreach (DataRow Row in Records.Rows) {
+
+                    //Find the spcific row in the data Table that matches
+                    foreach (DataGridViewRow DGV_Row in dgv_DataPoints.Rows) {
+
+                        if (DGV_Row.Cells["dgv_tb_ID"].Value.ToString() == Row.Field<Int64?>("DataPointID").ToString()) {
+                            DGV_Row.Cells["dgv_tb_Name"].Value = Row.Field<string>("DataPointName");
+                            DGV_Row.Cells["dgv_tb_User"].Value = Row.Field<string>("UserType");
+                            DGV_Row.Cells["dgv_cb_Mandatory"].Value = Convert.ToBoolean(Row.Field<Int64?>("Mandatory") ?? 0);
+                            DGV_Row.Cells["dgv_tb_DocID"].Value = Row.Field<Int64?>("DocID") ?? 0;
+                            DGV_Row.Cells["dgv_tb_Position"].Value = Row.Field<string>("DocPosition");
+
+                        }
+
+                    }
+
+
+                }
+
+
+
+            }
+
+
+        }
+
+        private void pdf_Document_Click(object sender, EventArgs e) {
+
+            MouseEventArgs args = (MouseEventArgs)e;
+            PdfPoint point = this.pdf_Document.PointToPdf(args.Location);
+            //DocID, Page, X, Y
+            string Position = String.Format("{0},{1},{2}", point.Page.ToString(), point.Location.X, point.Location.Y);
+
+
+            Rectangle displayRectangle = this.pdf_Document.DisplayRectangle;
+
+
+
+
+            int LastRow = 0;
+            if (this.dgv_DataPoints.SelectedCells.Count > 0) {
+
+                foreach (DataGridViewCell Cells in dgv_DataPoints.SelectedCells) {
+                    dgv_DataPoints.Rows[Cells.RowIndex].Cells["dgv_tb_Position"].Value = Position;
+                    dgv_DataPoints.Rows[Cells.RowIndex].Cells["dgv_tb_DocID"].Value = cob_DocList.SelectedValue;
+                    dgv_DataPoints.Rows[Cells.RowIndex].Cells["dgv_tb_Position"].Style.BackColor = Color.Yellow;
+                    
+
+                    if (LastRow < Cells.RowIndex)
+                        LastRow = Cells.RowIndex;
+                }
+
+
+                /*
+                using (IEnumerator enumerator = this.dgv_DataPoints.SelectedCells.GetEnumerator()) {
+                    while (enumerator.MoveNext()) {
+                        rowIndex = ((DataGridViewCell)enumerator.Current).RowIndex;
+                        this.dgv_DataPoints.Rows[rowIndex].Cells["dgv_tb_Position"].Value = Position;
+                        this.dgv_DataPoints.Rows[rowIndex].Cells["dgv_tb_Position"].Style.BackColor = Color.Yellow;
+                        this.dgv_DataPoints.Rows[rowIndex].Cells["dgv_tb_DocID"].Value = this.cob_DocList.SelectedValue;
+                        this.dgv_DataPoints.Rows[rowIndex].Cells["dgv_tb_DocID"].Style.BackColor = Color.Yellow;
+                        this.dgv_DataPoints.Rows[rowIndex].Cells["dgv_tb_Display"].Value = this.pdf_Document.Document.PageSizes[0];
+                        if (rowIndex > num3) {
+                            num3 = rowIndex;
+                        }
+                    }
+                }
+                */
+                this.dgv_DataPoints.ClearSelection();
+                if (this.dgv_DataPoints.Rows.Count > (LastRow + 1)) {
+                    this.dgv_DataPoints.Rows[LastRow + 1].Cells["dgv_tb_Position"].Selected = true;
+                }
+            }
+
+
+
+
+
+        }
+
+        private void btn_Add_Click(object sender, EventArgs e) {
+            dgv_DataPoints.Rows.Add();
+        }
+
+        private void dgv_DataPoints_CellClick(object sender, DataGridViewCellEventArgs e) {
+
+
+            int rowIndex = dgv_DataPoints.CurrentCell.RowIndex;
+            if (dgv_DataPoints.Rows[rowIndex].Cells["dgv_tb_Position"].Value != null) {
+
+                //Read and sepperate the CSV (Page, X, Y)
+                char[] separator = new char[] { ',' };
+                string[] strPosition = dgv_DataPoints.Rows[rowIndex].Cells["dgv_tb_Position"].Value.ToString().Split(separator);
+
+                
+                try {
+                    Int64 DocumnetID = Convert.ToInt64(dgv_DataPoints.Rows[rowIndex].Cells["dgv_tb_DocID"].Value.ToString() ?? "0");
+
+                    if (Convert.ToInt64(cob_DocList.SelectedValue) != DocumnetID && DocumnetID!=0) {
+                        try {
+                            cob_DocList.SelectedValue = DocumnetID;
+                        }catch{  }
+                    }
+                    
+
+                    int intPageNum = Convert.ToInt32(Math.Floor(Convert.ToDouble(strPosition[0])));
+                    int IntX = Convert.ToInt32(Math.Floor(Convert.ToDouble(strPosition[1])));
+                    int IntY = Convert.ToInt32(Math.Floor(Convert.ToDouble(strPosition[2])));
+                    if (this.pdf_Document.Page != intPageNum) {
+                        double num6 = this.pdf_Document.DisplayRectangle.Height / this.pdf_Document.Document.PageCount;
+                        double width = this.pdf_Document.DisplayRectangle.Width;
+                        float height = this.pdf_Document.Document.PageSizes[intPageNum].Height;
+                        double DoubleY = (num6 * intPageNum) + (((height - IntY) / height) * num6);
+                        int ModedY = Convert.ToInt32(Math.Round(DoubleY, 0)) - 100;
+                        int ModedX = Convert.ToInt32(Math.Round((double)((((float)IntX) / this.pdf_Document.Document.PageSizes[intPageNum].Width) * width), 0)) - 200;
+                        if (ModedY < 0) {
+                            ModedY = 0;
+                        }
+                        if (ModedX < 0) {
+                            ModedX = 0;
+                        }
+                        this.pdf_Document.SetDisplayRectLocation(new Point(-ModedX, -ModedY));
+                    }
+                } catch (Exception) {
+                }
+            }
+
+
+
+
+
+        }
+
+        private void ts_EditPoints_Click(object sender, EventArgs e) {
+
+            ts_EditPoints.Checked = !ts_EditPoints.Checked;
+            dgv_DataPoints.Columns["dgv_tb_Position"].Visible = ts_EditPoints.Checked;
+            dgv_DataPoints.Columns["dgv_tb_DocID"].Visible = ts_EditPoints.Checked;
+            
+            if (ts_EditPoints.Checked) {
+                dgv_DataPoints.Width = dgv_DataPoints.Width - 75;
+                
+            } else {
+                dgv_DataPoints.Width = dgv_DataPoints.Width + 75;
+            }
+
+
+        }
+
+        private void dgv_DataPoints_CellDoubleClick(object sender, DataGridViewCellEventArgs e) {
+
+            //Check if the row is real row. (exclude headder)
+            if (e.RowIndex >= 0) {
+
+                string strInspID = (dgv_DataPoints.Rows[e.RowIndex].Cells["dgv_tb_ID"].Value ?? "0").ToString();
+                string strOrderID = (dgv_DataPoints.Rows[e.RowIndex].Cells["dgv_tb_OrderID"].Value ?? "0").ToString();
+
+                string strDocID = (dgv_DataPoints.Rows[e.RowIndex].Cells["dgv_tb_DocID"].Value ?? "0").ToString();
+                string strUserRole = (dgv_DataPoints.Rows[e.RowIndex].Cells["dgv_tb_User"].Value ?? "").ToString();
+                string strPosition = (dgv_DataPoints.Rows[e.RowIndex].Cells["dgv_tb_Position"].Value ?? "").ToString();
+                
+                string strPartID=tb_PartID.Text;
+
+                
+
+                Int64 DataPointID = Convert.ToInt64(strInspID);
+                int RowNumber = e.RowIndex;
+
+
+                if (ts_EditPoints.Checked) {
+                    //We are in engineer mode. Lets save some points. 
+                    if (strDocID == "0") {
+                        strDocID = cob_DocList.SelectedValue.ToString();
+                    }
+
+                    //Check if any "NEW" rows has an OrderID and InspID
+
+
+                    if (strInspID == "0") {
+                        DataTable InspCriteria = DataTools.DataMaster.InsertInspCriteria(Convert.ToInt64(strDocID));
+                        strInspID=InspCriteria.Rows[0].Field<Int64>("last_insert_rowid()").ToString();
+                        dgv_DataPoints.Rows[e.RowIndex].Cells["dgv_tb_ID"].Value = strInspID;
+                    }
+
+                    if (strOrderID == "0") {
+                        DataTable InspCriteria = DataTools.DataMaster.InsertOrderInspPN(Convert.ToInt64(strPartID), Convert.ToInt64(strInspID), e.RowIndex);
+                        strOrderID = InspCriteria.Rows[0].Field<Int64>("last_insert_rowid()").ToString();
+                        dgv_DataPoints.Rows[e.RowIndex].Cells["dgv_tb_OrderID"].Value = strOrderID;
+                    }
+
+                    
+
+
+                    Engineering.AssignCollection EditInspectionPoint = new Engineering.AssignCollection(strPartID, strInspID, strDocID, strPosition, RowNumber, strOrderID);
+                    EditInspectionPoint.ShowDialog();
+                    //string results = subform.DocID_F2;
+
+                    //The Form was closed update the Row. 
+
+                    DataTable OrderInspPNNew = DataTools.DataMaster.GetOrderInspPN_RowID(Convert.ToInt64(strOrderID));
+                    if (OrderInspPNNew.Rows.Count > 0) {
+                        dgv_DataPoints.Rows[e.RowIndex].Cells["dgv_tb_ReqOpen"].Value = OrderInspPNNew.Rows[0].Field<Int64>("ReqOpen");
+                        dgv_DataPoints.Rows[e.RowIndex].Cells["dgv_tb_ReqClosed"].Value = OrderInspPNNew.Rows[0].Field<Int64>("ReqClose");
+                    }
+
+                    DataTable InspCriteriaNew = DataTools.DataMaster.GetInspCriteria_DataPointID(Convert.ToInt64(strInspID));
+                    if (InspCriteriaNew.Rows.Count > 0) {
+
+                        dgv_DataPoints.Rows[e.RowIndex].Cells["dgv_tb_Name"].Value = InspCriteriaNew.Rows[0].Field<string>("DataPointName");
+                        dgv_DataPoints.Rows[e.RowIndex].Cells["dgv_tb_User"].Value = InspCriteriaNew.Rows[0].Field<string>("UserType");
+                        dgv_DataPoints.Rows[e.RowIndex].Cells["dgv_cb_Mandatory"].Value = Convert.ToBoolean(InspCriteriaNew.Rows[0].Field<Int64>("Mandatory"));
+
+                        dgv_DataPoints.Rows[e.RowIndex].Cells["dgv_tb_Position"].Value = InspCriteriaNew.Rows[0].Field<string>("DocPosition");
+                        dgv_DataPoints.Rows[e.RowIndex].Cells["dgv_tb_DocID"].Value = InspCriteriaNew.Rows[0].Field<Int64>("DocID");
+
+                    }
+
+
+
+                } else {
+                    //We are in Operator Mode.
+
+                    //Get groups that the operator is assigned too. 
+                    DataTable UserRoles= DataTools.DataMaster.GetUserGroup_UserID(Environment.UserName);
+                    bool Allowed = false;
+                    foreach (DataRow Row in UserRoles.Rows) {
+                        //Check if the user is apart of the group and "active" (1= true)
+                        if(Row.Field<string>("UserType")== strUserRole && Convert.ToBoolean(Row.Field<Int64>("Active"))) {
+                            Allowed = true;
+                        }
+                    }
+
+
+                    if (!Allowed) {
+                        //End user not allowed 
+
+                    } else {
+                        //They are allowed in enable the flood gates!
+
+
+                    }
+
+                }
+
+
+
+
+                /*
+
+                DataGridView view1 = (DataGridView)sender;
+
+                if (!this.ts_EditDataPoints.Checked) {
+                    string str2 = this.dgv_DataPoints.Rows[e.RowIndex].Cells["dgv_db_UserType"].Value.ToString();
+                    DataTable userbyGroup = new DataTable();
+                    try {
+                        userbyGroup = DataLoader.GetUserbyGroup(Environment.UserName);
+                    } catch (Exception) {
+                    }
+                    bool flag = false;
+                    if (userbyGroup.Rows.Count > 0) {
+                        using (IEnumerator enumerator = userbyGroup.Rows.GetEnumerator()) {
+                            while (enumerator.MoveNext()) {
+                                if (((DataRow)enumerator.Current).Field<string>("UserType") != str2) {
+                                    continue;
+                                }
+                                flag = true;
+                            }
+                        }
+                    }
+                    if (flag) {
+                        new Form2(this.tb_ShopOrder.Text, DataPointID, "").ShowDialog();
+                    } else {
+                        MessageBox.Show("Not Authorized");
+                    }
+                    if ((this.t != null) && (this.t.ThreadState == ThreadState.Running)) {
+                        this.t.Abort();
+                    }
+                    this.UpdateRowInfo(e.RowIndex);
+                    this.UpdateCellToolTips(Convert.ToInt64(this.tb_PartID.Text), this.tb_ShopOrder.Text);
+                } else if (DataPointID == 0) {
+                    MessageBox.Show("Error: Select a document from the dropdown.");
+                } else {
+                    string text1;
+                    string text2;
+                    object obj1 = this.dgv_DataPoints.Rows[e.RowIndex].Cells["dgv_tb_Position"].Value;
+                    if (obj1 != null) {
+                        text1 = obj1.ToString();
+                    } else {
+                        object local1 = obj1;
+                        text1 = null;
+                    }
+                    string positionDisp = text1;
+                    long result = 0L;
+                    object obj2 = this.dgv_DataPoints.Rows[e.RowIndex].Cells["dgv_tb_DocID"].Value;
+                    if (obj2 != null) {
+                        text2 = obj2.ToString();
+                    } else {
+                        object local2 = obj2;
+                        text2 = null;
+                    }
+                    long.TryParse(text2, out result);
+                    MannageDataPoint point1 = new MannageDataPoint(DataPointID, (long)e.RowIndex, result, Convert.ToInt64(this.tb_PartID.Text), positionDisp);
+                    point1.ShowDialog();
+                    long returnValue = point1.ReturnValue;
+                    if (returnValue != 0) {
+                        this.timer_Sync.Stop();
+                        if ((this.t != null) && (this.t.ThreadState == ThreadState.Running)) {
+                            this.t.Abort();
+                        }
+                        try {
+                            DataLoader.GetIC(returnValue);
+                            this.UpdateRowInfo(e.RowIndex);
+                        } catch {
+                            this.ss_Error.Text = "Failed to Grab data from Data Input Capture.";
+                        }
+                        this.timer_Sync.Start();
+                    }
+                }
+                */
+            }
         }
     }
 }
