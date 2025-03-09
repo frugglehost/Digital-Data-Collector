@@ -1,4 +1,5 @@
-﻿using PdfiumViewer;
+﻿using Data_Collector.Production;
+using PdfiumViewer;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -287,23 +288,17 @@ namespace Data_Collector {
 
                         if (DGV_Row.Cells["dgv_tb_ID"].Value.ToString() == Row.Field<Int64?>("DataPointID").ToString()) {
                             DGV_Row.Cells["dgv_tb_Name"].Value = Row.Field<string>("DataPointName");
+                            DGV_Row.Cells["dgv_tb_Name"].ToolTipText = Row.Field<string>("Description");
+
                             DGV_Row.Cells["dgv_tb_User"].Value = Row.Field<string>("UserType");
                             DGV_Row.Cells["dgv_cb_Mandatory"].Value = Convert.ToBoolean(Row.Field<Int64?>("Mandatory") ?? 0);
                             DGV_Row.Cells["dgv_tb_DocID"].Value = Row.Field<Int64?>("DocID") ?? 0;
                             DGV_Row.Cells["dgv_tb_Position"].Value = Row.Field<string>("DocPosition");
 
                         }
-
                     }
-
-
                 }
-
-
-
             }
-
-
         }
 
         private void pdf_Document_Click(object sender, EventArgs e) {
@@ -368,7 +363,8 @@ namespace Data_Collector {
 
 
             int rowIndex = dgv_DataPoints.CurrentCell.RowIndex;
-            if (dgv_DataPoints.Rows[rowIndex].Cells["dgv_tb_Position"].Value != null) {
+            int colIndex = dgv_DataPoints.CurrentCell.ColumnIndex;
+            if (dgv_DataPoints.Rows[rowIndex].Cells["dgv_tb_Position"].Value != null && colIndex==0) {
 
                 //Read and sepperate the CSV (Page, X, Y)
                 char[] separator = new char[] { ',' };
@@ -515,10 +511,19 @@ namespace Data_Collector {
 
                     if (!Allowed) {
                         //End user not allowed 
+                        
+                        
+
 
                     } else {
-                        //They are allowed in enable the flood gates!
+                        string str_ICID = dgv_DataPoints.Rows[e.RowIndex].Cells["dgv_tb_ID"].Value.ToString();
+                        string str_ShopOrder=tb_ShopOrder.Text;
 
+
+
+
+                        //They are allowed in enable the flood gates!
+                        new Production.DataCollection(str_ICID, str_ShopOrder).ShowDialog();
 
                     }
 
@@ -600,6 +605,10 @@ namespace Data_Collector {
                 }
                 */
             }
+        }
+
+        private void ts_editGroups_Click(object sender, EventArgs e) {
+            new Support.EditGroups().ShowDialog();
         }
     }
 }

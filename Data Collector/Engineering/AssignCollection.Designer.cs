@@ -107,7 +107,10 @@
             "Number",
             "Serial Number",
             "Tool ID",
-            "Text"});
+            "Text",
+            "Timer",
+            "Stop Watch",
+            "File"});
             this.cob_Type.Location = new System.Drawing.Point(117, 119);
             this.cob_Type.Name = "cob_Type";
             this.cob_Type.Size = new System.Drawing.Size(255, 21);

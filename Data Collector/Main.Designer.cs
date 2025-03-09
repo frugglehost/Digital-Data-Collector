@@ -51,19 +51,7 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.pdf_Document = new PdfiumViewer.PdfRenderer();
-            this.button4 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.btn_Add = new System.Windows.Forms.Button();
-            this.btn_Sync = new System.Windows.Forms.Button();
-            this.btn_Export = new System.Windows.Forms.Button();
-            this.cob_DocList = new System.Windows.Forms.ComboBox();
             this.dgv_DataPoints = new System.Windows.Forms.DataGridView();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.tabPage4 = new System.Windows.Forms.TabPage();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.btn_SaveAll = new System.Windows.Forms.Button();
             this.dgv_tb_OrderID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_tb_ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_tb_ReqOpen = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -74,6 +62,19 @@
             this.dgv_tb_DocID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_tb_Position = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_cb_Mandatory = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.btn_SaveAll = new System.Windows.Forms.Button();
+            this.button4 = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.btn_Add = new System.Windows.Forms.Button();
+            this.btn_Sync = new System.Windows.Forms.Button();
+            this.btn_Export = new System.Windows.Forms.Button();
+            this.cob_DocList = new System.Windows.Forms.ComboBox();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.ts_editGroups = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -115,7 +116,8 @@
             // supervisorToolStripMenuItem
             // 
             this.supervisorToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ts_ShoOrder});
+            this.ts_ShoOrder,
+            this.ts_editGroups});
             this.supervisorToolStripMenuItem.Name = "supervisorToolStripMenuItem";
             this.supervisorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.supervisorToolStripMenuItem.Text = "Supervisor";
@@ -335,7 +337,7 @@
             this.splitContainer1.Panel2.Controls.Add(this.btn_Export);
             this.splitContainer1.Panel2.Controls.Add(this.cob_DocList);
             this.splitContainer1.Size = new System.Drawing.Size(1008, 486);
-            this.splitContainer1.SplitterDistance = 598;
+            this.splitContainer1.SplitterDistance = 662;
             this.splitContainer1.TabIndex = 0;
             // 
             // pdf_Document
@@ -347,92 +349,18 @@
             this.pdf_Document.Name = "pdf_Document";
             this.pdf_Document.Page = 0;
             this.pdf_Document.Rotation = PdfiumViewer.PdfRotation.Rotate0;
-            this.pdf_Document.Size = new System.Drawing.Size(592, 480);
+            this.pdf_Document.Size = new System.Drawing.Size(656, 480);
             this.pdf_Document.TabIndex = 0;
             this.pdf_Document.TabStop = false;
             this.pdf_Document.Text = "pdfRenderer1";
             this.pdf_Document.ZoomMode = PdfiumViewer.PdfViewerZoomMode.FitWidth;
-            this.pdf_Document.Click += new System.EventHandler(this.pdf_Document_Click);
-            // 
-            // button4
-            // 
-            this.button4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button4.Location = new System.Drawing.Point(328, 183);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(75, 23);
-            this.button4.TabIndex = 7;
-            this.button4.Text = "Dwon";
-            this.button4.UseVisualStyleBackColor = true;
-            // 
-            // button3
-            // 
-            this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button3.Location = new System.Drawing.Point(328, 154);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 23);
-            this.button3.TabIndex = 6;
-            this.button3.Text = "Up";
-            this.button3.UseVisualStyleBackColor = true;
-            // 
-            // button2
-            // 
-            this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button2.Location = new System.Drawing.Point(328, 59);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 5;
-            this.button2.Text = "Remove";
-            this.button2.UseVisualStyleBackColor = true;
-            // 
-            // btn_Add
-            // 
-            this.btn_Add.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_Add.Location = new System.Drawing.Point(328, 30);
-            this.btn_Add.Name = "btn_Add";
-            this.btn_Add.Size = new System.Drawing.Size(75, 23);
-            this.btn_Add.TabIndex = 4;
-            this.btn_Add.Text = "Add";
-            this.btn_Add.UseVisualStyleBackColor = true;
-            this.btn_Add.Click += new System.EventHandler(this.btn_Add_Click);
-            // 
-            // btn_Sync
-            // 
-            this.btn_Sync.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_Sync.Location = new System.Drawing.Point(3, 431);
-            this.btn_Sync.Name = "btn_Sync";
-            this.btn_Sync.Size = new System.Drawing.Size(400, 23);
-            this.btn_Sync.TabIndex = 3;
-            this.btn_Sync.Text = "Refresh Sync";
-            this.btn_Sync.UseVisualStyleBackColor = true;
-            // 
-            // btn_Export
-            // 
-            this.btn_Export.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_Export.Location = new System.Drawing.Point(3, 460);
-            this.btn_Export.Name = "btn_Export";
-            this.btn_Export.Size = new System.Drawing.Size(400, 23);
-            this.btn_Export.TabIndex = 2;
-            this.btn_Export.Text = "Export Data";
-            this.btn_Export.UseVisualStyleBackColor = true;
-            // 
-            // cob_DocList
-            // 
-            this.cob_DocList.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.cob_DocList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cob_DocList.FormattingEnabled = true;
-            this.cob_DocList.Location = new System.Drawing.Point(3, 3);
-            this.cob_DocList.Name = "cob_DocList";
-            this.cob_DocList.Size = new System.Drawing.Size(400, 21);
-            this.cob_DocList.TabIndex = 1;
-            this.cob_DocList.SelectedIndexChanged += new System.EventHandler(this.cob_DocList_SelectedIndexChanged);
+            this.pdf_Document.DoubleClick += new System.EventHandler(this.pdf_Document_Click);
             // 
             // dgv_DataPoints
             // 
             this.dgv_DataPoints.AllowUserToAddRows = false;
             this.dgv_DataPoints.AllowUserToDeleteRows = false;
+            this.dgv_DataPoints.AllowUserToResizeRows = false;
             this.dgv_DataPoints.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -452,56 +380,10 @@
             this.dgv_DataPoints.Name = "dgv_DataPoints";
             this.dgv_DataPoints.ReadOnly = true;
             this.dgv_DataPoints.RowHeadersVisible = false;
-            this.dgv_DataPoints.Size = new System.Drawing.Size(400, 395);
+            this.dgv_DataPoints.Size = new System.Drawing.Size(336, 395);
             this.dgv_DataPoints.TabIndex = 0;
             this.dgv_DataPoints.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_DataPoints_CellClick);
             this.dgv_DataPoints.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_DataPoints_CellDoubleClick);
-            // 
-            // tabPage2
-            // 
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(1014, 492);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Part List";
-            this.tabPage2.UseVisualStyleBackColor = true;
-            // 
-            // tabPage3
-            // 
-            this.tabPage3.Location = new System.Drawing.Point(4, 22);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(1014, 492);
-            this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "Shop Items";
-            this.tabPage3.UseVisualStyleBackColor = true;
-            // 
-            // tabPage4
-            // 
-            this.tabPage4.Location = new System.Drawing.Point(4, 22);
-            this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Size = new System.Drawing.Size(1014, 492);
-            this.tabPage4.TabIndex = 3;
-            this.tabPage4.Text = "Tools";
-            this.tabPage4.UseVisualStyleBackColor = true;
-            // 
-            // statusStrip1
-            // 
-            this.statusStrip1.Location = new System.Drawing.Point(0, 574);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(1046, 22);
-            this.statusStrip1.TabIndex = 13;
-            this.statusStrip1.Text = "statusStrip1";
-            // 
-            // btn_SaveAll
-            // 
-            this.btn_SaveAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_SaveAll.Location = new System.Drawing.Point(328, 376);
-            this.btn_SaveAll.Name = "btn_SaveAll";
-            this.btn_SaveAll.Size = new System.Drawing.Size(75, 49);
-            this.btn_SaveAll.TabIndex = 8;
-            this.btn_SaveAll.Text = "Save All";
-            this.btn_SaveAll.UseVisualStyleBackColor = true;
             // 
             // dgv_tb_OrderID
             // 
@@ -590,6 +472,134 @@
             this.dgv_cb_Mandatory.Name = "dgv_cb_Mandatory";
             this.dgv_cb_Mandatory.ReadOnly = true;
             this.dgv_cb_Mandatory.Visible = false;
+            // 
+            // btn_SaveAll
+            // 
+            this.btn_SaveAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_SaveAll.Location = new System.Drawing.Point(264, 376);
+            this.btn_SaveAll.Name = "btn_SaveAll";
+            this.btn_SaveAll.Size = new System.Drawing.Size(75, 49);
+            this.btn_SaveAll.TabIndex = 8;
+            this.btn_SaveAll.Text = "Save All";
+            this.btn_SaveAll.UseVisualStyleBackColor = true;
+            // 
+            // button4
+            // 
+            this.button4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button4.Location = new System.Drawing.Point(264, 183);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(75, 23);
+            this.button4.TabIndex = 7;
+            this.button4.Text = "Dwon";
+            this.button4.UseVisualStyleBackColor = true;
+            // 
+            // button3
+            // 
+            this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button3.Location = new System.Drawing.Point(264, 154);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(75, 23);
+            this.button3.TabIndex = 6;
+            this.button3.Text = "Up";
+            this.button3.UseVisualStyleBackColor = true;
+            // 
+            // button2
+            // 
+            this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button2.Location = new System.Drawing.Point(264, 59);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.TabIndex = 5;
+            this.button2.Text = "Remove";
+            this.button2.UseVisualStyleBackColor = true;
+            // 
+            // btn_Add
+            // 
+            this.btn_Add.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_Add.Location = new System.Drawing.Point(264, 30);
+            this.btn_Add.Name = "btn_Add";
+            this.btn_Add.Size = new System.Drawing.Size(75, 23);
+            this.btn_Add.TabIndex = 4;
+            this.btn_Add.Text = "Add";
+            this.btn_Add.UseVisualStyleBackColor = true;
+            this.btn_Add.Click += new System.EventHandler(this.btn_Add_Click);
+            // 
+            // btn_Sync
+            // 
+            this.btn_Sync.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_Sync.Location = new System.Drawing.Point(3, 431);
+            this.btn_Sync.Name = "btn_Sync";
+            this.btn_Sync.Size = new System.Drawing.Size(336, 23);
+            this.btn_Sync.TabIndex = 3;
+            this.btn_Sync.Text = "Refresh Sync";
+            this.btn_Sync.UseVisualStyleBackColor = true;
+            // 
+            // btn_Export
+            // 
+            this.btn_Export.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_Export.Location = new System.Drawing.Point(3, 460);
+            this.btn_Export.Name = "btn_Export";
+            this.btn_Export.Size = new System.Drawing.Size(336, 23);
+            this.btn_Export.TabIndex = 2;
+            this.btn_Export.Text = "Export Data";
+            this.btn_Export.UseVisualStyleBackColor = true;
+            // 
+            // cob_DocList
+            // 
+            this.cob_DocList.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cob_DocList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cob_DocList.FormattingEnabled = true;
+            this.cob_DocList.Location = new System.Drawing.Point(3, 3);
+            this.cob_DocList.Name = "cob_DocList";
+            this.cob_DocList.Size = new System.Drawing.Size(336, 21);
+            this.cob_DocList.TabIndex = 1;
+            this.cob_DocList.SelectedIndexChanged += new System.EventHandler(this.cob_DocList_SelectedIndexChanged);
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(1014, 492);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "Part List";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // tabPage3
+            // 
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Size = new System.Drawing.Size(1014, 492);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "Shop Items";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // tabPage4
+            // 
+            this.tabPage4.Location = new System.Drawing.Point(4, 22);
+            this.tabPage4.Name = "tabPage4";
+            this.tabPage4.Size = new System.Drawing.Size(1014, 492);
+            this.tabPage4.TabIndex = 3;
+            this.tabPage4.Text = "Tools";
+            this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // statusStrip1
+            // 
+            this.statusStrip1.Location = new System.Drawing.Point(0, 574);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(1046, 22);
+            this.statusStrip1.TabIndex = 13;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // ts_editGroups
+            // 
+            this.ts_editGroups.Name = "ts_editGroups";
+            this.ts_editGroups.Size = new System.Drawing.Size(195, 22);
+            this.ts_editGroups.Text = "Edit User Groups";
+            this.ts_editGroups.Click += new System.EventHandler(this.ts_editGroups_Click);
             // 
             // Main
             // 
@@ -683,6 +693,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_tb_DocID;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_tb_Position;
         private System.Windows.Forms.DataGridViewCheckBoxColumn dgv_cb_Mandatory;
+        private System.Windows.Forms.ToolStripMenuItem ts_editGroups;
     }
 }
 

@@ -371,6 +371,38 @@ namespace Data_Collector.DataTools {
             return table;
         }
 
+        public static DataTable InsertUserGroup(string NTID, string UserType, Int64 Active) {
+
+            DataTable table = new DataTable();
+            using (SqliteConnection connection = CreateConnection()) {
+                using (SqliteCommand command = new SqliteCommand("INSERT INTO [UserGroup] ([UserTID],[UserType],[Active]) VALUES (@p_NTID,@p_UserType,@p_Active); SELECT last_insert_rowid();", connection)) {
+                    command.Connection = connection;
+                    command.Parameters.AddWithValue("@p_NTID", NTID);
+                    command.Parameters.AddWithValue("@p_UserType", UserType);
+                    command.Parameters.AddWithValue("@p_Active", Active);
+                    table.Load(command.ExecuteReader());
+
+                }
+            }
+            return table;
+        }
+
+        public static DataTable UpdateUserGroup_UserTID_UserType(string NTID, string UserType, Int64 Active) {
+
+            DataTable table = new DataTable();
+            using (SqliteConnection connection = CreateConnection()) {
+                using (SqliteCommand command = new SqliteCommand("UPDATE [UserGroup] SET [Active]=@p_Active WHERE [UserTID]=@p_NTID AND [UserType]=@p_UserType;", connection)) {
+                    command.Connection = connection;
+                    command.Parameters.AddWithValue("@p_NTID", NTID);
+                    command.Parameters.AddWithValue("@p_UserType", UserType);
+                    command.Parameters.AddWithValue("@p_Active", Active);
+                    table.Load(command.ExecuteReader());
+
+                }
+            }
+            return table;
+        }
+
         public static DataTable UpdateShopOrder_ShopOrder(string ShopOrder, Int64 PartID, Int64 Qty) {
 
             DataTable table = new DataTable();
