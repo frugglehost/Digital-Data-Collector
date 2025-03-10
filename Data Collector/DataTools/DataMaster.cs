@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.IO.Ports;
 using System.Linq;
 using System.Security.Cryptography;
@@ -337,6 +338,35 @@ namespace Data_Collector.DataTools {
             return tempTable;
         }
 
+        public static DataTable GetDataRecords(Int64? Rec_ID=null, string ShopOrderID=null, Int64? DataPointID=null) {
+            DataTable tempTable = new DataTable();
+            using (SqliteConnection connection = CreateConnection()) {
+
+                string Where = "";
+
+                Where = (Rec_ID != null) ? Where + "[Rec_ID]=@p_Rec_ID AND " : Where;
+                Where = (ShopOrderID != null) ? Where + "[ShopOrderID]=@p_ShopOrderID AND " : Where;
+                Where = (DataPointID != null) ? Where + "[DataPointID]=@p_DataPointID AND " : Where;
+
+                Where = Where.Substring(0, Where.Length - 4);
+
+                string str = string.Format("SELECT * FROM [DataRecords] WHERE {0} ORDER BY [Rec_ID] DESC;", Where);
+                
+
+                
+                SqliteCommand command = new SqliteCommand(str);
+
+                command.Parameters.AddWithValue("@p_Rec_ID", Rec_ID);
+                command.Parameters.AddWithValue("@p_ShopOrderID", ShopOrderID);
+                command.Parameters.AddWithValue("@p_DataPointID", DataPointID);
+
+                command.Connection = connection;
+                tempTable.Load(command.ExecuteReader());
+
+            }
+            return tempTable;
+        }
+
 
 
 
@@ -539,6 +569,22 @@ namespace Data_Collector.DataTools {
                     command.Connection = connection;
                     command.Parameters.AddWithValue("@p_DocID", DocID);
                     command.Parameters.AddWithValue("@p_Path", Path);
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public static void InsertDataRecords(string ShopOrderID, Int64 DataPointID, string Value, string User_ID, string DateTimes) {
+            DataTable table1 = new DataTable();
+            using (SqliteConnection connection = CreateConnection()) {
+                using (SqliteCommand command = new SqliteCommand("INSERT INTO [DataRecords] ([ShopOrderID], [DataPointID], [Value], [User_ID], [DateTime UTC]) VALUES " +
+                    "(@p_ShopOrderID,@p_DataPointID,@p_Value,@p_User_ID,@p_DateTimes); SELECT last_insert_rowid();", connection)) {
+                    command.Connection = connection;
+                    command.Parameters.AddWithValue("@p_ShopOrderID", ShopOrderID);
+                    command.Parameters.AddWithValue("@p_DataPointID", DataPointID);
+                    command.Parameters.AddWithValue("@p_Value", Value);
+                    command.Parameters.AddWithValue("@p_User_ID", User_ID);
+                    command.Parameters.AddWithValue("@p_DateTimes", DateTimes);
                     command.ExecuteNonQuery();
                 }
             }

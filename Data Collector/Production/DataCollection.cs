@@ -87,6 +87,172 @@ namespace Data_Collector.Production {
 
             }
 
+
+            DataTable Records = DataTools.DataMaster.GetDataRecords(null,tb_ShopOrder.Text, int_ICID);
+
+            string DataRecords = "";
+
+            foreach (DataRow Rows in Records.Rows) {
+                DataRecords = DataRecords + string.Format("ID: {0}, {1}, Value: {2}", Rows.Field<Int64>("Rec_ID"), Rows.Field<string>("User_ID"), Rows.Field<string>("Value")+Environment.NewLine);
+            }
+            tb_History.Text = DataRecords;
+
+
+
+            DataTable Formats = JsonConvert.DeserializeObject<DataTable>(tb_Format.Text);
+
+            if (Formats == null)
+                Formats = new DataTable();
+
+            //Auto fill any tables with special formats. 
+
+            switch (tb_Type.Text.Trim().ToLower()) {
+
+                case "acknowledge": {
+                    //Do nothing
+                }
+                break;
+                case "badge": {
+                    //Do Noting
+                }
+                break;
+                case "date/time": {
+                    //Do Noting
+                }
+                break;
+                case "date": {
+                    //Do Noting
+                }
+                break;
+                case "chemical": {
+                    //Do Noting
+                }
+                break;
+                case "number": {
+                    foreach (DataRow NumberRows in Formats.Rows) {
+                        dgv_Number.Rows.Add("", NumberRows.Field<string>("Mask"));
+                    }
+                }
+                break;
+                case "serial number": {
+                    foreach (DataRow SerialRows in Formats.Rows) {
+                        dgv_Serial.Rows.Add("", SerialRows.Field<string>("Mask"));
+                    }
+                }
+                break;
+                case "tool id": {
+                    
+                }
+                break;
+                case "text": {
+                    
+                }
+                break;
+                case "timer": {
+                    int rowNumber = 0;
+                    foreach (DataRow TimerRows in Formats.Rows) {
+                        dgv_Timer.Rows.Add("Start", TimerRows.Field<string>("Name"), TimerRows.Field<string>("Duration"));
+                        dgv_Timer.Rows[rowNumber].Cells[dgv_Timer_Name.Index].ReadOnly = true;
+                        dgv_Timer.Rows[rowNumber].Cells[dgv_Timer_Durration.Index].ReadOnly = true;
+                        rowNumber++;
+                    }
+
+                    if (Records.Rows.Count > 0) {
+
+                        DataTable Values = JsonConvert.DeserializeObject<DataTable>(Records.Rows[0].Field<string>("Value"));
+
+                        int RowsIndex = 0;
+                        int InitalRows = dgv_Timer.Rows.Count;
+                        foreach (DataRow row in Values.Rows) {
+                            string Name = "";
+                            string Start = "";
+                            string End = "";
+                            double Duration = 0;
+
+                            DataTable TempData = JsonConvert.DeserializeObject<DataTable>(row.Field<string>("Extra"));
+
+                            Name = TempData.Rows[0].Field<string>("Name");
+                            Duration = Convert.ToDouble(TempData.Rows[0].Field<string>("Duration"));
+                            Start = TempData.Rows[0].Field<string>("Start");
+                            End = TempData.Rows[0].Field<string>("End");
+
+                            string Status = (!string.IsNullOrWhiteSpace(Start) && string.IsNullOrWhiteSpace(End)) ? "Stop" : "Start";
+
+                            //Edit Exisiting rows
+                            if (InitalRows > RowsIndex + 1) {
+                                Duration = Convert.ToDouble(dgv_Timer.Rows[RowsIndex].Cells[dgv_Timer_Durration.Index].Value);
+
+                                dgv_Timer.Rows[RowsIndex].Cells[dgv_Timer_StartStop.Index].Value = Status;
+                                dgv_Timer.Rows[RowsIndex].Cells[dgv_Timer_Name.Index].Value = Name;
+                                dgv_Timer.Rows[RowsIndex].Cells[dgv_Timer_Durration.Index].Value = Duration;
+                                dgv_Timer.Rows[RowsIndex].Cells[dgv_timer_Start.Index].Value = Start;
+                                dgv_Timer.Rows[RowsIndex].Cells[dgv_timer_End.Index].Value = End;
+
+                                dgv_Timer.Rows[RowsIndex].Cells[dgv_Timer_Name.Index].ReadOnly = true;
+                                dgv_Timer.Rows[RowsIndex].Cells[dgv_Timer_Durration.Index].ReadOnly = true;
+                            } else {
+                                
+                                DateTime dat_Start =DateTime.UtcNow;
+                                DateTime dat_End = DateTime.UtcNow;
+                                
+
+                                DateTime.TryParse(Start, out dat_Start);
+                                DateTime.TryParse(End, out dat_End);
+
+
+                                dgv_Timer.Rows.Add(Status, Name, Duration, Math.Round(Duration - (dat_End - dat_Start).TotalMinutes, 2), Start, End);
+
+                                double TimeBetween = Math.Round(Duration - (dat_End - dat_Start).TotalMinutes, 2);
+
+                                if (!string.IsNullOrWhiteSpace(Start) && !string.IsNullOrWhiteSpace(End)) {
+
+                                    if (TimeBetween < 0) {
+                                        dgv_Timer.Rows[RowsIndex].Cells[dgv_Timer_Left.Index].Style.BackColor = Color.Red;
+                                    } else {
+                                        dgv_Timer.Rows[RowsIndex].Cells[dgv_Timer_Left.Index].Style.BackColor = Color.LightGreen;
+                                    }
+                                }
+
+                            }
+                            RowsIndex++;
+
+                        }
+
+
+                    }
+
+
+                }
+                break;
+                case "stop watch": {
+                    foreach (DataRow Rows in Formats.Rows) {
+                        dgv_Stopwatch.Rows.Add("Start", Rows.Field<string>("Name"), Rows.Field<string>("Duration"));
+                    }
+                }
+                break;
+                case "file": {
+                    foreach (DataRow Rows in Formats.Rows) {
+                        dgv_File.Rows.Add("Edit", Rows.Field<string>("Name"));
+                    }
+                }
+                break;
+                default: {
+                    //Do Noting
+                }
+                break;
+
+
+
+
+            }
+
+
+
+
+
+
+
+
             tab_Control_SelectedIndexChanged(this, EventArgs.Empty);
 
 
@@ -258,7 +424,15 @@ namespace Data_Collector.Production {
                 break;
                 case "timer": {
                     foreach (DataGridViewRow row in dgv_Timer.Rows) {
-                        UserInput.Rows.Add(str_Type, row.Cells[dgv_Timer_Left.Index].Value, tb_MagicInput.Text, string.Format("ID: {0}, Start: {1}, End: {2}", row.Index, row.Cells[dgv_timer_Start.Index].Value, row.Cells[dgv_timer_End.Index].Value));
+                        DataTable TempData = new DataTable();
+                        TempData.Columns.Add("Name");
+                        TempData.Columns.Add("Duration");
+                        TempData.Columns.Add("Start");
+                        TempData.Columns.Add("End");
+
+                        TempData.Rows.Add(row.Cells[dgv_Timer_Name.Index].Value, row.Cells[dgv_Timer_Durration.Index].Value, row.Cells[dgv_timer_Start.Index].Value ?? "", row.Cells[dgv_timer_End.Index].Value ?? "");
+
+                        UserInput.Rows.Add(str_Type, row.Cells[dgv_Timer_Left.Index].Value, tb_MagicInput.Text, JsonConvert.SerializeObject(TempData, Formatting.None));
                     }
                 }
                 break;
@@ -284,7 +458,7 @@ namespace Data_Collector.Production {
 
             str_Value = JsonConvert.SerializeObject(UserInput, Formatting.None);
 
-
+            DataTools.DataMaster.InsertDataRecords(str_ShopOrder, Convert.ToInt64(str_ICID), str_Value, str_NTID, DateTime.UtcNow.ToString());
 
 
 
@@ -297,7 +471,7 @@ namespace Data_Collector.Production {
         }
 
         private void btn_Timer_Click(object sender, EventArgs e) {
-            dgv_Timer.Rows.Add("Start", "", 90, "", "Reset");
+            dgv_Timer.Rows.Add("Start", "", 90, "");
         }
 
         private void dgv_Timer_CellContentClick(object sender, DataGridViewCellEventArgs e) {
@@ -307,6 +481,7 @@ namespace Data_Collector.Production {
                 if (dgv_Timer.Rows[int_Row].Cells[dgv_Timer_StartStop.Index].Value == "Start") {
                     dgv_Timer.Rows[int_Row].Cells[dgv_timer_Start.Index].Value = DateTime.UtcNow.ToString();
                     dgv_Timer.Rows[int_Row].Cells[dgv_Timer_StartStop.Index].Value = "Stop";
+                    dgv_Timer.Rows[int_Row].Cells[dgv_timer_End.Index].Value = null;
                 } else {
                     DateTime CurrentTime = DateTime.UtcNow;
                     

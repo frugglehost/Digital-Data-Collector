@@ -78,8 +78,6 @@
             this.tp_Timer = new System.Windows.Forms.TabPage();
             this.btn_Timer = new System.Windows.Forms.Button();
             this.dgv_Timer = new System.Windows.Forms.DataGridView();
-            this.dgv_Timer_StartStop = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.dgv_Timer_Reset = new System.Windows.Forms.DataGridViewButtonColumn();
             this.tp_stopWatch = new System.Windows.Forms.TabPage();
             this.btn_StopwatchAdd = new System.Windows.Forms.Button();
             this.dgv_Stopwatch = new System.Windows.Forms.DataGridView();
@@ -88,9 +86,10 @@
             this.tp_File = new System.Windows.Forms.TabPage();
             this.button5 = new System.Windows.Forms.Button();
             this.dgv_File = new System.Windows.Forms.DataGridView();
+            this.dgv_File_Action = new System.Windows.Forms.DataGridViewButtonColumn();
             this.tp_Text = new System.Windows.Forms.TabPage();
             this.tbr_FreeText = new System.Windows.Forms.RichTextBox();
-            this.textBox8 = new System.Windows.Forms.TextBox();
+            this.tb_History = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.btn_Save = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
@@ -105,36 +104,43 @@
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn12 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn13 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn14 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn15 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn16 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn17 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn18 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn19 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_Number_Input = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_Number_Mask = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_Serial_Input = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_Serial_Mask = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_Badge_NTID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_Badge_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_Badge_Mask = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_Stopwatch_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_Stopwatch_Duration = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_Stopwatch_Start = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_Stopwatch_Stop = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_File_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_File_FileName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_File_Path = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.calendarColumn1 = new CalendarColumn();
+            this.dataGridViewComboBoxColumn1 = new CalendarColumn();
+            this.dgv_tb_Format = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_Timer_StartStop = new System.Windows.Forms.DataGridViewButtonColumn();
             this.dgv_Timer_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_Timer_Durration = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_Timer_Left = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_timer_Start = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_timer_End = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_Stopwatch_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_Stopwatch_Duration = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_Stopwatch_Start = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_Stopwatch_Stop = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.calendarColumn1 = new CalendarColumn();
-            this.dataGridViewTextBoxColumn16 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn17 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn18 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn19 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewComboBoxColumn1 = new CalendarColumn();
-            this.dgv_tb_Format = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_Number_Input = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_Serial_Input = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_File_Action = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.dgv_File_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_File_FileName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_File_Path = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tab_Control.SuspendLayout();
             this.tp_Acknowledge.SuspendLayout();
             this.tp_DateTime.SuspendLayout();
@@ -506,7 +512,8 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgv_Number.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_Number.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dgv_Number_Input});
+            this.dgv_Number_Input,
+            this.dgv_Number_Mask});
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -554,7 +561,8 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgv_Serial.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_Serial.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dgv_Serial_Input});
+            this.dgv_Serial_Input,
+            this.dgv_Serial_Mask});
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -656,7 +664,8 @@
             this.dgv_Badge.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_Badge.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dgv_Badge_NTID,
-            this.dgv_Badge_Name});
+            this.dgv_Badge_Name,
+            this.dgv_Badge_Mask});
             dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -718,7 +727,6 @@
             this.dgv_Timer_Name,
             this.dgv_Timer_Durration,
             this.dgv_Timer_Left,
-            this.dgv_Timer_Reset,
             this.dgv_timer_Start,
             this.dgv_timer_End});
             dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
@@ -735,24 +743,6 @@
             this.dgv_Timer.Size = new System.Drawing.Size(549, 105);
             this.dgv_Timer.TabIndex = 0;
             this.dgv_Timer.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_Timer_CellContentClick);
-            // 
-            // dgv_Timer_StartStop
-            // 
-            this.dgv_Timer_StartStop.FillWeight = 75F;
-            this.dgv_Timer_StartStop.HeaderText = "Action";
-            this.dgv_Timer_StartStop.MinimumWidth = 75;
-            this.dgv_Timer_StartStop.Name = "dgv_Timer_StartStop";
-            this.dgv_Timer_StartStop.ReadOnly = true;
-            this.dgv_Timer_StartStop.Width = 75;
-            // 
-            // dgv_Timer_Reset
-            // 
-            this.dgv_Timer_Reset.FillWeight = 75F;
-            this.dgv_Timer_Reset.HeaderText = "";
-            this.dgv_Timer_Reset.MinimumWidth = 75;
-            this.dgv_Timer_Reset.Name = "dgv_Timer_Reset";
-            this.dgv_Timer_Reset.ReadOnly = true;
-            this.dgv_Timer_Reset.Width = 75;
             // 
             // tp_stopWatch
             // 
@@ -877,6 +867,16 @@
             this.dgv_File.Size = new System.Drawing.Size(549, 105);
             this.dgv_File.TabIndex = 1;
             // 
+            // dgv_File_Action
+            // 
+            this.dgv_File_Action.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.dgv_File_Action.FillWeight = 50F;
+            this.dgv_File_Action.HeaderText = "";
+            this.dgv_File_Action.MinimumWidth = 50;
+            this.dgv_File_Action.Name = "dgv_File_Action";
+            this.dgv_File_Action.ReadOnly = true;
+            this.dgv_File_Action.Width = 50;
+            // 
             // tp_Text
             // 
             this.tp_Text.Controls.Add(this.tbr_FreeText);
@@ -899,16 +899,17 @@
             this.tbr_FreeText.TabIndex = 0;
             this.tbr_FreeText.Text = "";
             // 
-            // textBox8
+            // tb_History
             // 
-            this.textBox8.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            this.tb_History.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox8.Location = new System.Drawing.Point(12, 395);
-            this.textBox8.Multiline = true;
-            this.textBox8.Name = "textBox8";
-            this.textBox8.ReadOnly = true;
-            this.textBox8.Size = new System.Drawing.Size(701, 92);
-            this.textBox8.TabIndex = 17;
+            this.tb_History.Location = new System.Drawing.Point(12, 395);
+            this.tb_History.Multiline = true;
+            this.tb_History.Name = "tb_History";
+            this.tb_History.ReadOnly = true;
+            this.tb_History.Size = new System.Drawing.Size(701, 92);
+            this.tb_History.TabIndex = 17;
+            this.tb_History.WordWrap = false;
             // 
             // label9
             // 
@@ -1001,12 +1002,12 @@
             // 
             // dataGridViewTextBoxColumn1
             // 
+            this.dataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.dataGridViewTextBoxColumn1.FillWeight = 200F;
             this.dataGridViewTextBoxColumn1.HeaderText = "NTID";
             this.dataGridViewTextBoxColumn1.MinimumWidth = 75;
             this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
             this.dataGridViewTextBoxColumn1.ReadOnly = true;
-            this.dataGridViewTextBoxColumn1.Width = 200;
             // 
             // dataGridViewTextBoxColumn2
             // 
@@ -1014,14 +1015,18 @@
             this.dataGridViewTextBoxColumn2.HeaderText = "Name";
             this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
             this.dataGridViewTextBoxColumn2.ReadOnly = true;
+            this.dataGridViewTextBoxColumn2.Visible = false;
             // 
             // dataGridViewTextBoxColumn3
             // 
             this.dataGridViewTextBoxColumn3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.dataGridViewTextBoxColumn3.FillWeight = 200F;
             this.dataGridViewTextBoxColumn3.HeaderText = "Name";
             this.dataGridViewTextBoxColumn3.MinimumWidth = 100;
             this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
+            this.dataGridViewTextBoxColumn3.ReadOnly = true;
             this.dataGridViewTextBoxColumn3.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.dataGridViewTextBoxColumn3.Width = 546;
             // 
             // dataGridViewTextBoxColumn4
             // 
@@ -1032,6 +1037,7 @@
             this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
             this.dataGridViewTextBoxColumn4.ReadOnly = true;
             this.dataGridViewTextBoxColumn4.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.dataGridViewTextBoxColumn4.Visible = false;
             // 
             // dataGridViewTextBoxColumn5
             // 
@@ -1043,6 +1049,45 @@
             this.dataGridViewTextBoxColumn5.ReadOnly = true;
             this.dataGridViewTextBoxColumn5.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
+            // dataGridViewTextBoxColumn6
+            // 
+            this.dataGridViewTextBoxColumn6.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dataGridViewTextBoxColumn6.HeaderText = "Duration (mins)";
+            this.dataGridViewTextBoxColumn6.MinimumWidth = 100;
+            this.dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
+            this.dataGridViewTextBoxColumn6.ReadOnly = true;
+            this.dataGridViewTextBoxColumn6.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // dataGridViewTextBoxColumn7
+            // 
+            this.dataGridViewTextBoxColumn7.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dataGridViewTextBoxColumn7.FillWeight = 75F;
+            this.dataGridViewTextBoxColumn7.HeaderText = "Remaining (mins)";
+            this.dataGridViewTextBoxColumn7.MinimumWidth = 75;
+            this.dataGridViewTextBoxColumn7.Name = "dataGridViewTextBoxColumn7";
+            this.dataGridViewTextBoxColumn7.ReadOnly = true;
+            this.dataGridViewTextBoxColumn7.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.dataGridViewTextBoxColumn7.Visible = false;
+            // 
+            // dataGridViewTextBoxColumn8
+            // 
+            this.dataGridViewTextBoxColumn8.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.dataGridViewTextBoxColumn8.HeaderText = "Start";
+            this.dataGridViewTextBoxColumn8.MinimumWidth = 100;
+            this.dataGridViewTextBoxColumn8.Name = "dataGridViewTextBoxColumn8";
+            this.dataGridViewTextBoxColumn8.ReadOnly = true;
+            this.dataGridViewTextBoxColumn8.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.dataGridViewTextBoxColumn8.Visible = false;
+            // 
+            // dataGridViewTextBoxColumn9
+            // 
+            this.dataGridViewTextBoxColumn9.HeaderText = "End";
+            this.dataGridViewTextBoxColumn9.MinimumWidth = 100;
+            this.dataGridViewTextBoxColumn9.Name = "dataGridViewTextBoxColumn9";
+            this.dataGridViewTextBoxColumn9.ReadOnly = true;
+            this.dataGridViewTextBoxColumn9.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.dataGridViewTextBoxColumn9.Visible = false;
+            // 
             // dataGridViewTextBoxColumn10
             // 
             this.dataGridViewTextBoxColumn10.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
@@ -1051,6 +1096,8 @@
             this.dataGridViewTextBoxColumn10.MinimumWidth = 50;
             this.dataGridViewTextBoxColumn10.Name = "dataGridViewTextBoxColumn10";
             this.dataGridViewTextBoxColumn10.ReadOnly = true;
+            this.dataGridViewTextBoxColumn10.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridViewTextBoxColumn10.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.dataGridViewTextBoxColumn10.Visible = false;
             // 
             // dataGridViewTextBoxColumn11
@@ -1083,6 +1130,7 @@
             this.dataGridViewTextBoxColumn13.MinimumWidth = 75;
             this.dataGridViewTextBoxColumn13.Name = "dataGridViewTextBoxColumn13";
             this.dataGridViewTextBoxColumn13.ReadOnly = true;
+            this.dataGridViewTextBoxColumn13.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.dataGridViewTextBoxColumn13.Visible = false;
             this.dataGridViewTextBoxColumn13.Width = 150;
             // 
@@ -1105,7 +1153,72 @@
             this.dataGridViewTextBoxColumn15.MinimumWidth = 110;
             this.dataGridViewTextBoxColumn15.Name = "dataGridViewTextBoxColumn15";
             this.dataGridViewTextBoxColumn15.ReadOnly = true;
+            this.dataGridViewTextBoxColumn15.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.dataGridViewTextBoxColumn15.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.dataGridViewTextBoxColumn15.Visible = false;
+            // 
+            // dataGridViewTextBoxColumn16
+            // 
+            this.dataGridViewTextBoxColumn16.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dataGridViewTextBoxColumn16.FillWeight = 50F;
+            this.dataGridViewTextBoxColumn16.HeaderText = "ID";
+            this.dataGridViewTextBoxColumn16.MinimumWidth = 50;
+            this.dataGridViewTextBoxColumn16.Name = "dataGridViewTextBoxColumn16";
+            this.dataGridViewTextBoxColumn16.ReadOnly = true;
+            this.dataGridViewTextBoxColumn16.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.dataGridViewTextBoxColumn16.Visible = false;
+            // 
+            // dataGridViewTextBoxColumn17
+            // 
+            this.dataGridViewTextBoxColumn17.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dataGridViewTextBoxColumn17.HeaderText = "Name";
+            this.dataGridViewTextBoxColumn17.MinimumWidth = 100;
+            this.dataGridViewTextBoxColumn17.Name = "dataGridViewTextBoxColumn17";
+            this.dataGridViewTextBoxColumn17.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn18
+            // 
+            this.dataGridViewTextBoxColumn18.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dataGridViewTextBoxColumn18.HeaderText = "File Name";
+            this.dataGridViewTextBoxColumn18.MinimumWidth = 100;
+            this.dataGridViewTextBoxColumn18.Name = "dataGridViewTextBoxColumn18";
+            this.dataGridViewTextBoxColumn18.ReadOnly = true;
+            this.dataGridViewTextBoxColumn18.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            // 
+            // dataGridViewTextBoxColumn19
+            // 
+            this.dataGridViewTextBoxColumn19.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dataGridViewTextBoxColumn19.FillWeight = 75F;
+            this.dataGridViewTextBoxColumn19.HeaderText = "Path";
+            this.dataGridViewTextBoxColumn19.MinimumWidth = 75;
+            this.dataGridViewTextBoxColumn19.Name = "dataGridViewTextBoxColumn19";
+            this.dataGridViewTextBoxColumn19.ReadOnly = true;
+            this.dataGridViewTextBoxColumn19.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // dgv_Number_Input
+            // 
+            this.dgv_Number_Input.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dgv_Number_Input.HeaderText = "Input";
+            this.dgv_Number_Input.Name = "dgv_Number_Input";
+            // 
+            // dgv_Number_Mask
+            // 
+            this.dgv_Number_Mask.HeaderText = "Mask";
+            this.dgv_Number_Mask.Name = "dgv_Number_Mask";
+            this.dgv_Number_Mask.Visible = false;
+            // 
+            // dgv_Serial_Input
+            // 
+            this.dgv_Serial_Input.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dgv_Serial_Input.HeaderText = "Input";
+            this.dgv_Serial_Input.Name = "dgv_Serial_Input";
+            // 
+            // dgv_Serial_Mask
+            // 
+            this.dgv_Serial_Mask.HeaderText = "Mask";
+            this.dgv_Serial_Mask.Name = "dgv_Serial_Mask";
+            this.dgv_Serial_Mask.ReadOnly = true;
+            this.dgv_Serial_Mask.Visible = false;
             // 
             // dgv_Badge_NTID
             // 
@@ -1122,6 +1235,110 @@
             this.dgv_Badge_Name.HeaderText = "Name";
             this.dgv_Badge_Name.Name = "dgv_Badge_Name";
             this.dgv_Badge_Name.ReadOnly = true;
+            // 
+            // dgv_Badge_Mask
+            // 
+            this.dgv_Badge_Mask.HeaderText = "Mask";
+            this.dgv_Badge_Mask.Name = "dgv_Badge_Mask";
+            this.dgv_Badge_Mask.ReadOnly = true;
+            this.dgv_Badge_Mask.Visible = false;
+            // 
+            // dgv_Stopwatch_Name
+            // 
+            this.dgv_Stopwatch_Name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dgv_Stopwatch_Name.HeaderText = "Name";
+            this.dgv_Stopwatch_Name.MinimumWidth = 100;
+            this.dgv_Stopwatch_Name.Name = "dgv_Stopwatch_Name";
+            this.dgv_Stopwatch_Name.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            // 
+            // dgv_Stopwatch_Duration
+            // 
+            this.dgv_Stopwatch_Duration.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.dgv_Stopwatch_Duration.FillWeight = 150F;
+            this.dgv_Stopwatch_Duration.HeaderText = "Duration (mm:ss)";
+            this.dgv_Stopwatch_Duration.MinimumWidth = 150;
+            this.dgv_Stopwatch_Duration.Name = "dgv_Stopwatch_Duration";
+            this.dgv_Stopwatch_Duration.ReadOnly = true;
+            this.dgv_Stopwatch_Duration.Width = 150;
+            // 
+            // dgv_Stopwatch_Start
+            // 
+            this.dgv_Stopwatch_Start.HeaderText = "Start";
+            this.dgv_Stopwatch_Start.Name = "dgv_Stopwatch_Start";
+            this.dgv_Stopwatch_Start.ReadOnly = true;
+            this.dgv_Stopwatch_Start.Visible = false;
+            // 
+            // dgv_Stopwatch_Stop
+            // 
+            this.dgv_Stopwatch_Stop.HeaderText = "Stop";
+            this.dgv_Stopwatch_Stop.Name = "dgv_Stopwatch_Stop";
+            this.dgv_Stopwatch_Stop.ReadOnly = true;
+            this.dgv_Stopwatch_Stop.Visible = false;
+            // 
+            // dgv_File_Name
+            // 
+            this.dgv_File_Name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.dgv_File_Name.HeaderText = "Name";
+            this.dgv_File_Name.MinimumWidth = 100;
+            this.dgv_File_Name.Name = "dgv_File_Name";
+            this.dgv_File_Name.ReadOnly = true;
+            // 
+            // dgv_File_FileName
+            // 
+            this.dgv_File_FileName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.dgv_File_FileName.HeaderText = "File Name";
+            this.dgv_File_FileName.MinimumWidth = 75;
+            this.dgv_File_FileName.Name = "dgv_File_FileName";
+            this.dgv_File_FileName.ReadOnly = true;
+            this.dgv_File_FileName.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_File_FileName.Width = 79;
+            // 
+            // dgv_File_Path
+            // 
+            this.dgv_File_Path.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dgv_File_Path.FillWeight = 75F;
+            this.dgv_File_Path.HeaderText = "Path";
+            this.dgv_File_Path.MinimumWidth = 75;
+            this.dgv_File_Path.Name = "dgv_File_Path";
+            this.dgv_File_Path.ReadOnly = true;
+            this.dgv_File_Path.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // calendarColumn1
+            // 
+            this.calendarColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.calendarColumn1.HeaderText = "Name";
+            this.calendarColumn1.MinimumWidth = 100;
+            this.calendarColumn1.Name = "calendarColumn1";
+            this.calendarColumn1.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.calendarColumn1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // dataGridViewComboBoxColumn1
+            // 
+            this.dataGridViewComboBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dataGridViewComboBoxColumn1.HeaderText = "Name";
+            this.dataGridViewComboBoxColumn1.MinimumWidth = 100;
+            this.dataGridViewComboBoxColumn1.Name = "dataGridViewComboBoxColumn1";
+            this.dataGridViewComboBoxColumn1.ReadOnly = true;
+            this.dataGridViewComboBoxColumn1.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridViewComboBoxColumn1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // dgv_tb_Format
+            // 
+            this.dgv_tb_Format.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.dgv_tb_Format.FillWeight = 150F;
+            this.dgv_tb_Format.HeaderText = "Format";
+            this.dgv_tb_Format.Name = "dgv_tb_Format";
+            this.dgv_tb_Format.ReadOnly = true;
+            this.dgv_tb_Format.Width = 150;
+            // 
+            // dgv_Timer_StartStop
+            // 
+            this.dgv_Timer_StartStop.FillWeight = 75F;
+            this.dgv_Timer_StartStop.HeaderText = "Action";
+            this.dgv_Timer_StartStop.MinimumWidth = 75;
+            this.dgv_Timer_StartStop.Name = "dgv_Timer_StartStop";
+            this.dgv_Timer_StartStop.ReadOnly = true;
+            this.dgv_Timer_StartStop.Width = 75;
             // 
             // dgv_Timer_Name
             // 
@@ -1162,146 +1379,6 @@
             this.dgv_timer_End.ReadOnly = true;
             this.dgv_timer_End.Visible = false;
             // 
-            // dgv_Stopwatch_Name
-            // 
-            this.dgv_Stopwatch_Name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.dgv_Stopwatch_Name.HeaderText = "Name";
-            this.dgv_Stopwatch_Name.MinimumWidth = 100;
-            this.dgv_Stopwatch_Name.Name = "dgv_Stopwatch_Name";
-            this.dgv_Stopwatch_Name.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            // 
-            // dgv_Stopwatch_Duration
-            // 
-            this.dgv_Stopwatch_Duration.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.dgv_Stopwatch_Duration.FillWeight = 150F;
-            this.dgv_Stopwatch_Duration.HeaderText = "Duration (mm:ss)";
-            this.dgv_Stopwatch_Duration.MinimumWidth = 150;
-            this.dgv_Stopwatch_Duration.Name = "dgv_Stopwatch_Duration";
-            this.dgv_Stopwatch_Duration.ReadOnly = true;
-            this.dgv_Stopwatch_Duration.Width = 150;
-            // 
-            // dgv_Stopwatch_Start
-            // 
-            this.dgv_Stopwatch_Start.HeaderText = "Start";
-            this.dgv_Stopwatch_Start.Name = "dgv_Stopwatch_Start";
-            this.dgv_Stopwatch_Start.ReadOnly = true;
-            this.dgv_Stopwatch_Start.Visible = false;
-            // 
-            // dgv_Stopwatch_Stop
-            // 
-            this.dgv_Stopwatch_Stop.HeaderText = "Stop";
-            this.dgv_Stopwatch_Stop.Name = "dgv_Stopwatch_Stop";
-            this.dgv_Stopwatch_Stop.ReadOnly = true;
-            this.dgv_Stopwatch_Stop.Visible = false;
-            // 
-            // calendarColumn1
-            // 
-            this.calendarColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.calendarColumn1.HeaderText = "Name";
-            this.calendarColumn1.MinimumWidth = 100;
-            this.calendarColumn1.Name = "calendarColumn1";
-            this.calendarColumn1.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.calendarColumn1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            // 
-            // dataGridViewTextBoxColumn16
-            // 
-            this.dataGridViewTextBoxColumn16.FillWeight = 50F;
-            this.dataGridViewTextBoxColumn16.HeaderText = "ID";
-            this.dataGridViewTextBoxColumn16.MinimumWidth = 50;
-            this.dataGridViewTextBoxColumn16.Name = "dataGridViewTextBoxColumn16";
-            this.dataGridViewTextBoxColumn16.Width = 50;
-            // 
-            // dataGridViewTextBoxColumn17
-            // 
-            this.dataGridViewTextBoxColumn17.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.dataGridViewTextBoxColumn17.HeaderText = "Name";
-            this.dataGridViewTextBoxColumn17.MinimumWidth = 100;
-            this.dataGridViewTextBoxColumn17.Name = "dataGridViewTextBoxColumn17";
-            // 
-            // dataGridViewTextBoxColumn18
-            // 
-            this.dataGridViewTextBoxColumn18.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.dataGridViewTextBoxColumn18.HeaderText = "File Name";
-            this.dataGridViewTextBoxColumn18.MinimumWidth = 100;
-            this.dataGridViewTextBoxColumn18.Name = "dataGridViewTextBoxColumn18";
-            // 
-            // dataGridViewTextBoxColumn19
-            // 
-            this.dataGridViewTextBoxColumn19.FillWeight = 75F;
-            this.dataGridViewTextBoxColumn19.HeaderText = "Path";
-            this.dataGridViewTextBoxColumn19.MinimumWidth = 75;
-            this.dataGridViewTextBoxColumn19.Name = "dataGridViewTextBoxColumn19";
-            this.dataGridViewTextBoxColumn19.Width = 75;
-            // 
-            // dataGridViewComboBoxColumn1
-            // 
-            this.dataGridViewComboBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.dataGridViewComboBoxColumn1.HeaderText = "Name";
-            this.dataGridViewComboBoxColumn1.MinimumWidth = 100;
-            this.dataGridViewComboBoxColumn1.Name = "dataGridViewComboBoxColumn1";
-            this.dataGridViewComboBoxColumn1.ReadOnly = true;
-            this.dataGridViewComboBoxColumn1.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridViewComboBoxColumn1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            // 
-            // dgv_tb_Format
-            // 
-            this.dgv_tb_Format.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.dgv_tb_Format.FillWeight = 150F;
-            this.dgv_tb_Format.HeaderText = "Format";
-            this.dgv_tb_Format.Name = "dgv_tb_Format";
-            this.dgv_tb_Format.ReadOnly = true;
-            this.dgv_tb_Format.Width = 150;
-            // 
-            // dgv_Number_Input
-            // 
-            this.dgv_Number_Input.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.dgv_Number_Input.HeaderText = "Input";
-            this.dgv_Number_Input.Name = "dgv_Number_Input";
-            // 
-            // dgv_Serial_Input
-            // 
-            this.dgv_Serial_Input.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.dgv_Serial_Input.HeaderText = "Input";
-            this.dgv_Serial_Input.Name = "dgv_Serial_Input";
-            // 
-            // dgv_File_Action
-            // 
-            this.dgv_File_Action.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.dgv_File_Action.FillWeight = 50F;
-            this.dgv_File_Action.HeaderText = "";
-            this.dgv_File_Action.MinimumWidth = 50;
-            this.dgv_File_Action.Name = "dgv_File_Action";
-            this.dgv_File_Action.ReadOnly = true;
-            this.dgv_File_Action.Width = 50;
-            // 
-            // dgv_File_Name
-            // 
-            this.dgv_File_Name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.dgv_File_Name.HeaderText = "Name";
-            this.dgv_File_Name.MinimumWidth = 100;
-            this.dgv_File_Name.Name = "dgv_File_Name";
-            this.dgv_File_Name.ReadOnly = true;
-            // 
-            // dgv_File_FileName
-            // 
-            this.dgv_File_FileName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.dgv_File_FileName.HeaderText = "File Name";
-            this.dgv_File_FileName.MinimumWidth = 75;
-            this.dgv_File_FileName.Name = "dgv_File_FileName";
-            this.dgv_File_FileName.ReadOnly = true;
-            this.dgv_File_FileName.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgv_File_FileName.Width = 79;
-            // 
-            // dgv_File_Path
-            // 
-            this.dgv_File_Path.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.dgv_File_Path.FillWeight = 75F;
-            this.dgv_File_Path.HeaderText = "Path";
-            this.dgv_File_Path.MinimumWidth = 75;
-            this.dgv_File_Path.Name = "dgv_File_Path";
-            this.dgv_File_Path.ReadOnly = true;
-            this.dgv_File_Path.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
             // DataCollection
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1315,7 +1392,7 @@
             this.Controls.Add(this.button2);
             this.Controls.Add(this.btn_Save);
             this.Controls.Add(this.label9);
-            this.Controls.Add(this.textBox8);
+            this.Controls.Add(this.tb_History);
             this.Controls.Add(this.tb_Format);
             this.Controls.Add(this.tb_Type);
             this.Controls.Add(this.tb_UserType);
@@ -1384,7 +1461,7 @@
         private System.Windows.Forms.TabControl tab_Control;
         private System.Windows.Forms.TabPage tp_DateTime;
         private System.Windows.Forms.TabPage tp_Chemical;
-        private System.Windows.Forms.TextBox textBox8;
+        private System.Windows.Forms.TextBox tb_History;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Button btn_Save;
         private System.Windows.Forms.Button button2;
@@ -1444,15 +1521,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn17;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn18;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn19;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_Badge_NTID;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_Badge_Name;
-        private System.Windows.Forms.DataGridViewButtonColumn dgv_Timer_StartStop;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_Timer_Name;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_Timer_Durration;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_Timer_Left;
-        private System.Windows.Forms.DataGridViewButtonColumn dgv_Timer_Reset;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_timer_Start;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_timer_End;
         private System.Windows.Forms.DataGridViewButtonColumn dgv_Stopwatch_Action;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_Stopwatch_Name;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_Stopwatch_Duration;
@@ -1462,11 +1530,26 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_Number_Input;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_Serial_Input;
         private System.Windows.Forms.DataGridViewButtonColumn dgv_File_Action;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_File_Name;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_File_FileName;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_File_Path;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_Number_Input;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_Number_Mask;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn6;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn7;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn8;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn9;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_Serial_Input;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_Serial_Mask;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_Badge_NTID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_Badge_Name;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_Badge_Mask;
+        private System.Windows.Forms.DataGridViewButtonColumn dgv_Timer_StartStop;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_Timer_Name;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_Timer_Durration;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_Timer_Left;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_timer_Start;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_timer_End;
     }
 }
