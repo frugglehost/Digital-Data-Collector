@@ -54,15 +54,15 @@
             this.btn_Acknowledge = new System.Windows.Forms.Button();
             this.tp_DateTime = new System.Windows.Forms.TabPage();
             this.tp_Chemical = new System.Windows.Forms.TabPage();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.pic_ChemExp = new System.Windows.Forms.PictureBox();
             this.label13 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
-            this.dtp_Exp = new System.Windows.Forms.DateTimePicker();
-            this.tb_Lot = new System.Windows.Forms.TextBox();
-            this.tb_PN = new System.Windows.Forms.TextBox();
+            this.dtp_ChemExp = new System.Windows.Forms.DateTimePicker();
+            this.tb_ChemLot = new System.Windows.Forms.TextBox();
+            this.tb_chemPN = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
             this.tp_Number = new System.Windows.Forms.TabPage();
-            this.button7 = new System.Windows.Forms.Button();
+            this.brn_NumberAdd = new System.Windows.Forms.Button();
             this.dgv_Number = new System.Windows.Forms.DataGridView();
             this.tp_Serial = new System.Windows.Forms.TabPage();
             this.button8 = new System.Windows.Forms.Button();
@@ -78,27 +78,29 @@
             this.tp_Timer = new System.Windows.Forms.TabPage();
             this.btn_Timer = new System.Windows.Forms.Button();
             this.dgv_Timer = new System.Windows.Forms.DataGridView();
+            this.dgv_Timer_Action = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.dgv_Timer_Pause = new System.Windows.Forms.DataGridViewButtonColumn();
             this.tp_stopWatch = new System.Windows.Forms.TabPage();
             this.btn_StopwatchAdd = new System.Windows.Forms.Button();
             this.dgv_Stopwatch = new System.Windows.Forms.DataGridView();
             this.dgv_Stopwatch_Action = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.dgv_Stopwatch_Reset = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.dgv_Stopwatch_Pause = new System.Windows.Forms.DataGridViewButtonColumn();
             this.tp_File = new System.Windows.Forms.TabPage();
-            this.button5 = new System.Windows.Forms.Button();
+            this.btn_FileAdd = new System.Windows.Forms.Button();
             this.dgv_File = new System.Windows.Forms.DataGridView();
-            this.dgv_File_Action = new System.Windows.Forms.DataGridViewButtonColumn();
             this.tp_Text = new System.Windows.Forms.TabPage();
             this.tbr_FreeText = new System.Windows.Forms.RichTextBox();
             this.tb_History = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.btn_Save = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.btn_Reset = new System.Windows.Forms.Button();
             this.btn_RecordTab = new System.Windows.Forms.Button();
             this.tb_MagicInput = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
-            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.ofd_File_Collection = new System.Windows.Forms.OpenFileDialog();
             this.tb_Name = new System.Windows.Forms.TextBox();
             this.label16 = new System.Windows.Forms.Label();
+            this.fbd_SavePath = new System.Windows.Forms.FolderBrowserDialog();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -118,6 +120,9 @@
             this.dataGridViewTextBoxColumn17 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn18 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn19 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn20 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn21 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn22 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_Number_Input = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_Number_Mask = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_Serial_Input = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -125,27 +130,31 @@
             this.dgv_Badge_NTID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_Badge_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_Badge_Mask = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_Stopwatch_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_Stopwatch_Duration = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_Stopwatch_Start = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_Stopwatch_Stop = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_File_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_File_FileName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_File_Path = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.calendarColumn1 = new CalendarColumn();
-            this.dataGridViewComboBoxColumn1 = new CalendarColumn();
-            this.dgv_tb_Format = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_Timer_StartStop = new System.Windows.Forms.DataGridViewButtonColumn();
             this.dgv_Timer_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_Timer_Durration = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_Timer_Left = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_timer_Start = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_timer_End = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_Timer_Offset = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_Stopwatch_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_Stopwatch_Duration = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_Stopwatch_Start = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_Stopwatch_Stop = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_StopWatch_Offset = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.calendarColumn1 = new CalendarColumn();
+            this.dataGridViewComboBoxColumn1 = new CalendarColumn();
+            this.dgv_tb_Format = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_File_Action = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.dgv_File_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_File_FileName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_File_Path = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_File_SaveTo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_File_Local = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tab_Control.SuspendLayout();
             this.tp_Acknowledge.SuspendLayout();
             this.tp_DateTime.SuspendLayout();
             this.tp_Chemical.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pic_ChemExp)).BeginInit();
             this.tp_Number.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Number)).BeginInit();
             this.tp_Serial.SuspendLayout();
@@ -173,7 +182,7 @@
             this.dtp_FullTime.Location = new System.Drawing.Point(124, 41);
             this.dtp_FullTime.Name = "dtp_FullTime";
             this.dtp_FullTime.Size = new System.Drawing.Size(345, 26);
-            this.dtp_FullTime.TabIndex = 0;
+            this.dtp_FullTime.TabIndex = 5;
             // 
             // label1
             // 
@@ -193,7 +202,8 @@
             this.textBox1.Name = "textBox1";
             this.textBox1.ReadOnly = true;
             this.textBox1.Size = new System.Drawing.Size(255, 20);
-            this.textBox1.TabIndex = 2;
+            this.textBox1.TabIndex = 0;
+            this.textBox1.TabStop = false;
             // 
             // label2
             // 
@@ -225,7 +235,8 @@
             this.tb_ICID.Name = "tb_ICID";
             this.tb_ICID.ReadOnly = true;
             this.tb_ICID.Size = new System.Drawing.Size(238, 20);
-            this.tb_ICID.TabIndex = 5;
+            this.tb_ICID.TabIndex = 0;
+            this.tb_ICID.TabStop = false;
             // 
             // tb_Description
             // 
@@ -235,7 +246,8 @@
             this.tb_Description.ReadOnly = true;
             this.tb_Description.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.tb_Description.Size = new System.Drawing.Size(283, 101);
-            this.tb_Description.TabIndex = 6;
+            this.tb_Description.TabIndex = 0;
+            this.tb_Description.TabStop = false;
             this.tb_Description.WordWrap = false;
             // 
             // label4
@@ -291,7 +303,8 @@
             this.tb_ShopOrder.Name = "tb_ShopOrder";
             this.tb_ShopOrder.ReadOnly = true;
             this.tb_ShopOrder.Size = new System.Drawing.Size(255, 20);
-            this.tb_ShopOrder.TabIndex = 12;
+            this.tb_ShopOrder.TabIndex = 0;
+            this.tb_ShopOrder.TabStop = false;
             // 
             // tb_UserType
             // 
@@ -301,7 +314,8 @@
             this.tb_UserType.Name = "tb_UserType";
             this.tb_UserType.ReadOnly = true;
             this.tb_UserType.Size = new System.Drawing.Size(255, 20);
-            this.tb_UserType.TabIndex = 13;
+            this.tb_UserType.TabIndex = 0;
+            this.tb_UserType.TabStop = false;
             // 
             // tb_Type
             // 
@@ -311,7 +325,8 @@
             this.tb_Type.Name = "tb_Type";
             this.tb_Type.ReadOnly = true;
             this.tb_Type.Size = new System.Drawing.Size(255, 20);
-            this.tb_Type.TabIndex = 14;
+            this.tb_Type.TabIndex = 0;
+            this.tb_Type.TabStop = false;
             // 
             // tb_Format
             // 
@@ -321,7 +336,8 @@
             this.tb_Format.Name = "tb_Format";
             this.tb_Format.ReadOnly = true;
             this.tb_Format.Size = new System.Drawing.Size(255, 20);
-            this.tb_Format.TabIndex = 15;
+            this.tb_Format.TabIndex = 0;
+            this.tb_Format.TabStop = false;
             // 
             // tab_Control
             // 
@@ -343,7 +359,8 @@
             this.tab_Control.Name = "tab_Control";
             this.tab_Control.SelectedIndex = 0;
             this.tab_Control.Size = new System.Drawing.Size(624, 143);
-            this.tab_Control.TabIndex = 16;
+            this.tab_Control.TabIndex = 3;
+            this.tab_Control.TabStop = false;
             this.tab_Control.SelectedIndexChanged += new System.EventHandler(this.tab_Control_SelectedIndexChanged);
             // 
             // tp_Acknowledge
@@ -366,7 +383,8 @@
             this.tb_iAcknowledge.Name = "tb_iAcknowledge";
             this.tb_iAcknowledge.ReadOnly = true;
             this.tb_iAcknowledge.Size = new System.Drawing.Size(604, 20);
-            this.tb_iAcknowledge.TabIndex = 1;
+            this.tb_iAcknowledge.TabIndex = 0;
+            this.tb_iAcknowledge.TabStop = false;
             // 
             // btn_Acknowledge
             // 
@@ -377,7 +395,7 @@
             this.btn_Acknowledge.Location = new System.Drawing.Point(170, 15);
             this.btn_Acknowledge.Name = "btn_Acknowledge";
             this.btn_Acknowledge.Size = new System.Drawing.Size(282, 63);
-            this.btn_Acknowledge.TabIndex = 0;
+            this.btn_Acknowledge.TabIndex = 4;
             this.btn_Acknowledge.Text = "I Acknowledge";
             this.btn_Acknowledge.UseVisualStyleBackColor = true;
             this.btn_Acknowledge.Click += new System.EventHandler(this.btn_Acknowledge_Click);
@@ -395,12 +413,12 @@
             // 
             // tp_Chemical
             // 
-            this.tp_Chemical.Controls.Add(this.pictureBox1);
+            this.tp_Chemical.Controls.Add(this.pic_ChemExp);
             this.tp_Chemical.Controls.Add(this.label13);
             this.tp_Chemical.Controls.Add(this.label12);
-            this.tp_Chemical.Controls.Add(this.dtp_Exp);
-            this.tp_Chemical.Controls.Add(this.tb_Lot);
-            this.tp_Chemical.Controls.Add(this.tb_PN);
+            this.tp_Chemical.Controls.Add(this.dtp_ChemExp);
+            this.tp_Chemical.Controls.Add(this.tb_ChemLot);
+            this.tp_Chemical.Controls.Add(this.tb_chemPN);
             this.tp_Chemical.Controls.Add(this.label11);
             this.tp_Chemical.Location = new System.Drawing.Point(4, 22);
             this.tp_Chemical.Name = "tp_Chemical";
@@ -410,14 +428,15 @@
             this.tp_Chemical.Text = "Chemical";
             this.tp_Chemical.UseVisualStyleBackColor = true;
             // 
-            // pictureBox1
+            // pic_ChemExp
             // 
-            this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBox1.Location = new System.Drawing.Point(548, 69);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(21, 21);
-            this.pictureBox1.TabIndex = 6;
-            this.pictureBox1.TabStop = false;
+            this.pic_ChemExp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pic_ChemExp.Location = new System.Drawing.Point(548, 69);
+            this.pic_ChemExp.Name = "pic_ChemExp";
+            this.pic_ChemExp.Size = new System.Drawing.Size(21, 21);
+            this.pic_ChemExp.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pic_ChemExp.TabIndex = 6;
+            this.pic_ChemExp.TabStop = false;
             // 
             // label13
             // 
@@ -439,35 +458,37 @@
             this.label12.TabIndex = 4;
             this.label12.Text = "Lot / Batch:";
             // 
-            // dtp_Exp
+            // dtp_ChemExp
             // 
-            this.dtp_Exp.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.dtp_ChemExp.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.dtp_Exp.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dtp_Exp.Location = new System.Drawing.Point(98, 69);
-            this.dtp_Exp.Name = "dtp_Exp";
-            this.dtp_Exp.Size = new System.Drawing.Size(444, 22);
-            this.dtp_Exp.TabIndex = 3;
+            this.dtp_ChemExp.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dtp_ChemExp.Location = new System.Drawing.Point(98, 69);
+            this.dtp_ChemExp.MinDate = new System.DateTime(2002, 2, 1, 0, 0, 0, 0);
+            this.dtp_ChemExp.Name = "dtp_ChemExp";
+            this.dtp_ChemExp.Size = new System.Drawing.Size(444, 22);
+            this.dtp_ChemExp.TabIndex = 8;
+            this.dtp_ChemExp.ValueChanged += new System.EventHandler(this.dtp_ChemExp_ValueChanged);
             // 
-            // tb_Lot
+            // tb_ChemLot
             // 
-            this.tb_Lot.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.tb_ChemLot.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tb_Lot.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tb_Lot.Location = new System.Drawing.Point(98, 43);
-            this.tb_Lot.Name = "tb_Lot";
-            this.tb_Lot.Size = new System.Drawing.Size(471, 22);
-            this.tb_Lot.TabIndex = 2;
+            this.tb_ChemLot.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tb_ChemLot.Location = new System.Drawing.Point(98, 43);
+            this.tb_ChemLot.Name = "tb_ChemLot";
+            this.tb_ChemLot.Size = new System.Drawing.Size(471, 22);
+            this.tb_ChemLot.TabIndex = 7;
             // 
-            // tb_PN
+            // tb_chemPN
             // 
-            this.tb_PN.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.tb_chemPN.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tb_PN.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tb_PN.Location = new System.Drawing.Point(97, 17);
-            this.tb_PN.Name = "tb_PN";
-            this.tb_PN.Size = new System.Drawing.Size(472, 22);
-            this.tb_PN.TabIndex = 1;
+            this.tb_chemPN.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tb_chemPN.Location = new System.Drawing.Point(97, 17);
+            this.tb_chemPN.Name = "tb_chemPN";
+            this.tb_chemPN.Size = new System.Drawing.Size(472, 22);
+            this.tb_chemPN.TabIndex = 6;
             // 
             // label11
             // 
@@ -481,7 +502,7 @@
             // 
             // tp_Number
             // 
-            this.tp_Number.Controls.Add(this.button7);
+            this.tp_Number.Controls.Add(this.brn_NumberAdd);
             this.tp_Number.Controls.Add(this.dgv_Number);
             this.tp_Number.Location = new System.Drawing.Point(4, 22);
             this.tp_Number.Name = "tp_Number";
@@ -491,16 +512,17 @@
             this.tp_Number.Text = "Number";
             this.tp_Number.UseVisualStyleBackColor = true;
             // 
-            // button7
+            // brn_NumberAdd
             // 
-            this.button7.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.brn_NumberAdd.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-            this.button7.Location = new System.Drawing.Point(6, 6);
-            this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(49, 105);
-            this.button7.TabIndex = 4;
-            this.button7.Text = "Add Row";
-            this.button7.UseVisualStyleBackColor = true;
+            this.brn_NumberAdd.Location = new System.Drawing.Point(6, 6);
+            this.brn_NumberAdd.Name = "brn_NumberAdd";
+            this.brn_NumberAdd.Size = new System.Drawing.Size(49, 105);
+            this.brn_NumberAdd.TabIndex = 9;
+            this.brn_NumberAdd.Text = "Add Row";
+            this.brn_NumberAdd.UseVisualStyleBackColor = true;
+            this.brn_NumberAdd.Click += new System.EventHandler(this.brn_NumberAdd_Click);
             // 
             // dgv_Number
             // 
@@ -527,6 +549,7 @@
             this.dgv_Number.RowHeadersVisible = false;
             this.dgv_Number.Size = new System.Drawing.Size(549, 105);
             this.dgv_Number.TabIndex = 3;
+            this.dgv_Number.CellLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_Number_CellLeave);
             // 
             // tp_Serial
             // 
@@ -547,7 +570,7 @@
             this.button8.Location = new System.Drawing.Point(6, 6);
             this.button8.Name = "button8";
             this.button8.Size = new System.Drawing.Size(49, 105);
-            this.button8.TabIndex = 6;
+            this.button8.TabIndex = 10;
             this.button8.Text = "Add Row";
             this.button8.UseVisualStyleBackColor = true;
             // 
@@ -598,7 +621,7 @@
             this.cob_SerialNum.Location = new System.Drawing.Point(177, 57);
             this.cob_SerialNum.Name = "cob_SerialNum";
             this.cob_SerialNum.Size = new System.Drawing.Size(270, 24);
-            this.cob_SerialNum.TabIndex = 3;
+            this.cob_SerialNum.TabIndex = 12;
             // 
             // cob_ToolNumber
             // 
@@ -607,7 +630,7 @@
             this.cob_ToolNumber.Location = new System.Drawing.Point(177, 27);
             this.cob_ToolNumber.Name = "cob_ToolNumber";
             this.cob_ToolNumber.Size = new System.Drawing.Size(270, 24);
-            this.cob_ToolNumber.TabIndex = 2;
+            this.cob_ToolNumber.TabIndex = 11;
             // 
             // label15
             // 
@@ -648,7 +671,7 @@
             this.btn_BadgeAdd.Location = new System.Drawing.Point(6, 6);
             this.btn_BadgeAdd.Name = "btn_BadgeAdd";
             this.btn_BadgeAdd.Size = new System.Drawing.Size(49, 105);
-            this.btn_BadgeAdd.TabIndex = 4;
+            this.btn_BadgeAdd.TabIndex = 13;
             this.btn_BadgeAdd.Text = "Add Row";
             this.btn_BadgeAdd.UseVisualStyleBackColor = true;
             this.btn_BadgeAdd.Click += new System.EventHandler(this.btn_BadgeAdd_Click);
@@ -708,7 +731,7 @@
             this.btn_Timer.Location = new System.Drawing.Point(6, 6);
             this.btn_Timer.Name = "btn_Timer";
             this.btn_Timer.Size = new System.Drawing.Size(49, 105);
-            this.btn_Timer.TabIndex = 1;
+            this.btn_Timer.TabIndex = 14;
             this.btn_Timer.Text = "New Timer";
             this.btn_Timer.UseVisualStyleBackColor = true;
             this.btn_Timer.Click += new System.EventHandler(this.btn_Timer_Click);
@@ -723,12 +746,14 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgv_Timer.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_Timer.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dgv_Timer_StartStop,
+            this.dgv_Timer_Action,
             this.dgv_Timer_Name,
             this.dgv_Timer_Durration,
             this.dgv_Timer_Left,
+            this.dgv_Timer_Pause,
             this.dgv_timer_Start,
-            this.dgv_timer_End});
+            this.dgv_timer_End,
+            this.dgv_Timer_Offset});
             dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -743,6 +768,23 @@
             this.dgv_Timer.Size = new System.Drawing.Size(549, 105);
             this.dgv_Timer.TabIndex = 0;
             this.dgv_Timer.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_Timer_CellContentClick);
+            // 
+            // dgv_Timer_Action
+            // 
+            this.dgv_Timer_Action.FillWeight = 75F;
+            this.dgv_Timer_Action.HeaderText = "Action";
+            this.dgv_Timer_Action.MinimumWidth = 75;
+            this.dgv_Timer_Action.Name = "dgv_Timer_Action";
+            this.dgv_Timer_Action.ReadOnly = true;
+            this.dgv_Timer_Action.Width = 75;
+            // 
+            // dgv_Timer_Pause
+            // 
+            this.dgv_Timer_Pause.FillWeight = 75F;
+            this.dgv_Timer_Pause.HeaderText = "";
+            this.dgv_Timer_Pause.Name = "dgv_Timer_Pause";
+            this.dgv_Timer_Pause.ReadOnly = true;
+            this.dgv_Timer_Pause.Width = 75;
             // 
             // tp_stopWatch
             // 
@@ -763,7 +805,7 @@
             this.btn_StopwatchAdd.Location = new System.Drawing.Point(6, 6);
             this.btn_StopwatchAdd.Name = "btn_StopwatchAdd";
             this.btn_StopwatchAdd.Size = new System.Drawing.Size(49, 105);
-            this.btn_StopwatchAdd.TabIndex = 3;
+            this.btn_StopwatchAdd.TabIndex = 15;
             this.btn_StopwatchAdd.Text = "New Timer";
             this.btn_StopwatchAdd.UseVisualStyleBackColor = true;
             this.btn_StopwatchAdd.Click += new System.EventHandler(this.btn_StopwatchAdd_Click);
@@ -781,9 +823,10 @@
             this.dgv_Stopwatch_Action,
             this.dgv_Stopwatch_Name,
             this.dgv_Stopwatch_Duration,
-            this.dgv_Stopwatch_Reset,
+            this.dgv_Stopwatch_Pause,
             this.dgv_Stopwatch_Start,
-            this.dgv_Stopwatch_Stop});
+            this.dgv_Stopwatch_Stop,
+            this.dgv_StopWatch_Offset});
             dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -808,18 +851,18 @@
             this.dgv_Stopwatch_Action.ReadOnly = true;
             this.dgv_Stopwatch_Action.Width = 75;
             // 
-            // dgv_Stopwatch_Reset
+            // dgv_Stopwatch_Pause
             // 
-            this.dgv_Stopwatch_Reset.FillWeight = 75F;
-            this.dgv_Stopwatch_Reset.HeaderText = "";
-            this.dgv_Stopwatch_Reset.MinimumWidth = 75;
-            this.dgv_Stopwatch_Reset.Name = "dgv_Stopwatch_Reset";
-            this.dgv_Stopwatch_Reset.ReadOnly = true;
-            this.dgv_Stopwatch_Reset.Width = 75;
+            this.dgv_Stopwatch_Pause.FillWeight = 75F;
+            this.dgv_Stopwatch_Pause.HeaderText = "";
+            this.dgv_Stopwatch_Pause.MinimumWidth = 75;
+            this.dgv_Stopwatch_Pause.Name = "dgv_Stopwatch_Pause";
+            this.dgv_Stopwatch_Pause.ReadOnly = true;
+            this.dgv_Stopwatch_Pause.Width = 75;
             // 
             // tp_File
             // 
-            this.tp_File.Controls.Add(this.button5);
+            this.tp_File.Controls.Add(this.btn_FileAdd);
             this.tp_File.Controls.Add(this.dgv_File);
             this.tp_File.Location = new System.Drawing.Point(4, 22);
             this.tp_File.Name = "tp_File";
@@ -828,16 +871,17 @@
             this.tp_File.Text = "File";
             this.tp_File.UseVisualStyleBackColor = true;
             // 
-            // button5
+            // btn_FileAdd
             // 
-            this.button5.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.btn_FileAdd.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-            this.button5.Location = new System.Drawing.Point(6, 6);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(49, 105);
-            this.button5.TabIndex = 2;
-            this.button5.Text = "Add Row";
-            this.button5.UseVisualStyleBackColor = true;
+            this.btn_FileAdd.Location = new System.Drawing.Point(6, 6);
+            this.btn_FileAdd.Name = "btn_FileAdd";
+            this.btn_FileAdd.Size = new System.Drawing.Size(49, 105);
+            this.btn_FileAdd.TabIndex = 16;
+            this.btn_FileAdd.Text = "Add Row";
+            this.btn_FileAdd.UseVisualStyleBackColor = true;
+            this.btn_FileAdd.Click += new System.EventHandler(this.btn_FileAdd_Click);
             // 
             // dgv_File
             // 
@@ -852,7 +896,9 @@
             this.dgv_File_Action,
             this.dgv_File_Name,
             this.dgv_File_FileName,
-            this.dgv_File_Path});
+            this.dgv_File_Path,
+            this.dgv_File_SaveTo,
+            this.dgv_File_Local});
             dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -866,16 +912,7 @@
             this.dgv_File.RowHeadersVisible = false;
             this.dgv_File.Size = new System.Drawing.Size(549, 105);
             this.dgv_File.TabIndex = 1;
-            // 
-            // dgv_File_Action
-            // 
-            this.dgv_File_Action.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.dgv_File_Action.FillWeight = 50F;
-            this.dgv_File_Action.HeaderText = "";
-            this.dgv_File_Action.MinimumWidth = 50;
-            this.dgv_File_Action.Name = "dgv_File_Action";
-            this.dgv_File_Action.ReadOnly = true;
-            this.dgv_File_Action.Width = 50;
+            this.dgv_File.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_File_CellContentClick);
             // 
             // tp_Text
             // 
@@ -896,7 +933,7 @@
             this.tbr_FreeText.Location = new System.Drawing.Point(6, 6);
             this.tbr_FreeText.Name = "tbr_FreeText";
             this.tbr_FreeText.Size = new System.Drawing.Size(604, 102);
-            this.tbr_FreeText.TabIndex = 0;
+            this.tbr_FreeText.TabIndex = 17;
             this.tbr_FreeText.Text = "";
             // 
             // tb_History
@@ -908,7 +945,8 @@
             this.tb_History.Name = "tb_History";
             this.tb_History.ReadOnly = true;
             this.tb_History.Size = new System.Drawing.Size(701, 92);
-            this.tb_History.TabIndex = 17;
+            this.tb_History.TabIndex = 0;
+            this.tb_History.TabStop = false;
             this.tb_History.WordWrap = false;
             // 
             // label9
@@ -929,19 +967,20 @@
             this.btn_Save.Name = "btn_Save";
             this.btn_Save.Size = new System.Drawing.Size(697, 85);
             this.btn_Save.TabIndex = 19;
-            this.btn_Save.Text = "Save";
+            this.btn_Save.Text = "Save and Close";
             this.btn_Save.UseVisualStyleBackColor = true;
             this.btn_Save.Click += new System.EventHandler(this.btn_Save_Click);
             // 
-            // button2
+            // btn_Reset
             // 
-            this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button2.Location = new System.Drawing.Point(642, 174);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(71, 23);
-            this.button2.TabIndex = 20;
-            this.button2.Text = "Reset";
-            this.button2.UseVisualStyleBackColor = true;
+            this.btn_Reset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_Reset.Location = new System.Drawing.Point(642, 174);
+            this.btn_Reset.Name = "btn_Reset";
+            this.btn_Reset.Size = new System.Drawing.Size(71, 23);
+            this.btn_Reset.TabIndex = 2;
+            this.btn_Reset.Text = "Reset";
+            this.btn_Reset.UseVisualStyleBackColor = true;
+            this.btn_Reset.Click += new System.EventHandler(this.btn_Reset_Click);
             // 
             // btn_RecordTab
             // 
@@ -950,7 +989,7 @@
             this.btn_RecordTab.Location = new System.Drawing.Point(642, 233);
             this.btn_RecordTab.Name = "btn_RecordTab";
             this.btn_RecordTab.Size = new System.Drawing.Size(71, 139);
-            this.btn_RecordTab.TabIndex = 21;
+            this.btn_RecordTab.TabIndex = 18;
             this.btn_RecordTab.Text = "Record Data";
             this.btn_RecordTab.UseVisualStyleBackColor = true;
             this.btn_RecordTab.Click += new System.EventHandler(this.btn_RecordTab_Click);
@@ -963,7 +1002,8 @@
             this.tb_MagicInput.Multiline = true;
             this.tb_MagicInput.Name = "tb_MagicInput";
             this.tb_MagicInput.Size = new System.Drawing.Size(551, 53);
-            this.tb_MagicInput.TabIndex = 22;
+            this.tb_MagicInput.TabIndex = 0;
+            this.tb_MagicInput.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tb_MagicInput_KeyDown);
             // 
             // label10
             // 
@@ -974,12 +1014,15 @@
             this.label10.TabIndex = 23;
             this.label10.Text = "User Input:";
             // 
-            // openFileDialog1
+            // ofd_File_Collection
             // 
-            this.openFileDialog1.DefaultExt = "All Files (*.*)|*.*";
-            this.openFileDialog1.FileName = "openFileDialog1";
-            this.openFileDialog1.RestoreDirectory = true;
-            this.openFileDialog1.Title = "Locate File to Upload";
+            this.ofd_File_Collection.FileName = "Locate File";
+            this.ofd_File_Collection.Filter = "All Files (*.*)|*.*";
+            this.ofd_File_Collection.RestoreDirectory = true;
+            this.ofd_File_Collection.ShowHelp = true;
+            this.ofd_File_Collection.ShowReadOnly = true;
+            this.ofd_File_Collection.SupportMultiDottedExtensions = true;
+            this.ofd_File_Collection.Title = "Locate File to Upload";
             // 
             // tb_Name
             // 
@@ -989,7 +1032,8 @@
             this.tb_Name.Name = "tb_Name";
             this.tb_Name.ReadOnly = true;
             this.tb_Name.Size = new System.Drawing.Size(255, 20);
-            this.tb_Name.TabIndex = 25;
+            this.tb_Name.TabIndex = 0;
+            this.tb_Name.TabStop = false;
             // 
             // label16
             // 
@@ -1142,6 +1186,7 @@
             this.dataGridViewTextBoxColumn14.MinimumWidth = 175;
             this.dataGridViewTextBoxColumn14.Name = "dataGridViewTextBoxColumn14";
             this.dataGridViewTextBoxColumn14.ReadOnly = true;
+            this.dataGridViewTextBoxColumn14.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.dataGridViewTextBoxColumn14.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.dataGridViewTextBoxColumn14.Visible = false;
             // 
@@ -1175,6 +1220,7 @@
             this.dataGridViewTextBoxColumn17.MinimumWidth = 100;
             this.dataGridViewTextBoxColumn17.Name = "dataGridViewTextBoxColumn17";
             this.dataGridViewTextBoxColumn17.ReadOnly = true;
+            this.dataGridViewTextBoxColumn17.Visible = false;
             // 
             // dataGridViewTextBoxColumn18
             // 
@@ -1193,7 +1239,35 @@
             this.dataGridViewTextBoxColumn19.MinimumWidth = 75;
             this.dataGridViewTextBoxColumn19.Name = "dataGridViewTextBoxColumn19";
             this.dataGridViewTextBoxColumn19.ReadOnly = true;
+            this.dataGridViewTextBoxColumn19.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.dataGridViewTextBoxColumn19.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // dataGridViewTextBoxColumn20
+            // 
+            this.dataGridViewTextBoxColumn20.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dataGridViewTextBoxColumn20.FillWeight = 75F;
+            this.dataGridViewTextBoxColumn20.HeaderText = "Path";
+            this.dataGridViewTextBoxColumn20.MinimumWidth = 75;
+            this.dataGridViewTextBoxColumn20.Name = "dataGridViewTextBoxColumn20";
+            this.dataGridViewTextBoxColumn20.ReadOnly = true;
+            this.dataGridViewTextBoxColumn20.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridViewTextBoxColumn20.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // dataGridViewTextBoxColumn21
+            // 
+            this.dataGridViewTextBoxColumn21.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dataGridViewTextBoxColumn21.FillWeight = 75F;
+            this.dataGridViewTextBoxColumn21.HeaderText = "Path";
+            this.dataGridViewTextBoxColumn21.MinimumWidth = 75;
+            this.dataGridViewTextBoxColumn21.Name = "dataGridViewTextBoxColumn21";
+            this.dataGridViewTextBoxColumn21.ReadOnly = true;
+            this.dataGridViewTextBoxColumn21.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // dataGridViewTextBoxColumn22
+            // 
+            this.dataGridViewTextBoxColumn22.HeaderText = "SaveFolder";
+            this.dataGridViewTextBoxColumn22.Name = "dataGridViewTextBoxColumn22";
+            this.dataGridViewTextBoxColumn22.Visible = false;
             // 
             // dgv_Number_Input
             // 
@@ -1203,9 +1277,10 @@
             // 
             // dgv_Number_Mask
             // 
+            this.dgv_Number_Mask.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.dgv_Number_Mask.HeaderText = "Mask";
             this.dgv_Number_Mask.Name = "dgv_Number_Mask";
-            this.dgv_Number_Mask.Visible = false;
+            this.dgv_Number_Mask.Width = 58;
             // 
             // dgv_Serial_Input
             // 
@@ -1226,7 +1301,6 @@
             this.dgv_Badge_NTID.HeaderText = "NTID";
             this.dgv_Badge_NTID.MinimumWidth = 75;
             this.dgv_Badge_NTID.Name = "dgv_Badge_NTID";
-            this.dgv_Badge_NTID.ReadOnly = true;
             this.dgv_Badge_NTID.Width = 200;
             // 
             // dgv_Badge_Name
@@ -1242,103 +1316,6 @@
             this.dgv_Badge_Mask.Name = "dgv_Badge_Mask";
             this.dgv_Badge_Mask.ReadOnly = true;
             this.dgv_Badge_Mask.Visible = false;
-            // 
-            // dgv_Stopwatch_Name
-            // 
-            this.dgv_Stopwatch_Name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.dgv_Stopwatch_Name.HeaderText = "Name";
-            this.dgv_Stopwatch_Name.MinimumWidth = 100;
-            this.dgv_Stopwatch_Name.Name = "dgv_Stopwatch_Name";
-            this.dgv_Stopwatch_Name.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            // 
-            // dgv_Stopwatch_Duration
-            // 
-            this.dgv_Stopwatch_Duration.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.dgv_Stopwatch_Duration.FillWeight = 150F;
-            this.dgv_Stopwatch_Duration.HeaderText = "Duration (mm:ss)";
-            this.dgv_Stopwatch_Duration.MinimumWidth = 150;
-            this.dgv_Stopwatch_Duration.Name = "dgv_Stopwatch_Duration";
-            this.dgv_Stopwatch_Duration.ReadOnly = true;
-            this.dgv_Stopwatch_Duration.Width = 150;
-            // 
-            // dgv_Stopwatch_Start
-            // 
-            this.dgv_Stopwatch_Start.HeaderText = "Start";
-            this.dgv_Stopwatch_Start.Name = "dgv_Stopwatch_Start";
-            this.dgv_Stopwatch_Start.ReadOnly = true;
-            this.dgv_Stopwatch_Start.Visible = false;
-            // 
-            // dgv_Stopwatch_Stop
-            // 
-            this.dgv_Stopwatch_Stop.HeaderText = "Stop";
-            this.dgv_Stopwatch_Stop.Name = "dgv_Stopwatch_Stop";
-            this.dgv_Stopwatch_Stop.ReadOnly = true;
-            this.dgv_Stopwatch_Stop.Visible = false;
-            // 
-            // dgv_File_Name
-            // 
-            this.dgv_File_Name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.dgv_File_Name.HeaderText = "Name";
-            this.dgv_File_Name.MinimumWidth = 100;
-            this.dgv_File_Name.Name = "dgv_File_Name";
-            this.dgv_File_Name.ReadOnly = true;
-            // 
-            // dgv_File_FileName
-            // 
-            this.dgv_File_FileName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.dgv_File_FileName.HeaderText = "File Name";
-            this.dgv_File_FileName.MinimumWidth = 75;
-            this.dgv_File_FileName.Name = "dgv_File_FileName";
-            this.dgv_File_FileName.ReadOnly = true;
-            this.dgv_File_FileName.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgv_File_FileName.Width = 79;
-            // 
-            // dgv_File_Path
-            // 
-            this.dgv_File_Path.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.dgv_File_Path.FillWeight = 75F;
-            this.dgv_File_Path.HeaderText = "Path";
-            this.dgv_File_Path.MinimumWidth = 75;
-            this.dgv_File_Path.Name = "dgv_File_Path";
-            this.dgv_File_Path.ReadOnly = true;
-            this.dgv_File_Path.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // calendarColumn1
-            // 
-            this.calendarColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.calendarColumn1.HeaderText = "Name";
-            this.calendarColumn1.MinimumWidth = 100;
-            this.calendarColumn1.Name = "calendarColumn1";
-            this.calendarColumn1.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.calendarColumn1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            // 
-            // dataGridViewComboBoxColumn1
-            // 
-            this.dataGridViewComboBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.dataGridViewComboBoxColumn1.HeaderText = "Name";
-            this.dataGridViewComboBoxColumn1.MinimumWidth = 100;
-            this.dataGridViewComboBoxColumn1.Name = "dataGridViewComboBoxColumn1";
-            this.dataGridViewComboBoxColumn1.ReadOnly = true;
-            this.dataGridViewComboBoxColumn1.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridViewComboBoxColumn1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            // 
-            // dgv_tb_Format
-            // 
-            this.dgv_tb_Format.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.dgv_tb_Format.FillWeight = 150F;
-            this.dgv_tb_Format.HeaderText = "Format";
-            this.dgv_tb_Format.Name = "dgv_tb_Format";
-            this.dgv_tb_Format.ReadOnly = true;
-            this.dgv_tb_Format.Width = 150;
-            // 
-            // dgv_Timer_StartStop
-            // 
-            this.dgv_Timer_StartStop.FillWeight = 75F;
-            this.dgv_Timer_StartStop.HeaderText = "Action";
-            this.dgv_Timer_StartStop.MinimumWidth = 75;
-            this.dgv_Timer_StartStop.Name = "dgv_Timer_StartStop";
-            this.dgv_Timer_StartStop.ReadOnly = true;
-            this.dgv_Timer_StartStop.Width = 75;
             // 
             // dgv_Timer_Name
             // 
@@ -1379,6 +1356,123 @@
             this.dgv_timer_End.ReadOnly = true;
             this.dgv_timer_End.Visible = false;
             // 
+            // dgv_Timer_Offset
+            // 
+            this.dgv_Timer_Offset.HeaderText = "Offset";
+            this.dgv_Timer_Offset.Name = "dgv_Timer_Offset";
+            this.dgv_Timer_Offset.Visible = false;
+            // 
+            // dgv_Stopwatch_Name
+            // 
+            this.dgv_Stopwatch_Name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dgv_Stopwatch_Name.HeaderText = "Name";
+            this.dgv_Stopwatch_Name.MinimumWidth = 100;
+            this.dgv_Stopwatch_Name.Name = "dgv_Stopwatch_Name";
+            this.dgv_Stopwatch_Name.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            // 
+            // dgv_Stopwatch_Duration
+            // 
+            this.dgv_Stopwatch_Duration.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.dgv_Stopwatch_Duration.FillWeight = 150F;
+            this.dgv_Stopwatch_Duration.HeaderText = "Duration (mm:ss)";
+            this.dgv_Stopwatch_Duration.MinimumWidth = 150;
+            this.dgv_Stopwatch_Duration.Name = "dgv_Stopwatch_Duration";
+            this.dgv_Stopwatch_Duration.ReadOnly = true;
+            this.dgv_Stopwatch_Duration.Width = 150;
+            // 
+            // dgv_Stopwatch_Start
+            // 
+            this.dgv_Stopwatch_Start.HeaderText = "Start";
+            this.dgv_Stopwatch_Start.Name = "dgv_Stopwatch_Start";
+            // 
+            // dgv_Stopwatch_Stop
+            // 
+            this.dgv_Stopwatch_Stop.HeaderText = "Stop";
+            this.dgv_Stopwatch_Stop.Name = "dgv_Stopwatch_Stop";
+            // 
+            // dgv_StopWatch_Offset
+            // 
+            this.dgv_StopWatch_Offset.HeaderText = "Offset";
+            this.dgv_StopWatch_Offset.Name = "dgv_StopWatch_Offset";
+            // 
+            // calendarColumn1
+            // 
+            this.calendarColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.calendarColumn1.HeaderText = "Name";
+            this.calendarColumn1.MinimumWidth = 100;
+            this.calendarColumn1.Name = "calendarColumn1";
+            this.calendarColumn1.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.calendarColumn1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // dataGridViewComboBoxColumn1
+            // 
+            this.dataGridViewComboBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dataGridViewComboBoxColumn1.HeaderText = "Name";
+            this.dataGridViewComboBoxColumn1.MinimumWidth = 100;
+            this.dataGridViewComboBoxColumn1.Name = "dataGridViewComboBoxColumn1";
+            this.dataGridViewComboBoxColumn1.ReadOnly = true;
+            this.dataGridViewComboBoxColumn1.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridViewComboBoxColumn1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // dgv_tb_Format
+            // 
+            this.dgv_tb_Format.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.dgv_tb_Format.FillWeight = 150F;
+            this.dgv_tb_Format.HeaderText = "Format";
+            this.dgv_tb_Format.Name = "dgv_tb_Format";
+            this.dgv_tb_Format.ReadOnly = true;
+            this.dgv_tb_Format.Width = 150;
+            // 
+            // dgv_File_Action
+            // 
+            this.dgv_File_Action.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.dgv_File_Action.FillWeight = 50F;
+            this.dgv_File_Action.HeaderText = "";
+            this.dgv_File_Action.MinimumWidth = 50;
+            this.dgv_File_Action.Name = "dgv_File_Action";
+            this.dgv_File_Action.ReadOnly = true;
+            this.dgv_File_Action.Width = 50;
+            // 
+            // dgv_File_Name
+            // 
+            this.dgv_File_Name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.dgv_File_Name.HeaderText = "Name";
+            this.dgv_File_Name.MinimumWidth = 100;
+            this.dgv_File_Name.Name = "dgv_File_Name";
+            this.dgv_File_Name.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // dgv_File_FileName
+            // 
+            this.dgv_File_FileName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.dgv_File_FileName.HeaderText = "File Name";
+            this.dgv_File_FileName.MinimumWidth = 75;
+            this.dgv_File_FileName.Name = "dgv_File_FileName";
+            this.dgv_File_FileName.ReadOnly = true;
+            this.dgv_File_FileName.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_File_FileName.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.dgv_File_FileName.Width = 75;
+            // 
+            // dgv_File_Path
+            // 
+            this.dgv_File_Path.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dgv_File_Path.FillWeight = 75F;
+            this.dgv_File_Path.HeaderText = "Path";
+            this.dgv_File_Path.MinimumWidth = 75;
+            this.dgv_File_Path.Name = "dgv_File_Path";
+            this.dgv_File_Path.ReadOnly = true;
+            this.dgv_File_Path.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // dgv_File_SaveTo
+            // 
+            this.dgv_File_SaveTo.HeaderText = "SaveFolder";
+            this.dgv_File_SaveTo.Name = "dgv_File_SaveTo";
+            // 
+            // dgv_File_Local
+            // 
+            this.dgv_File_Local.HeaderText = "Local";
+            this.dgv_File_Local.Name = "dgv_File_Local";
+            this.dgv_File_Local.ReadOnly = true;
+            // 
             // DataCollection
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1389,7 +1483,7 @@
             this.Controls.Add(this.label10);
             this.Controls.Add(this.tb_MagicInput);
             this.Controls.Add(this.btn_RecordTab);
-            this.Controls.Add(this.button2);
+            this.Controls.Add(this.btn_Reset);
             this.Controls.Add(this.btn_Save);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.tb_History);
@@ -1418,7 +1512,7 @@
             this.tp_DateTime.ResumeLayout(false);
             this.tp_Chemical.ResumeLayout(false);
             this.tp_Chemical.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pic_ChemExp)).EndInit();
             this.tp_Number.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Number)).EndInit();
             this.tp_Serial.ResumeLayout(false);
@@ -1464,15 +1558,15 @@
         private System.Windows.Forms.TextBox tb_History;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Button btn_Save;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button btn_Reset;
         private System.Windows.Forms.Button btn_RecordTab;
         private System.Windows.Forms.TextBox tb_MagicInput;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.DateTimePicker dtp_Exp;
-        private System.Windows.Forms.TextBox tb_Lot;
-        private System.Windows.Forms.TextBox tb_PN;
+        private System.Windows.Forms.DateTimePicker dtp_ChemExp;
+        private System.Windows.Forms.TextBox tb_ChemLot;
+        private System.Windows.Forms.TextBox tb_chemPN;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.TabPage tp_Number;
         private System.Windows.Forms.TabPage tp_Serial;
@@ -1494,13 +1588,13 @@
         private CalendarColumn dataGridViewComboBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_tb_Format;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
-        private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Button btn_FileAdd;
         private System.Windows.Forms.DataGridView dgv_File;
-        private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.OpenFileDialog ofd_File_Collection;
         private System.Windows.Forms.Button btn_BadgeAdd;
         private System.Windows.Forms.DataGridView dgv_Badge;
-        private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.PictureBox pic_ChemExp;
+        private System.Windows.Forms.Button brn_NumberAdd;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn10;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn11;
         private System.Windows.Forms.Button button8;
@@ -1521,35 +1615,44 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn17;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn18;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn19;
-        private System.Windows.Forms.DataGridViewButtonColumn dgv_Stopwatch_Action;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_Stopwatch_Name;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_Stopwatch_Duration;
-        private System.Windows.Forms.DataGridViewButtonColumn dgv_Stopwatch_Reset;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_Stopwatch_Start;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_Stopwatch_Stop;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
-        private System.Windows.Forms.DataGridViewButtonColumn dgv_File_Action;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_File_Name;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_File_FileName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_File_Path;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_Number_Input;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_Number_Mask;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn6;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn7;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn8;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn9;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_Serial_Input;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_Serial_Mask;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_Badge_NTID;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_Badge_Name;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_Badge_Mask;
-        private System.Windows.Forms.DataGridViewButtonColumn dgv_Timer_StartStop;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn20;
+        private System.Windows.Forms.DataGridViewButtonColumn dgv_Timer_Action;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_Timer_Name;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_Timer_Durration;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_Timer_Left;
+        private System.Windows.Forms.DataGridViewButtonColumn dgv_Timer_Pause;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_timer_Start;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_timer_End;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_Timer_Offset;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_Badge_NTID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_Badge_Name;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_Badge_Mask;
+        private System.Windows.Forms.DataGridViewButtonColumn dgv_Stopwatch_Action;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_Stopwatch_Name;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_Stopwatch_Duration;
+        private System.Windows.Forms.DataGridViewButtonColumn dgv_Stopwatch_Pause;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_Stopwatch_Start;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_Stopwatch_Stop;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_StopWatch_Offset;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn21;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_Number_Input;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_Number_Mask;
+        private System.Windows.Forms.FolderBrowserDialog fbd_SavePath;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn22;
+        private System.Windows.Forms.DataGridViewButtonColumn dgv_File_Action;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_File_Name;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_File_FileName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_File_Path;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_File_SaveTo;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_File_Local;
     }
 }

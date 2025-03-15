@@ -1,4 +1,5 @@
 ﻿using Data_Collector.Production;
+using Newtonsoft.Json;
 using PdfiumViewer;
 using System;
 using System.Collections;
@@ -6,9 +7,12 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -40,59 +44,117 @@ namespace Data_Collector {
 
         private void btn_Search_Click(object sender, EventArgs e) {
 
-            //Capture the User Input and format it to upper and trim.
-            string str_ShopOrder = tb_ShopOrder.Text;
-            str_ShopOrder = str_ShopOrder.ToUpper().Trim();
-            tb_ShopOrder.Text = str_ShopOrder;
 
-            cob_PartNumber_Enter(this, EventArgs.Empty);
+
+            //Lets make everything clean.
+            pdf_Document.Document?.Dispose();
+            pdf_Document.Load(PdfDocument.Load("Resources/Blank.pdf"));
+
+
+            dgv_Main.Rows.Clear();
+            
+            cob_PartNumber.Enabled = true;
+            cob_PartNumber.SelectedIndex = -1;
+            cob_PartNumber.Items.Clear();
+
+            cob_Rev.Enabled = true;
+            cob_Rev.SelectedIndex = -1;
             cob_Rev.Items.Clear();
 
-            if (string.IsNullOrWhiteSpace(str_ShopOrder)) {
-                MessageBox.Show("Mising Shop Order data");
-            } else {
-                //We have a potently valid shoporder. Lets go and see if it exists. 
+            cob_DocList.DataSource = null;
+            cob_DocList.Items.Clear();
+            cob_Serials.Items.Clear();
+            tb_PartID.Text = "";
 
-                DataTable ShopOrderData = DataTools.DataMaster.GetShopOrder_ShopOrder(str_ShopOrder);
 
-                if (ShopOrderData.Rows.Count != 1) {
-                    // We have a problem let tell the end user.
+
+            
+
+            if (btn_Search.Text == "Search") {
+
+                //Capture the User Input and format it to upper and trim.
+                string str_ShopOrder = tb_ShopOrder.Text;
+                str_ShopOrder = str_ShopOrder.ToUpper().Trim();
+                tb_ShopOrder.Text = str_ShopOrder;
+
+                cob_PartNumber_Enter(this, EventArgs.Empty);
+                
+
+                if (string.IsNullOrWhiteSpace(str_ShopOrder)) {
+                    MessageBox.Show("Mising Shop Order data");
                 } else {
-                    //We made it! We have a single row no duplices or any missing. 
-                    Int64 TempPartID = ShopOrderData.Rows[0].Field<Int64>("PartID");
+                    //We have a potently valid shoporder. Lets go and see if it exists. 
+
+                    DataTable ShopOrderData = DataTools.DataMaster.GetShopOrder_ShopOrder(str_ShopOrder);
+                    DataTable ShopOrderSN = DataTools.DataMaster.GetUniqueSerial(null, str_ShopOrder, null);
 
 
-                    //Get details of the PartID for the display.
-                    DataTable DetailsPartID = DataTools.DataMaster.GetUniquePN_PartID(TempPartID);
+                    foreach (DataRow RowSN in ShopOrderSN.Rows) {
 
-                    if (DetailsPartID.Rows.Count > 0) {
-                        cob_PartNumber.Text = DetailsPartID.Rows[0].Field<string>("PartNumber");
-                        cob_PartNumber_Leave(this, EventArgs.Empty);
+                        cob_Serials.Items.Add(RowSN.Field<string>("Serial"));
+
+                    }
+                    if (cob_Serials.Items.Count > 0) {
+                        cob_Serials.SelectedIndex = 0;
+                    }
+
+                    if (ShopOrderData.Rows.Count != 1) {
+                        // We have a problem let tell the end user.
+                        tb_ShopOrder.BackColor = Color.Red;
+                        tb_ShopOrder.Focus();
+                        tb_ShopOrder.SelectAll();
+                    } else {
+
+                        //Lock that shop order down.
+                        tb_ShopOrder.BackColor = SystemColors.Window;
+                        tb_ShopOrder.Enabled = false;
+
+                        btn_Search.Text = "Done";
 
 
-                        cob_Rev.Text = DetailsPartID.Rows[0].Field<Int64>("Revision").ToString();
+                        //We made it! We have a single row no duplices or any missing. 
+                        Int64 TempPartID = ShopOrderData.Rows[0].Field<Int64>("PartID");
 
-                        cob_Rev_Leave(this, EventArgs.Empty);
 
-                        cob_PartNumber.Enabled = false;
-                        cob_Rev.Enabled = false;
+                        //Get details of the PartID for the display.
+                        DataTable DetailsPartID = DataTools.DataMaster.GetUniquePN_PartID(TempPartID);
+
+                        if (DetailsPartID.Rows.Count > 0) {
+                            cob_PartNumber.Text = DetailsPartID.Rows[0].Field<string>("PartNumber");
+                            cob_PartNumber_Leave(this, EventArgs.Empty);
+
+
+                            cob_Rev.Text = DetailsPartID.Rows[0].Field<Int64>("Revision").ToString();
+
+                            cob_Rev_Leave(this, EventArgs.Empty);
+
+                            cob_PartNumber.Enabled = false;
+                            cob_Rev.Enabled = false;
+                        }
+
+
+
+
+
+
+
+
+
+
                     }
 
 
 
 
 
-
-
                 }
+            }else {
+                tb_ShopOrder.BackColor = SystemColors.Window;
+                tb_ShopOrder.Enabled = true;
 
-
-
-
-
+                btn_Search.Text = "Search";
             }
         }
-
 
 
         private void cob_PartNumber_Enter(object sender, EventArgs e) {
@@ -214,10 +276,12 @@ namespace Data_Collector {
 
             var TempDocID = cob_DocList.SelectedValue;
 
-            pdf_Document.Document?.Dispose();
-            pdf_Document.Load(PdfDocument.Load(LocalFolder + @"\OfflinePDF\" + TempDocID + ".pdf"));
+            if (TempDocID!=null) {
 
+                pdf_Document.Document?.Dispose();
+                pdf_Document.Load(PdfDocument.Load(LocalFolder + @"\OfflinePDF\" + TempDocID + ".pdf"));
 
+            }
 
 
 
@@ -226,7 +290,7 @@ namespace Data_Collector {
 
         private void tb_PartID_TextChanged(object sender, EventArgs e) {
 
-            dgv_DataPoints.Rows.Clear();
+            dgv_Main.Rows.Clear();
 
             if (!string.IsNullOrEmpty(tb_PartID.Text)) {
 
@@ -254,8 +318,9 @@ namespace Data_Collector {
 
                         DetailDocList.Rows.Add(TempDisplay, TempValue);
 
-                        File.Copy(@TempDocuDetails.Rows[0].Field<string>("Path"), LocalFolder + @"\OfflinePDF\" + TempValue + ".pdf", true);
-
+                        try {
+                            File.Copy(@TempDocuDetails.Rows[0].Field<string>("Path"), LocalFolder + @"\OfflinePDF\" + TempValue + ".pdf", true);
+                        } catch { }
                     }
                 }
 
@@ -275,29 +340,55 @@ namespace Data_Collector {
                     Int64? ReqOpen = Row.Field<Int64?>("ReqOpen");
                     Int64? ReqClos = Row.Field<Int64?>("ReqClose");
 
-                    dgv_DataPoints.Rows.Add(OrderID, InpCrID, ReqOpen, ReqClos);
+                    dgv_Main.Rows.Add(OrderID, InpCrID, ReqOpen, ReqClos);
                     InspectionCriteriaID.Add(InpCrID);
                 }
 
                 DataTable Records = DataTools.DataMaster.GetInspCriteria_DataPointID_Bulk(InspectionCriteriaID);
+                DataTable Values = DataTools.DataMaster.GetDataRecords(null,tb_ShopOrder.Text,null);
 
-                foreach (DataRow Row in Records.Rows) {
+                //Find the spcific row in the data Table that matches
+                int int_RowIndexDGV = 0;
+                foreach (DataGridViewRow DGV_Row in dgv_Main.Rows) {
 
-                    //Find the spcific row in the data Table that matches
-                    foreach (DataGridViewRow DGV_Row in dgv_DataPoints.Rows) {
+                    string str_ICID=DGV_Row.Cells["dgv_Main_ICID"].Value.ToString();
 
-                        if (DGV_Row.Cells["dgv_tb_ID"].Value.ToString() == Row.Field<Int64?>("DataPointID").ToString()) {
+                    //Parse though the Records
+                    foreach (DataRow Row in Records.Rows) {
+                        if (str_ICID == Row.Field<Int64?>("DataPointID").ToString()) {
                             DGV_Row.Cells["dgv_tb_Name"].Value = Row.Field<string>("DataPointName");
                             DGV_Row.Cells["dgv_tb_Name"].ToolTipText = Row.Field<string>("Description");
 
                             DGV_Row.Cells["dgv_tb_User"].Value = Row.Field<string>("UserType");
                             DGV_Row.Cells["dgv_cb_Mandatory"].Value = Convert.ToBoolean(Row.Field<Int64?>("Mandatory") ?? 0);
-                            DGV_Row.Cells["dgv_tb_DocID"].Value = Row.Field<Int64?>("DocID") ?? 0;
-                            DGV_Row.Cells["dgv_tb_Position"].Value = Row.Field<string>("DocPosition");
+                            DGV_Row.Cells[dgv_tb_DocID.Index].Value = Row.Field<Int64?>("DocID") ?? 0;
+                            DGV_Row.Cells[dgv_tb_Position.Index].Value = Row.Field<string>("DocPosition");
 
+                            
                         }
+
                     }
+
+                    //Parse Though the Values
+
+                    // Use the Select method to find all rows matching the filter.
+                    string expression = "DataPointID = "+ str_ICID;
+                    DataRow[] foundRows = Values.Select(expression, "Rec_ID DESC");
+                    DataTable TempValue = Values.Clone();
+                    
+                    foreach (DataRow FoundRowData in foundRows) {
+                        TempValue.ImportRow(FoundRowData);
+                    }
+
+                    UpdateMainValue(int_RowIndexDGV, Convert.ToInt64(str_ICID), TempValue);
+
+                    int_RowIndexDGV++;
+
                 }
+
+
+
+                
             }
         }
 
@@ -315,12 +406,12 @@ namespace Data_Collector {
 
 
             int LastRow = 0;
-            if (this.dgv_DataPoints.SelectedCells.Count > 0) {
+            if (this.dgv_Main.SelectedCells.Count > 0) {
 
-                foreach (DataGridViewCell Cells in dgv_DataPoints.SelectedCells) {
-                    dgv_DataPoints.Rows[Cells.RowIndex].Cells["dgv_tb_Position"].Value = Position;
-                    dgv_DataPoints.Rows[Cells.RowIndex].Cells["dgv_tb_DocID"].Value = cob_DocList.SelectedValue;
-                    dgv_DataPoints.Rows[Cells.RowIndex].Cells["dgv_tb_Position"].Style.BackColor = Color.Yellow;
+                foreach (DataGridViewCell Cells in dgv_Main.SelectedCells) {
+                    dgv_Main.Rows[Cells.RowIndex].Cells[dgv_tb_Position.Index].Value = Position;
+                    dgv_Main.Rows[Cells.RowIndex].Cells[dgv_tb_DocID.Index].Value = cob_DocList.SelectedValue;
+                    dgv_Main.Rows[Cells.RowIndex].Cells[dgv_tb_Position.Index].Style.BackColor = Color.Yellow;
                     
 
                     if (LastRow < Cells.RowIndex)
@@ -329,23 +420,23 @@ namespace Data_Collector {
 
 
                 /*
-                using (IEnumerator enumerator = this.dgv_DataPoints.SelectedCells.GetEnumerator()) {
+                using (IEnumerator enumerator = this.dgv_Main.SelectedCells.GetEnumerator()) {
                     while (enumerator.MoveNext()) {
                         rowIndex = ((DataGridViewCell)enumerator.Current).RowIndex;
-                        this.dgv_DataPoints.Rows[rowIndex].Cells["dgv_tb_Position"].Value = Position;
-                        this.dgv_DataPoints.Rows[rowIndex].Cells["dgv_tb_Position"].Style.BackColor = Color.Yellow;
-                        this.dgv_DataPoints.Rows[rowIndex].Cells["dgv_tb_DocID"].Value = this.cob_DocList.SelectedValue;
-                        this.dgv_DataPoints.Rows[rowIndex].Cells["dgv_tb_DocID"].Style.BackColor = Color.Yellow;
-                        this.dgv_DataPoints.Rows[rowIndex].Cells["dgv_tb_Display"].Value = this.pdf_Document.Document.PageSizes[0];
+                        this.dgv_Main.Rows[rowIndex].Cells["dgv_tb_Position"].Value = Position;
+                        this.dgv_Main.Rows[rowIndex].Cells["dgv_tb_Position"].Style.BackColor = Color.Yellow;
+                        this.dgv_Main.Rows[rowIndex].Cells[dgv_tb_DocID.Index].Value = this.cob_DocList.SelectedValue;
+                        this.dgv_Main.Rows[rowIndex].Cells[dgv_tb_DocID.Index].Style.BackColor = Color.Yellow;
+                        this.dgv_Main.Rows[rowIndex].Cells["dgv_tb_Display"].Value = this.pdf_Document.Document.PageSizes[0];
                         if (rowIndex > num3) {
                             num3 = rowIndex;
                         }
                     }
                 }
                 */
-                this.dgv_DataPoints.ClearSelection();
-                if (this.dgv_DataPoints.Rows.Count > (LastRow + 1)) {
-                    this.dgv_DataPoints.Rows[LastRow + 1].Cells["dgv_tb_Position"].Selected = true;
+                this.dgv_Main.ClearSelection();
+                if (this.dgv_Main.Rows.Count > (LastRow + 1)) {
+                    this.dgv_Main.Rows[LastRow + 1].Cells[dgv_tb_Position.Index].Selected = true;
                 }
             }
 
@@ -356,23 +447,23 @@ namespace Data_Collector {
         }
 
         private void btn_Add_Click(object sender, EventArgs e) {
-            dgv_DataPoints.Rows.Add();
+            dgv_Main.Rows.Add();
         }
 
-        private void dgv_DataPoints_CellClick(object sender, DataGridViewCellEventArgs e) {
+        private void dgv_Main_CellClick(object sender, DataGridViewCellEventArgs e) {
 
 
-            int rowIndex = dgv_DataPoints.CurrentCell.RowIndex;
-            int colIndex = dgv_DataPoints.CurrentCell.ColumnIndex;
-            if (dgv_DataPoints.Rows[rowIndex].Cells["dgv_tb_Position"].Value != null && colIndex==0) {
+            int rowIndex = dgv_Main.CurrentCell.RowIndex;
+            int colIndex = dgv_Main.CurrentCell.ColumnIndex;
+            if (dgv_Main.Rows[rowIndex].Cells[dgv_tb_Position.Index].Value != null && colIndex==1) {
 
                 //Read and sepperate the CSV (Page, X, Y)
                 char[] separator = new char[] { ',' };
-                string[] strPosition = dgv_DataPoints.Rows[rowIndex].Cells["dgv_tb_Position"].Value.ToString().Split(separator);
+                string[] strPosition = dgv_Main.Rows[rowIndex].Cells[dgv_tb_Position.Index].Value.ToString().Split(separator);
 
                 
                 try {
-                    Int64 DocumnetID = Convert.ToInt64(dgv_DataPoints.Rows[rowIndex].Cells["dgv_tb_DocID"].Value.ToString() ?? "0");
+                    Int64 DocumnetID = Convert.ToInt64(dgv_Main.Rows[rowIndex].Cells[dgv_tb_DocID.Index].Value.ToString() ?? "0");
 
                     if (Convert.ToInt64(cob_DocList.SelectedValue) != DocumnetID && DocumnetID!=0) {
                         try {
@@ -412,39 +503,39 @@ namespace Data_Collector {
         private void ts_EditPoints_Click(object sender, EventArgs e) {
 
             ts_EditPoints.Checked = !ts_EditPoints.Checked;
-            dgv_DataPoints.Columns["dgv_tb_Position"].Visible = ts_EditPoints.Checked;
-            dgv_DataPoints.Columns["dgv_tb_DocID"].Visible = ts_EditPoints.Checked;
+            dgv_Main.Columns["dgv_tb_Position"].Visible = ts_EditPoints.Checked;
+            dgv_Main.Columns["dgv_tb_DocID"].Visible = ts_EditPoints.Checked;
             
             if (ts_EditPoints.Checked) {
-                dgv_DataPoints.Width = dgv_DataPoints.Width - 75;
+                dgv_Main.Width = dgv_Main.Width - 75;
                 
             } else {
-                dgv_DataPoints.Width = dgv_DataPoints.Width + 75;
+                dgv_Main.Width = dgv_Main.Width + 75;
             }
 
 
         }
 
-        private void dgv_DataPoints_CellDoubleClick(object sender, DataGridViewCellEventArgs e) {
+        private void dgv_Main_CellDoubleClick(object sender, DataGridViewCellEventArgs e) {
 
             //Check if the row is real row. (exclude headder)
             if (e.RowIndex >= 0) {
 
-                string strInspID = (dgv_DataPoints.Rows[e.RowIndex].Cells["dgv_tb_ID"].Value ?? "0").ToString();
-                string strOrderID = (dgv_DataPoints.Rows[e.RowIndex].Cells["dgv_tb_OrderID"].Value ?? "0").ToString();
+                string str_ICID = (dgv_Main.Rows[e.RowIndex].Cells[dgv_Main_ICID.Index].Value ?? "0").ToString();
+                string str_OrderICID = (dgv_Main.Rows[e.RowIndex].Cells[dgv_tb_OrderID.Index].Value ?? "0").ToString();
 
-                string strDocID = (dgv_DataPoints.Rows[e.RowIndex].Cells["dgv_tb_DocID"].Value ?? "0").ToString();
-                string strUserRole = (dgv_DataPoints.Rows[e.RowIndex].Cells["dgv_tb_User"].Value ?? "").ToString();
-                string strPosition = (dgv_DataPoints.Rows[e.RowIndex].Cells["dgv_tb_Position"].Value ?? "").ToString();
+                string strDocID = (dgv_Main.Rows[e.RowIndex].Cells[dgv_tb_DocID.Index].Value ?? "0").ToString();
+                string strUserRole = (dgv_Main.Rows[e.RowIndex].Cells[dgv_tb_User.Index].Value ?? "").ToString();
+                string strPosition = (dgv_Main.Rows[e.RowIndex].Cells[dgv_tb_Position.Index].Value ?? "").ToString();
                 
                 string strPartID=tb_PartID.Text;
 
                 
 
-                Int64 DataPointID = Convert.ToInt64(strInspID);
+                Int64 DataPointID = Convert.ToInt64(str_ICID);
                 int RowNumber = e.RowIndex;
 
-
+                //Check if we are in engineer mode or operator mode.
                 if (ts_EditPoints.Checked) {
                     //We are in engineer mode. Lets save some points. 
                     if (strDocID == "0") {
@@ -454,42 +545,42 @@ namespace Data_Collector {
                     //Check if any "NEW" rows has an OrderID and InspID
 
 
-                    if (strInspID == "0") {
+                    if (str_ICID == "0") {
                         DataTable InspCriteria = DataTools.DataMaster.InsertInspCriteria(Convert.ToInt64(strDocID));
-                        strInspID=InspCriteria.Rows[0].Field<Int64>("last_insert_rowid()").ToString();
-                        dgv_DataPoints.Rows[e.RowIndex].Cells["dgv_tb_ID"].Value = strInspID;
+                        str_ICID=InspCriteria.Rows[0].Field<Int64>("last_insert_rowid()").ToString();
+                        dgv_Main.Rows[e.RowIndex].Cells[dgv_Main_ICID.Index].Value = str_ICID;
                     }
 
-                    if (strOrderID == "0") {
-                        DataTable InspCriteria = DataTools.DataMaster.InsertOrderInspPN(Convert.ToInt64(strPartID), Convert.ToInt64(strInspID), e.RowIndex);
-                        strOrderID = InspCriteria.Rows[0].Field<Int64>("last_insert_rowid()").ToString();
-                        dgv_DataPoints.Rows[e.RowIndex].Cells["dgv_tb_OrderID"].Value = strOrderID;
+                    if (str_OrderICID == "0") {
+                        DataTable InspCriteria = DataTools.DataMaster.InsertOrderInspPN(Convert.ToInt64(strPartID), Convert.ToInt64(str_ICID), e.RowIndex);
+                        str_OrderICID = InspCriteria.Rows[0].Field<Int64>("last_insert_rowid()").ToString();
+                        dgv_Main.Rows[e.RowIndex].Cells["dgv_tb_OrderID"].Value = str_OrderICID;
                     }
 
                     
 
 
-                    Engineering.AssignCollection EditInspectionPoint = new Engineering.AssignCollection(strPartID, strInspID, strDocID, strPosition, RowNumber, strOrderID);
+                    Engineering.AssignCollection EditInspectionPoint = new Engineering.AssignCollection(strPartID, str_ICID, strDocID, strPosition, RowNumber, str_OrderICID);
                     EditInspectionPoint.ShowDialog();
                     //string results = subform.DocID_F2;
 
                     //The Form was closed update the Row. 
 
-                    DataTable OrderInspPNNew = DataTools.DataMaster.GetOrderInspPN_RowID(Convert.ToInt64(strOrderID));
+                    DataTable OrderInspPNNew = DataTools.DataMaster.GetOrderInspPN_RowID(Convert.ToInt64(str_OrderICID));
                     if (OrderInspPNNew.Rows.Count > 0) {
-                        dgv_DataPoints.Rows[e.RowIndex].Cells["dgv_tb_ReqOpen"].Value = OrderInspPNNew.Rows[0].Field<Int64>("ReqOpen");
-                        dgv_DataPoints.Rows[e.RowIndex].Cells["dgv_tb_ReqClosed"].Value = OrderInspPNNew.Rows[0].Field<Int64>("ReqClose");
+                        dgv_Main.Rows[e.RowIndex].Cells["dgv_tb_ReqOpen"].Value = OrderInspPNNew.Rows[0].Field<Int64>("ReqOpen");
+                        dgv_Main.Rows[e.RowIndex].Cells["dgv_tb_ReqClosed"].Value = OrderInspPNNew.Rows[0].Field<Int64>("ReqClose");
                     }
 
-                    DataTable InspCriteriaNew = DataTools.DataMaster.GetInspCriteria_DataPointID(Convert.ToInt64(strInspID));
+                    DataTable InspCriteriaNew = DataTools.DataMaster.GetInspCriteria_DataPointID(Convert.ToInt64(str_ICID));
                     if (InspCriteriaNew.Rows.Count > 0) {
 
-                        dgv_DataPoints.Rows[e.RowIndex].Cells["dgv_tb_Name"].Value = InspCriteriaNew.Rows[0].Field<string>("DataPointName");
-                        dgv_DataPoints.Rows[e.RowIndex].Cells["dgv_tb_User"].Value = InspCriteriaNew.Rows[0].Field<string>("UserType");
-                        dgv_DataPoints.Rows[e.RowIndex].Cells["dgv_cb_Mandatory"].Value = Convert.ToBoolean(InspCriteriaNew.Rows[0].Field<Int64>("Mandatory"));
+                        dgv_Main.Rows[e.RowIndex].Cells["dgv_tb_Name"].Value = InspCriteriaNew.Rows[0].Field<string>("DataPointName");
+                        dgv_Main.Rows[e.RowIndex].Cells["dgv_tb_User"].Value = InspCriteriaNew.Rows[0].Field<string>("UserType");
+                        dgv_Main.Rows[e.RowIndex].Cells["dgv_cb_Mandatory"].Value = Convert.ToBoolean(InspCriteriaNew.Rows[0].Field<Int64>("Mandatory"));
 
-                        dgv_DataPoints.Rows[e.RowIndex].Cells["dgv_tb_Position"].Value = InspCriteriaNew.Rows[0].Field<string>("DocPosition");
-                        dgv_DataPoints.Rows[e.RowIndex].Cells["dgv_tb_DocID"].Value = InspCriteriaNew.Rows[0].Field<Int64>("DocID");
+                        dgv_Main.Rows[e.RowIndex].Cells["dgv_tb_Position"].Value = InspCriteriaNew.Rows[0].Field<string>("DocPosition");
+                        dgv_Main.Rows[e.RowIndex].Cells[dgv_tb_DocID.Index].Value = InspCriteriaNew.Rows[0].Field<Int64>("DocID");
 
                     }
 
@@ -516,7 +607,7 @@ namespace Data_Collector {
 
 
                     } else {
-                        string str_ICID = dgv_DataPoints.Rows[e.RowIndex].Cells["dgv_tb_ID"].Value.ToString();
+                        str_ICID = dgv_Main.Rows[e.RowIndex].Cells[dgv_Main_ICID.Index].Value.ToString();
                         string str_ShopOrder=tb_ShopOrder.Text;
 
 
@@ -524,6 +615,8 @@ namespace Data_Collector {
 
                         //They are allowed in enable the flood gates!
                         new Production.DataCollection(str_ICID, str_ShopOrder).ShowDialog();
+
+                        UpdateMainValue(e.RowIndex, Convert.ToInt64(str_ICID));
 
                     }
 
@@ -537,7 +630,7 @@ namespace Data_Collector {
                 DataGridView view1 = (DataGridView)sender;
 
                 if (!this.ts_EditDataPoints.Checked) {
-                    string str2 = this.dgv_DataPoints.Rows[e.RowIndex].Cells["dgv_db_UserType"].Value.ToString();
+                    string str2 = this.dgv_Main.Rows[e.RowIndex].Cells["dgv_db_UserType"].Value.ToString();
                     DataTable userbyGroup = new DataTable();
                     try {
                         userbyGroup = DataLoader.GetUserbyGroup(Environment.UserName);
@@ -569,7 +662,7 @@ namespace Data_Collector {
                 } else {
                     string text1;
                     string text2;
-                    object obj1 = this.dgv_DataPoints.Rows[e.RowIndex].Cells["dgv_tb_Position"].Value;
+                    object obj1 = this.dgv_Main.Rows[e.RowIndex].Cells["dgv_tb_Position"].Value;
                     if (obj1 != null) {
                         text1 = obj1.ToString();
                     } else {
@@ -578,7 +671,7 @@ namespace Data_Collector {
                     }
                     string positionDisp = text1;
                     long result = 0L;
-                    object obj2 = this.dgv_DataPoints.Rows[e.RowIndex].Cells["dgv_tb_DocID"].Value;
+                    object obj2 = this.dgv_Main.Rows[e.RowIndex].Cells[dgv_tb_DocID.Index].Value;
                     if (obj2 != null) {
                         text2 = obj2.ToString();
                     } else {
@@ -605,6 +698,135 @@ namespace Data_Collector {
                 }
                 */
             }
+        }
+
+
+        //http://stackoverflow.com/questions/11137979/image-resizing-using-c-sharp
+        public static Bitmap Resize(Image image, int width, int height) {
+
+            var destRect = new Rectangle(0, 0, width, height);
+            var destImage = new Bitmap(width, height);
+
+            destImage.SetResolution(image.HorizontalResolution, image.VerticalResolution);
+
+            using (var graphics = Graphics.FromImage(destImage)) {
+                graphics.CompositingMode = CompositingMode.SourceCopy;
+                graphics.CompositingQuality = CompositingQuality.HighQuality;
+                graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                graphics.SmoothingMode = SmoothingMode.HighQuality;
+                graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+
+                using (var wrapMode = new ImageAttributes()) {
+                    wrapMode.SetWrapMode(WrapMode.TileFlipXY);
+                    graphics.DrawImage(image, destRect, 0, 0, image.Width, image.Height, GraphicsUnit.Pixel, wrapMode);
+                }
+            }
+
+            return destImage;
+        }
+
+        private void UpdateMainValue(int RowIndex, Int64 int_ICID, DataTable Passrecord = null) {
+            DataTable Records = new DataTable();
+            bool ShouldWeAdd = false;
+            //Lets get the data we need to make sure everything is present. 
+            if (Passrecord == null) {
+                 Records = DataTools.DataMaster.GetDataRecords(null, tb_ShopOrder.Text, int_ICID);
+            }else {
+                Records = Passrecord;
+                ShouldWeAdd = true;
+            }
+                //Variables
+                string DataRecords = "";
+            bool TimerClosed = true;
+            bool ItemHasData = false;
+
+
+
+            //Loop though all results.
+            int int_RowIndex = 0;
+            foreach (DataRow Rows in Records.Rows) {
+                DataTable Values = JsonConvert.DeserializeObject<DataTable>(Rows.Field<string>("Value"));
+                string str_Values = "";
+                foreach (DataRow ValueRow in Values.Rows) {
+                    
+                    ItemHasData = true;
+
+
+
+                    //Check if it might need a clock icon
+                    string str_Type = ValueRow.Field<string>("Type");
+                    switch (str_Type.Trim().ToLower()) {
+
+                        case "stop watch":
+                        case "timer": {
+
+                            str_Values = str_Values + ValueRow.Field<string>("Value") + ", ";
+
+                            //We only need the top most row.
+                            if (int_RowIndex == 0) {
+                                //Get all Extra Data
+                                DataTable ExtraValues = JsonConvert.DeserializeObject<DataTable>(ValueRow.Field<string>("Extra"));
+
+                                foreach (DataRow ExtraRows in ExtraValues.Rows) {
+                                    if (string.IsNullOrWhiteSpace(ExtraRows.Field<string>("Start")) || string.IsNullOrWhiteSpace(ExtraRows.Field<string>("End"))) {
+                                        TimerClosed = false;
+                                    }
+                                }
+                            }
+                        }
+                        break;
+                        case "chemical": {
+                            //Get all Extra Data
+                            DataTable ExtraValues = JsonConvert.DeserializeObject<DataTable>(ValueRow.Field<string>("Value"));
+
+                            foreach (DataRow ExtraRows in ExtraValues.Rows) {
+                                str_Values = str_Values + string.Format("{0}, {1}, {2}", ExtraRows.Field<string>("PN"), ExtraRows.Field<string>("LOT"), ExtraRows.Field<string>("Exp"));
+                            }
+
+                        }
+                        break;
+
+
+                        default: {
+                            //Get all Extra Data
+                            
+                                str_Values = str_Values + ValueRow.Field<string>("Value")+", ";
+                           
+
+                        }
+                        break;
+                    }
+
+                }
+                DataRecords = DataRecords + string.Format("Value: {0}", str_Values + Environment.NewLine);
+                int_RowIndex++;
+            }
+
+            //Set Values box
+            int BoxSize = dgv_Main.Rows[RowIndex].Height-5;
+            Bitmap IconSet = new Bitmap(1,1);
+            if (ItemHasData) {
+                dgv_Main.Rows[RowIndex].Cells[dgv_Main_Closed.Index].Value = true;
+                if (TimerClosed) {
+                    IconSet = Properties.Resources.GreenCheck;
+
+                } else {
+                    IconSet = Properties.Resources.Timer;
+                    //Almost gotem. If there is an open timer we need to close it out.
+                    dgv_Main.Rows[RowIndex].Cells[dgv_Main_Closed.Index].Value = false;
+                }
+
+
+                
+                dgv_Main.Rows[RowIndex].Cells[dgv_Image_Value.Index].ToolTipText = DataRecords;
+
+            } else {
+                IconSet = Properties.Resources.RedX;
+            }
+
+                dgv_Main.Rows[RowIndex].Cells[dgv_Image_Value.Index].Value = Resize(IconSet, BoxSize, BoxSize);
+
+
         }
 
         private void ts_editGroups_Click(object sender, EventArgs e) {

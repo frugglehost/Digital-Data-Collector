@@ -177,6 +177,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <EmbeddedResource Include="Support\EditGroups.resx">
       <DependentUpon>EditGroups.cs</DependentUpon>
@@ -199,6 +200,14 @@
     <Content Include="e_sqlite3.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\Blank.pdf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\YelloInfo.png" />
+    <None Include="Resources\YellowCheck.png" />
+    <None Include="Resources\GreenCheck.png" />
+    <None Include="Resources\RedX.png" />
+    <None Include="Resources\Timer.png" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.8">

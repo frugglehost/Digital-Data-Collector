@@ -269,6 +269,28 @@ namespace Data_Collector.DataTools {
             return new DataTable(); //We got to this point so there is a probelm.
         }
 
+        public static DataTable GetBarDecode(string ShopOrder = null) {
+
+            DataTable tempTable = new DataTable();
+
+            using (SqliteConnection connection = CreateConnection()) {
+
+                string str = "SELECT * FROM [ShopOrder]";
+                if (ShopOrder != null) {
+                    str = str + " WHERE [ShopOrder]=@p_ID";
+                }
+                SqliteCommand command = new SqliteCommand(str + ";", connection);
+                if (ShopOrder != null) {
+                    command.Parameters.AddWithValue("@p_ID", ShopOrder);
+                }
+                tempTable.Load(command.ExecuteReader());
+                return tempTable;
+
+            }
+
+            return new DataTable(); //We got to this point so there is a probelm.
+        }
+
         public static DataTable GetRevbyUniqueDoc(string PartNumber) {
             DataTable tempTable = new DataTable();
             using (SqliteConnection connection = CreateConnection()) {
@@ -359,6 +381,35 @@ namespace Data_Collector.DataTools {
                 command.Parameters.AddWithValue("@p_Rec_ID", Rec_ID);
                 command.Parameters.AddWithValue("@p_ShopOrderID", ShopOrderID);
                 command.Parameters.AddWithValue("@p_DataPointID", DataPointID);
+
+                command.Connection = connection;
+                tempTable.Load(command.ExecuteReader());
+
+            }
+            return tempTable;
+        }
+
+        public static DataTable GetUniqueSerial(Int64? RowID = null, string Order = null, Int64? Serial = null) {
+            DataTable tempTable = new DataTable();
+            using (SqliteConnection connection = CreateConnection()) {
+
+                string Where = "";
+
+                Where = (RowID != null) ? Where + "[RowID]=@p_RowID AND " : Where;
+                Where = (Order != null) ? Where + "[Order]=@p_Order AND " : Where;
+                Where = (Serial != null) ? Where + "[Serial]=@p_Serial AND " : Where;
+
+                Where = Where.Substring(0, Where.Length - 4);
+
+                string str = string.Format("SELECT * FROM [UniqueSerial] WHERE {0} ORDER BY [Serial] DESC;", Where);
+
+
+
+                SqliteCommand command = new SqliteCommand(str);
+
+                command.Parameters.AddWithValue("@p_RowID", RowID);
+                command.Parameters.AddWithValue("@p_Order", Order);
+                command.Parameters.AddWithValue("@p_Serial", Serial);
 
                 command.Connection = connection;
                 tempTable.Load(command.ExecuteReader());
