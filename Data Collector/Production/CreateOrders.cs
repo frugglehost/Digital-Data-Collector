@@ -183,6 +183,8 @@ namespace Data_Collector.Production {
 
             }
 
+            this.Close();
+
 
         }
     }

@@ -12,6 +12,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -344,48 +345,49 @@ namespace Data_Collector {
                     InspectionCriteriaID.Add(InpCrID);
                 }
 
-                DataTable Records = DataTools.DataMaster.GetInspCriteria_DataPointID_Bulk(InspectionCriteriaID);
-                DataTable Values = DataTools.DataMaster.GetDataRecords(null,tb_ShopOrder.Text,null);
+                if (InspectionCriteriaID.Count > 0) {
+                    DataTable Records = DataTools.DataMaster.GetInspCriteria_DataPointID_Bulk(InspectionCriteriaID);
+                    DataTable Values = DataTools.DataMaster.GetDataRecords(null, tb_ShopOrder.Text, null);
 
-                //Find the spcific row in the data Table that matches
-                int int_RowIndexDGV = 0;
-                foreach (DataGridViewRow DGV_Row in dgv_Main.Rows) {
+                    //Find the spcific row in the data Table that matches
+                    int int_RowIndexDGV = 0;
+                    foreach (DataGridViewRow DGV_Row in dgv_Main.Rows) {
 
-                    string str_ICID=DGV_Row.Cells["dgv_Main_ICID"].Value.ToString();
+                        string str_ICID = DGV_Row.Cells["dgv_Main_ICID"].Value.ToString();
 
-                    //Parse though the Records
-                    foreach (DataRow Row in Records.Rows) {
-                        if (str_ICID == Row.Field<Int64?>("DataPointID").ToString()) {
-                            DGV_Row.Cells["dgv_tb_Name"].Value = Row.Field<string>("DataPointName");
-                            DGV_Row.Cells["dgv_tb_Name"].ToolTipText = Row.Field<string>("Description");
+                        //Parse though the Records
+                        foreach (DataRow Row in Records.Rows) {
+                            if (str_ICID == Row.Field<Int64?>("DataPointID").ToString()) {
+                                DGV_Row.Cells["dgv_tb_Name"].Value = Row.Field<string>("DataPointName");
+                                DGV_Row.Cells["dgv_tb_Name"].ToolTipText = Row.Field<string>("Description");
 
-                            DGV_Row.Cells["dgv_tb_User"].Value = Row.Field<string>("UserType");
-                            DGV_Row.Cells["dgv_cb_Mandatory"].Value = Convert.ToBoolean(Row.Field<Int64?>("Mandatory") ?? 0);
-                            DGV_Row.Cells[dgv_tb_DocID.Index].Value = Row.Field<Int64?>("DocID") ?? 0;
-                            DGV_Row.Cells[dgv_tb_Position.Index].Value = Row.Field<string>("DocPosition");
+                                DGV_Row.Cells["dgv_tb_User"].Value = Row.Field<string>("UserType");
+                                DGV_Row.Cells["dgv_cb_Mandatory"].Value = Convert.ToBoolean(Row.Field<Int64?>("Mandatory") ?? 0);
+                                DGV_Row.Cells[dgv_tb_DocID.Index].Value = Row.Field<Int64?>("DocID") ?? 0;
+                                DGV_Row.Cells[dgv_tb_Position.Index].Value = Row.Field<string>("DocPosition");
 
-                            
+
+                            }
+
                         }
 
+                        //Parse Though the Values
+
+                        // Use the Select method to find all rows matching the filter.
+                        string expression = "DataPointID = " + str_ICID;
+                        DataRow[] foundRows = Values.Select(expression, "Rec_ID DESC");
+                        DataTable TempValue = Values.Clone();
+
+                        foreach (DataRow FoundRowData in foundRows) {
+                            TempValue.ImportRow(FoundRowData);
+                        }
+
+                        UpdateMainValue(int_RowIndexDGV, Convert.ToInt64(str_ICID), TempValue);
+
+                        int_RowIndexDGV++;
+
                     }
-
-                    //Parse Though the Values
-
-                    // Use the Select method to find all rows matching the filter.
-                    string expression = "DataPointID = "+ str_ICID;
-                    DataRow[] foundRows = Values.Select(expression, "Rec_ID DESC");
-                    DataTable TempValue = Values.Clone();
-                    
-                    foreach (DataRow FoundRowData in foundRows) {
-                        TempValue.ImportRow(FoundRowData);
-                    }
-
-                    UpdateMainValue(int_RowIndexDGV, Convert.ToInt64(str_ICID), TempValue);
-
-                    int_RowIndexDGV++;
-
                 }
-
 
 
                 
@@ -832,5 +834,16 @@ namespace Data_Collector {
         private void ts_editGroups_Click(object sender, EventArgs e) {
             new Support.EditGroups().ShowDialog();
         }
+
+        private void Main_Load(object sender, EventArgs e) {
+            ss_Version.Text = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            ss_User.Text = Environment.UserName;
+        }
+
+        private void tb_ShopOrder_KeyUp(object sender, KeyEventArgs e) {
+            if (e.KeyCode.Equals(Keys.Enter)) {
+                btn_Search_Click(null, EventArgs.Empty);
+            }
+            }
     }
 }

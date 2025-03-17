@@ -54,6 +54,7 @@
             this.cob_Filters = new System.Windows.Forms.ComboBox();
             this.tb_OrderID = new System.Windows.Forms.TextBox();
             this.label15 = new System.Windows.Forms.Label();
+            this.btn_Quick_Filter = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -339,11 +340,12 @@
             // 
             // cob_Filters
             // 
-            this.cob_Filters.Enabled = false;
+            this.cob_Filters.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.cob_Filters.FormattingEnabled = true;
             this.cob_Filters.Location = new System.Drawing.Point(117, 146);
             this.cob_Filters.Name = "cob_Filters";
-            this.cob_Filters.Size = new System.Drawing.Size(255, 21);
+            this.cob_Filters.Size = new System.Drawing.Size(174, 21);
             this.cob_Filters.TabIndex = 2;
             // 
             // tb_OrderID
@@ -364,11 +366,23 @@
             this.label15.TabIndex = 26;
             this.label15.Text = "Order ID:";
             // 
+            // btn_Quick_Filter
+            // 
+            this.btn_Quick_Filter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_Quick_Filter.Location = new System.Drawing.Point(297, 144);
+            this.btn_Quick_Filter.Name = "btn_Quick_Filter";
+            this.btn_Quick_Filter.Size = new System.Drawing.Size(75, 23);
+            this.btn_Quick_Filter.TabIndex = 28;
+            this.btn_Quick_Filter.Text = "Quick";
+            this.btn_Quick_Filter.UseVisualStyleBackColor = true;
+            this.btn_Quick_Filter.Click += new System.EventHandler(this.btn_Quick_Filter_Click);
+            // 
             // AssignCollection
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(384, 531);
+            this.Controls.Add(this.btn_Quick_Filter);
             this.Controls.Add(this.tb_OrderID);
             this.Controls.Add(this.label15);
             this.Controls.Add(this.label14);
@@ -445,5 +459,6 @@
         private System.Windows.Forms.ComboBox cob_Filters;
         private System.Windows.Forms.TextBox tb_OrderID;
         private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Button btn_Quick_Filter;
     }
 }

@@ -79,7 +79,10 @@ namespace Data_Collector.Production {
         }
 
         private void btn_Save_Click(object sender, EventArgs e) {
+            //Would be neat to see if the data is save able and then save it for the end user....
 
+
+            this.Close();
         }
 
         private DataTable LoadHistory(Int64 int_ICID) {

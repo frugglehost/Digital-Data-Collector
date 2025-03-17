@@ -90,6 +90,13 @@
             this.createNewTablesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteUserInputsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editUserDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.dgv_Image_Value = new System.Windows.Forms.DataGridViewImageColumn();
+            this.dgv_cb_Mandatory = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.dgv_Main_Closed = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.ss_versionLab = new System.Windows.Forms.ToolStripStatusLabel();
+            this.ss_Version = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.ss_User = new System.Windows.Forms.ToolStripStatusLabel();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -104,11 +111,8 @@
             this.dgv_tb_ReqClosed = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_tb_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_tb_User = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_Image_Value = new System.Windows.Forms.DataGridViewImageColumn();
             this.dgv_tb_DocID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_tb_Position = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_cb_Mandatory = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.dgv_Main_Closed = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -116,6 +120,7 @@
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Main)).BeginInit();
+            this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -232,6 +237,7 @@
             this.tb_ShopOrder.Name = "tb_ShopOrder";
             this.tb_ShopOrder.Size = new System.Drawing.Size(107, 20);
             this.tb_ShopOrder.TabIndex = 2;
+            this.tb_ShopOrder.KeyUp += new System.Windows.Forms.KeyEventHandler(this.tb_ShopOrder_KeyUp);
             // 
             // btn_Search
             // 
@@ -530,6 +536,11 @@
             // 
             // statusStrip1
             // 
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ss_versionLab,
+            this.ss_Version,
+            this.toolStripStatusLabel1,
+            this.ss_User});
             this.statusStrip1.Location = new System.Drawing.Point(0, 574);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(1046, 22);
@@ -725,6 +736,56 @@
             this.editUserDataToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
             this.editUserDataToolStripMenuItem.Text = "Edit User Data";
             // 
+            // dgv_Image_Value
+            // 
+            this.dgv_Image_Value.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.dgv_Image_Value.FillWeight = 75F;
+            this.dgv_Image_Value.HeaderText = "Value";
+            this.dgv_Image_Value.MinimumWidth = 75;
+            this.dgv_Image_Value.Name = "dgv_Image_Value";
+            this.dgv_Image_Value.ReadOnly = true;
+            this.dgv_Image_Value.Width = 75;
+            // 
+            // dgv_cb_Mandatory
+            // 
+            this.dgv_cb_Mandatory.HeaderText = "Mandatory";
+            this.dgv_cb_Mandatory.Name = "dgv_cb_Mandatory";
+            this.dgv_cb_Mandatory.ReadOnly = true;
+            this.dgv_cb_Mandatory.Visible = false;
+            // 
+            // dgv_Main_Closed
+            // 
+            this.dgv_Main_Closed.HeaderText = "Closed";
+            this.dgv_Main_Closed.Name = "dgv_Main_Closed";
+            this.dgv_Main_Closed.ReadOnly = true;
+            this.dgv_Main_Closed.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_Main_Closed.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.dgv_Main_Closed.Visible = false;
+            // 
+            // ss_versionLab
+            // 
+            this.ss_versionLab.Name = "ss_versionLab";
+            this.ss_versionLab.Size = new System.Drawing.Size(48, 17);
+            this.ss_versionLab.Text = "Version:";
+            // 
+            // ss_Version
+            // 
+            this.ss_Version.Name = "ss_Version";
+            this.ss_Version.Size = new System.Drawing.Size(44, 17);
+            this.ss_Version.Text = "X.X.X.X";
+            // 
+            // toolStripStatusLabel1
+            // 
+            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(10, 17);
+            this.toolStripStatusLabel1.Text = "|";
+            // 
+            // ss_User
+            // 
+            this.ss_User.Name = "ss_User";
+            this.ss_User.Size = new System.Drawing.Size(30, 17);
+            this.ss_User.Text = "User";
+            // 
             // dataGridViewTextBoxColumn1
             // 
             this.dataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
@@ -733,6 +794,7 @@
             this.dataGridViewTextBoxColumn1.MinimumWidth = 50;
             this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
             this.dataGridViewTextBoxColumn1.ReadOnly = true;
+            this.dataGridViewTextBoxColumn1.Visible = false;
             this.dataGridViewTextBoxColumn1.Width = 50;
             // 
             // dataGridViewTextBoxColumn2
@@ -847,16 +909,6 @@
             this.dgv_tb_User.ReadOnly = true;
             this.dgv_tb_User.Width = 75;
             // 
-            // dgv_Image_Value
-            // 
-            this.dgv_Image_Value.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.dgv_Image_Value.FillWeight = 75F;
-            this.dgv_Image_Value.HeaderText = "Value";
-            this.dgv_Image_Value.MinimumWidth = 75;
-            this.dgv_Image_Value.Name = "dgv_Image_Value";
-            this.dgv_Image_Value.ReadOnly = true;
-            this.dgv_Image_Value.Width = 75;
-            // 
             // dgv_tb_DocID
             // 
             this.dgv_tb_DocID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
@@ -876,22 +928,6 @@
             this.dgv_tb_Position.Name = "dgv_tb_Position";
             this.dgv_tb_Position.ReadOnly = true;
             this.dgv_tb_Position.Visible = false;
-            // 
-            // dgv_cb_Mandatory
-            // 
-            this.dgv_cb_Mandatory.HeaderText = "Mandatory";
-            this.dgv_cb_Mandatory.Name = "dgv_cb_Mandatory";
-            this.dgv_cb_Mandatory.ReadOnly = true;
-            this.dgv_cb_Mandatory.Visible = false;
-            // 
-            // dgv_Main_Closed
-            // 
-            this.dgv_Main_Closed.HeaderText = "Closed";
-            this.dgv_Main_Closed.Name = "dgv_Main_Closed";
-            this.dgv_Main_Closed.ReadOnly = true;
-            this.dgv_Main_Closed.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgv_Main_Closed.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.dgv_Main_Closed.Visible = false;
             // 
             // Main
             // 
@@ -917,6 +953,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Digital Data Collector";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.Load += new System.EventHandler(this.Main_Load);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);
@@ -924,6 +961,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Main)).EndInit();
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -1018,6 +1057,10 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_tb_Position;
         private System.Windows.Forms.DataGridViewCheckBoxColumn dgv_cb_Mandatory;
         private System.Windows.Forms.DataGridViewCheckBoxColumn dgv_Main_Closed;
+        private System.Windows.Forms.ToolStripStatusLabel ss_versionLab;
+        private System.Windows.Forms.ToolStripStatusLabel ss_Version;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
+        private System.Windows.Forms.ToolStripStatusLabel ss_User;
     }
 }
 

@@ -123,5 +123,8 @@ namespace Data_Collector.Engineering {
 
         }
 
+        private void btn_Quick_Filter_Click(object sender, EventArgs e) {
+            new Engineering.QuickFilter(cob_Type.Text).ShowDialog();
+        }
     }
 }

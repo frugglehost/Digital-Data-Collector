@@ -8,27 +8,32 @@
     <ProjectGuid>{F4FA3200-6306-476E-86C3-C5C9E73CACAB}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>Data_Collector</RootNamespace>
-    <AssemblyName>Data Collector</AssemblyName>
+    <AssemblyName>Digital Data Collector</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
-    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateEnabled>true</UpdateEnabled>
     <UpdateMode>Foreground</UpdateMode>
     <UpdateInterval>7</UpdateInterval>
     <UpdateIntervalUnits>Days</UpdateIntervalUnits>
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
-    <MapFileExtensions>true</MapFileExtensions>
+    <MapFileExtensions>false</MapFileExtensions>
+    <SupportUrl>https://github.com/frugglehost/Data-Collector/issues</SupportUrl>
+    <ProductName>Digital Data Collector</ProductName>
+    <PublisherName>JD Products</PublisherName>
+    <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
+    <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -49,6 +54,12 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Temp Data Collector.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>false</SignManifests>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Data.Sqlite, Version=9.0.2.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
@@ -122,6 +133,12 @@
     <Compile Include="Engineering\QueryDocuments.Designer.cs">
       <DependentUpon>QueryDocuments.cs</DependentUpon>
     </Compile>
+    <Compile Include="Engineering\QuickFilter.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Engineering\QuickFilter.Designer.cs">
+      <DependentUpon>QuickFilter.cs</DependentUpon>
+    </Compile>
     <Compile Include="Main.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -159,6 +176,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Engineering\QueryDocuments.resx">
       <DependentUpon>QueryDocuments.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Engineering\QuickFilter.resx">
+      <DependentUpon>QuickFilter.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
@@ -200,6 +220,7 @@
     <Content Include="e_sqlite3.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Temp Data Collector.ico" />
     <None Include="Resources\Blank.pdf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

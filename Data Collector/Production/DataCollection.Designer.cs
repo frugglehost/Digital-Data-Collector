@@ -54,7 +54,6 @@
             this.btn_Acknowledge = new System.Windows.Forms.Button();
             this.tp_DateTime = new System.Windows.Forms.TabPage();
             this.tp_Chemical = new System.Windows.Forms.TabPage();
-            this.pic_ChemExp = new System.Windows.Forms.PictureBox();
             this.label13 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.dtp_ChemExp = new System.Windows.Forms.DateTimePicker();
@@ -101,6 +100,8 @@
             this.tb_Name = new System.Windows.Forms.TextBox();
             this.label16 = new System.Windows.Forms.Label();
             this.fbd_SavePath = new System.Windows.Forms.FolderBrowserDialog();
+            this.dgv_File_Action = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.pic_ChemExp = new System.Windows.Forms.PictureBox();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -123,6 +124,7 @@
             this.dataGridViewTextBoxColumn20 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn21 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn22 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn23 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_Number_Input = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_Number_Mask = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_Serial_Input = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -141,20 +143,18 @@
             this.dgv_Stopwatch_Start = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_Stopwatch_Stop = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_StopWatch_Offset = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.calendarColumn1 = new CalendarColumn();
-            this.dataGridViewComboBoxColumn1 = new CalendarColumn();
-            this.dgv_tb_Format = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_File_Action = new System.Windows.Forms.DataGridViewButtonColumn();
             this.dgv_File_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_File_FileName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_File_Path = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_File_SaveTo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_File_Local = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.calendarColumn1 = new CalendarColumn();
+            this.dataGridViewComboBoxColumn1 = new CalendarColumn();
+            this.dgv_tb_Format = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tab_Control.SuspendLayout();
             this.tp_Acknowledge.SuspendLayout();
             this.tp_DateTime.SuspendLayout();
             this.tp_Chemical.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pic_ChemExp)).BeginInit();
             this.tp_Number.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Number)).BeginInit();
             this.tp_Serial.SuspendLayout();
@@ -169,6 +169,7 @@
             this.tp_File.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_File)).BeginInit();
             this.tp_Text.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pic_ChemExp)).BeginInit();
             this.SuspendLayout();
             // 
             // dtp_FullTime
@@ -427,16 +428,6 @@
             this.tp_Chemical.TabIndex = 1;
             this.tp_Chemical.Text = "Chemical";
             this.tp_Chemical.UseVisualStyleBackColor = true;
-            // 
-            // pic_ChemExp
-            // 
-            this.pic_ChemExp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pic_ChemExp.Location = new System.Drawing.Point(548, 69);
-            this.pic_ChemExp.Name = "pic_ChemExp";
-            this.pic_ChemExp.Size = new System.Drawing.Size(21, 21);
-            this.pic_ChemExp.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pic_ChemExp.TabIndex = 6;
-            this.pic_ChemExp.TabStop = false;
             // 
             // label13
             // 
@@ -967,7 +958,7 @@
             this.btn_Save.Name = "btn_Save";
             this.btn_Save.Size = new System.Drawing.Size(697, 85);
             this.btn_Save.TabIndex = 19;
-            this.btn_Save.Text = "Save and Close";
+            this.btn_Save.Text = "Close";
             this.btn_Save.UseVisualStyleBackColor = true;
             this.btn_Save.Click += new System.EventHandler(this.btn_Save_Click);
             // 
@@ -1043,6 +1034,26 @@
             this.label16.Size = new System.Drawing.Size(38, 13);
             this.label16.TabIndex = 24;
             this.label16.Text = "Name:";
+            // 
+            // dgv_File_Action
+            // 
+            this.dgv_File_Action.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.dgv_File_Action.FillWeight = 50F;
+            this.dgv_File_Action.HeaderText = "";
+            this.dgv_File_Action.MinimumWidth = 50;
+            this.dgv_File_Action.Name = "dgv_File_Action";
+            this.dgv_File_Action.ReadOnly = true;
+            this.dgv_File_Action.Width = 50;
+            // 
+            // pic_ChemExp
+            // 
+            this.pic_ChemExp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pic_ChemExp.Location = new System.Drawing.Point(548, 69);
+            this.pic_ChemExp.Name = "pic_ChemExp";
+            this.pic_ChemExp.Size = new System.Drawing.Size(21, 21);
+            this.pic_ChemExp.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pic_ChemExp.TabIndex = 6;
+            this.pic_ChemExp.TabStop = false;
             // 
             // dataGridViewTextBoxColumn1
             // 
@@ -1269,6 +1280,12 @@
             this.dataGridViewTextBoxColumn22.Name = "dataGridViewTextBoxColumn22";
             this.dataGridViewTextBoxColumn22.Visible = false;
             // 
+            // dataGridViewTextBoxColumn23
+            // 
+            this.dataGridViewTextBoxColumn23.HeaderText = "Local";
+            this.dataGridViewTextBoxColumn23.Name = "dataGridViewTextBoxColumn23";
+            this.dataGridViewTextBoxColumn23.ReadOnly = true;
+            // 
             // dgv_Number_Input
             // 
             this.dgv_Number_Input.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
@@ -1395,44 +1412,6 @@
             this.dgv_StopWatch_Offset.HeaderText = "Offset";
             this.dgv_StopWatch_Offset.Name = "dgv_StopWatch_Offset";
             // 
-            // calendarColumn1
-            // 
-            this.calendarColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.calendarColumn1.HeaderText = "Name";
-            this.calendarColumn1.MinimumWidth = 100;
-            this.calendarColumn1.Name = "calendarColumn1";
-            this.calendarColumn1.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.calendarColumn1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            // 
-            // dataGridViewComboBoxColumn1
-            // 
-            this.dataGridViewComboBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.dataGridViewComboBoxColumn1.HeaderText = "Name";
-            this.dataGridViewComboBoxColumn1.MinimumWidth = 100;
-            this.dataGridViewComboBoxColumn1.Name = "dataGridViewComboBoxColumn1";
-            this.dataGridViewComboBoxColumn1.ReadOnly = true;
-            this.dataGridViewComboBoxColumn1.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridViewComboBoxColumn1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            // 
-            // dgv_tb_Format
-            // 
-            this.dgv_tb_Format.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.dgv_tb_Format.FillWeight = 150F;
-            this.dgv_tb_Format.HeaderText = "Format";
-            this.dgv_tb_Format.Name = "dgv_tb_Format";
-            this.dgv_tb_Format.ReadOnly = true;
-            this.dgv_tb_Format.Width = 150;
-            // 
-            // dgv_File_Action
-            // 
-            this.dgv_File_Action.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.dgv_File_Action.FillWeight = 50F;
-            this.dgv_File_Action.HeaderText = "";
-            this.dgv_File_Action.MinimumWidth = 50;
-            this.dgv_File_Action.Name = "dgv_File_Action";
-            this.dgv_File_Action.ReadOnly = true;
-            this.dgv_File_Action.Width = 50;
-            // 
             // dgv_File_Name
             // 
             this.dgv_File_Name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
@@ -1473,6 +1452,34 @@
             this.dgv_File_Local.Name = "dgv_File_Local";
             this.dgv_File_Local.ReadOnly = true;
             // 
+            // calendarColumn1
+            // 
+            this.calendarColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.calendarColumn1.HeaderText = "Name";
+            this.calendarColumn1.MinimumWidth = 100;
+            this.calendarColumn1.Name = "calendarColumn1";
+            this.calendarColumn1.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.calendarColumn1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // dataGridViewComboBoxColumn1
+            // 
+            this.dataGridViewComboBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dataGridViewComboBoxColumn1.HeaderText = "Name";
+            this.dataGridViewComboBoxColumn1.MinimumWidth = 100;
+            this.dataGridViewComboBoxColumn1.Name = "dataGridViewComboBoxColumn1";
+            this.dataGridViewComboBoxColumn1.ReadOnly = true;
+            this.dataGridViewComboBoxColumn1.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridViewComboBoxColumn1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // dgv_tb_Format
+            // 
+            this.dgv_tb_Format.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.dgv_tb_Format.FillWeight = 150F;
+            this.dgv_tb_Format.HeaderText = "Format";
+            this.dgv_tb_Format.Name = "dgv_tb_Format";
+            this.dgv_tb_Format.ReadOnly = true;
+            this.dgv_tb_Format.Width = 150;
+            // 
             // DataCollection
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1512,7 +1519,6 @@
             this.tp_DateTime.ResumeLayout(false);
             this.tp_Chemical.ResumeLayout(false);
             this.tp_Chemical.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pic_ChemExp)).EndInit();
             this.tp_Number.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Number)).EndInit();
             this.tp_Serial.ResumeLayout(false);
@@ -1528,6 +1534,7 @@
             this.tp_File.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgv_File)).EndInit();
             this.tp_Text.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pic_ChemExp)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1654,5 +1661,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_File_Path;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_File_SaveTo;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_File_Local;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn23;
     }
 }

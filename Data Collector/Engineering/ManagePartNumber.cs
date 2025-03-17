@@ -199,15 +199,16 @@ namespace Data_Collector.Engineering {
                 subform.ShowDialog();
                 string results = subform.DocID_F2;
 
+                if (results != null) {
+                    DataTable UniqueDocument = DataTools.DataMaster.GetUniqueDoc_DocID(Convert.ToInt64(results));
 
-                DataTable UniqueDocument = DataTools.DataMaster.GetUniqueDoc_DocID(Convert.ToInt64(results));
 
 
-                
-                dataGridView1.Rows[e.RowIndex].Cells[2].Value = results;
-                dataGridView1.Rows[e.RowIndex].Cells[3].Value = UniqueDocument.Rows[0].Field<string>("Name");
-                dataGridView1.Rows[e.RowIndex].Cells[4].Value = UniqueDocument.Rows[0].Field<Int64>("Revison");
-                dataGridView1.Rows[e.RowIndex].Cells[5].Value = results;
+                    dataGridView1.Rows[e.RowIndex].Cells[2].Value = results;
+                    dataGridView1.Rows[e.RowIndex].Cells[3].Value = UniqueDocument.Rows[0].Field<string>("Name");
+                    dataGridView1.Rows[e.RowIndex].Cells[4].Value = UniqueDocument.Rows[0].Field<Int64>("Revison");
+                    dataGridView1.Rows[e.RowIndex].Cells[5].Value = results;
+                }
             }
 
 
@@ -241,6 +242,7 @@ namespace Data_Collector.Engineering {
 
                 RowNumber++;
             }
+            this.Close();
 
 
         }
