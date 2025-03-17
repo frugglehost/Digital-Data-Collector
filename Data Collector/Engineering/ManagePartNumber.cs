@@ -22,36 +22,38 @@ namespace Data_Collector.Engineering {
 
         private void cob_Rev_SelectedIndexChanged(object sender, EventArgs e) {
 
-            if (cob_Rev.Items.Count > 0) {
+            if (!string.IsNullOrWhiteSpace(cob_PartNumber.Text)) {
 
-                //Lock it down. We dont need any one messing around with the PN once it is set
-                cob_PartNumber.Enabled = false;
-                tb_PartID.Text = "";
+                if (cob_Rev.Items.Count > 0) {
+
+                    //Lock it down. We dont need any one messing around with the PN once it is set
+                    cob_PartNumber.Enabled = false;
+                    tb_PartID.Text = "";
 
 
 
-                //OKay we have attempted to select a rev. Lets aget a unique Part ID. 
-                if (!string.IsNullOrWhiteSpace(cob_Rev.Text)) {
+                    //OKay we have attempted to select a rev. Lets aget a unique Part ID. 
+                    if (!string.IsNullOrWhiteSpace(cob_Rev.Text)) {
 
-                    DataTable PartID = DataTools.DataMaster.GetPartIDbyPNandRev(cob_PartNumber.Text, Convert.ToInt32(cob_Rev.Text));
+                        DataTable PartID = DataTools.DataMaster.GetPartIDbyPNandRev(cob_PartNumber.Text, Convert.ToInt32(cob_Rev.Text));
 
-                    if (PartID.Rows.Count != 1) {
-                        //failed to find a valid Part ID.
-                    } else {
-                        Int64 int_PartID = PartID.Rows[0].Field<Int64>("PartID");
-                        tb_PartID.Text = int_PartID.ToString();
+                        if (PartID.Rows.Count != 1) {
+                            //failed to find a valid Part ID.
+                        } else {
+                            Int64 int_PartID = PartID.Rows[0].Field<Int64>("PartID");
+                            tb_PartID.Text = int_PartID.ToString();
 
+                        }
                     }
+
+
+
+
+
                 }
 
 
-                
-
-
             }
-
-            
-            
             
 
         }
@@ -161,28 +163,27 @@ namespace Data_Collector.Engineering {
 
         private void btn_Rev_Click(object sender, EventArgs e) {
 
+            if (!string.IsNullOrWhiteSpace(cob_PartNumber.Text)) {
 
-            DataTable UniquePN = DataTools.DataMaster.GetRevbyPN(cob_PartNumber.Text);
-            Int64 int_Rev = 1;
+                DataTable UniquePN = DataTools.DataMaster.GetRevbyPN(cob_PartNumber.Text);
+                Int64 int_Rev = 1;
 
-            if (UniquePN.Rows.Count > 0) {
-                //Lets go! We will add a new incremental Rev.
+                if (UniquePN.Rows.Count > 0) {
+                    //Lets go! We will add a new incremental Rev.
 
-                int_Rev = UniquePN.Rows[0].Field<Int64>("Revision") + 1;
+                    int_Rev = UniquePN.Rows[0].Field<Int64>("Revision") + 1;
 
-            } else {
+                } else {
 
-                cob_PartNumber.Items.Add(cob_PartNumber.Text.Trim());
+                    cob_PartNumber.Items.Add(cob_PartNumber.Text.Trim());
+                }
+
+                DataTable UniqueDocID = DataTools.DataMaster.InsertNewUniquePN(cob_PartNumber.Text.Trim(), int_Rev);
+
+
+                GetAllRevs();
+
             }
-
-            DataTable UniqueDocID = DataTools.DataMaster.InsertNewUniquePN(cob_PartNumber.Text.Trim(), int_Rev);
-
-
-            GetAllRevs();
-
-
-
-
         }
 
 

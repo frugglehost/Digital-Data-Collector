@@ -15,7 +15,10 @@ namespace Data_Collector.DataTools {
     internal class DataMaster {
 
         private static SqliteConnection CreateConnection() {
-            SqliteConnection connection = new SqliteConnection("Data Source=database.db;") {
+
+            string obtain_value = System.Configuration.ConfigurationManager.AppSettings["DataBaseRemote"];
+
+            SqliteConnection connection = new SqliteConnection("Data Source="+ obtain_value + ";") {
                 DefaultTimeout = 5
             };
             try {
@@ -229,14 +232,14 @@ namespace Data_Collector.DataTools {
             return tempTable;
         }
 
-        public static DataTable GetUniqueSerial_Order(string Order) {
+        public static DataTable GetUniqueSerial_Order(string ShopOrder) {
             DataTable tempTable = new DataTable();
             using (SqliteConnection connection = CreateConnection()) {
 
-                string str = "SELECT * FROM [UniqueSerial] WHERE [Order]=@p_Order ORDER By [Serial] ASC;";
+                string str = "SELECT * FROM [UniqueSerial] WHERE [ShopOrder]=@p_ShopOrder ORDER By [Serial] ASC;";
                 SqliteCommand command = new SqliteCommand(str);
 
-                command.Parameters.AddWithValue("@p_Order", Order);
+                command.Parameters.AddWithValue("@p_ShopOrder", ShopOrder);
 
                 command.Connection = connection;
                 tempTable.Load(command.ExecuteReader());
@@ -360,7 +363,7 @@ namespace Data_Collector.DataTools {
             return tempTable;
         }
 
-        public static DataTable GetDataRecords(Int64? Rec_ID=null, string ShopOrderID=null, Int64? DataPointID=null) {
+        public static DataTable GetDataRecords(Int64? Rec_ID=null, string ShopOrderID=null, Int64? DataPointID=null, bool Hidden=true) {
             DataTable tempTable = new DataTable();
             using (SqliteConnection connection = CreateConnection()) {
 
@@ -369,6 +372,7 @@ namespace Data_Collector.DataTools {
                 Where = (Rec_ID != null) ? Where + "[Rec_ID]=@p_Rec_ID AND " : Where;
                 Where = (ShopOrderID != null) ? Where + "[ShopOrderID]=@p_ShopOrderID AND " : Where;
                 Where = (DataPointID != null) ? Where + "[DataPointID]=@p_DataPointID AND " : Where;
+                Where = (Hidden == true) ? Where + "[Hidden] IS NULL AND " : Where;
 
                 Where = Where.Substring(0, Where.Length - 4);
 
@@ -389,6 +393,7 @@ namespace Data_Collector.DataTools {
             return tempTable;
         }
 
+        /*
         public static DataTable GetUniqueSerial(Int64? RowID = null, string Order = null, Int64? Serial = null) {
             DataTable tempTable = new DataTable();
             using (SqliteConnection connection = CreateConnection()) {
@@ -417,7 +422,7 @@ namespace Data_Collector.DataTools {
             }
             return tempTable;
         }
-
+        */
 
 
 
@@ -545,17 +550,30 @@ namespace Data_Collector.DataTools {
             return table;
         }
 
-        public static void UpdateInspCriteria(Int64 RowID, string Type, string DataPointName,string Description, string UserType, Int64 Mandatory, Int64 DocID, string DocPosition) {
+        public static void UpdateInspCriteria(Int64 RowID, string Type=null, string DataPointName = null,string Description = null, string UserType = null, Int64? Mandatory = null, Int64? DocID = null, string DocPosition = null) {
 
             DataTable table = new DataTable();
             using (SqliteConnection connection = CreateConnection()) {
-                using (SqliteCommand command = new SqliteCommand("UPDATE [InspCriteria] SET [Type]=@p_Type, " +
-                    "[DataPointName]=@p_DataPointName, " +
-                    "[Description]=@p_Description, " +
-                    "[UserType]=@p_UserType, " +
-                    "[Mandatory]=@p_Mandatory, " +
-                    "[DocID]=@p_DocID," +
-                    "[DocPosition]=@p_DocPosition WHERE [DataPointID]=@p_RowID;", connection)) {
+
+
+                string Set = "";
+
+                Set = (Type != null) ? Set + "[Type]=@p_Type, " : Set;
+                Set = (DataPointName != null) ? Set + "[DataPointName]=@p_DataPointName, " : Set;
+                Set = (Description != null) ? Set + "[Description]=@p_Description, " : Set;
+                Set = (UserType != null) ? Set + "[UserType]=@p_UserType, " : Set;
+                Set = (Mandatory != null) ? Set + "[Mandatory]=@p_Mandatory, " : Set;
+                Set = (DocID != null) ? Set + "[DocID]=@p_DocID, " : Set;
+                Set = (DocPosition != null) ? Set + "[DocPosition]=@p_DocPosition, " : Set;
+
+
+                Set = Set.Substring(0, Set.Length - 2);
+
+                string str = string.Format("UPDATE [InspCriteria] SET {0} WHERE [DataPointID]=@p_RowID;", Set);
+
+
+
+                using (SqliteCommand command = new SqliteCommand(str, connection)) {
 
                     command.Connection = connection;
                     command.Parameters.AddWithValue("@p_RowID", RowID);
@@ -572,15 +590,27 @@ namespace Data_Collector.DataTools {
             }
         }
 
-        public static void UpdateOrderInspPN(Int64 RowID, Int64 PartID, Int64 DataPointID, Int64 ReqOpen, Int64 ReqClose, Int64 Order) {
+        public static void UpdateOrderInspPN(Int64 RowID, Int64? PartID = null, Int64? DataPointID = null, Int64? ReqOpen = null, Int64 ?ReqClose = null, Int64? Order=null) {
 
             DataTable table = new DataTable();
             using (SqliteConnection connection = CreateConnection()) {
-                using (SqliteCommand command = new SqliteCommand("UPDATE [OrderInspPN] SET [PartID]=@p_PartID, " +
-                    "[DataPointID]=@p_DataPointID, " +
-                    "[ReqOpen]=@p_ReqOpen, " +
-                    "[ReqClose]=@p_ReqClose, " +
-                    "[Order]=@p_Order WHERE [ROWID]=@p_RowID;", connection)) {
+
+
+                string Set = "";
+
+                Set = (PartID != null) ? Set + "[PartID]=@p_PartID, " : Set;
+                Set = (DataPointID != null) ? Set + "[DataPointID]=@p_DataPointID, " : Set;
+                Set = (ReqOpen != null) ? Set + "[ReqOpen]=@p_ReqOpen, " : Set;
+                Set = (ReqClose != null) ? Set + "[ReqClose]=@p_ReqClose, " : Set;
+                Set = (Order != null) ? Set + "[Order]=@p_Order, " : Set;
+
+
+                Set = Set.Substring(0, Set.Length - 2);
+
+                string str = string.Format("UPDATE [OrderInspPN] SET {0} WHERE [ROWID]=@p_RowID;", Set);
+
+
+                using (SqliteCommand command = new SqliteCommand(str, connection)) {
 
                     command.Connection = connection;
                     command.Parameters.AddWithValue("@p_RowID", RowID);
@@ -639,6 +669,96 @@ namespace Data_Collector.DataTools {
                     command.ExecuteNonQuery();
                 }
             }
+        }
+
+        public static void UpsertClockingLog(string GUID, string ShopOrder, string UserID, string Start, string Stop) {
+            DataTable table1 = new DataTable();
+            using (SqliteConnection connection = CreateConnection()) {
+                using (SqliteCommand command = new SqliteCommand("INSERT INTO ClockingLog ([GUID],[ShopOrder],[UserID],[Start],[Stop])" +
+                    "VALUES(@p_GUID,@p_ShopOrder,@p_UserID,@p_Start,@p_Stop)" +
+                    "ON CONFLICT([GUID]) " +
+                    "DO "+
+                    "UPDATE SET [Stop] = @p_Stop " +
+                    "WHERE [GUID]=@p_GUID;", connection)) {
+                    command.Connection = connection;
+                    command.Parameters.AddWithValue("@p_GUID", GUID);
+                    command.Parameters.AddWithValue("@p_ShopOrder", ShopOrder);
+                    command.Parameters.AddWithValue("@p_UserID", UserID);
+                    command.Parameters.AddWithValue("@p_Start", Start);
+                    command.Parameters.AddWithValue("@p_Stop", Stop);
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
+
+
+        public static void InsertUniqueSerial(string ShopOrder, string PartNumber, string Serial) {
+            DataTable table1 = new DataTable();
+            using (SqliteConnection connection = CreateConnection()) {
+                using (SqliteCommand command = new SqliteCommand("" +
+                    "INSERT INTO [UniqueSerial] ([PartNumber], [ShopOrder],[Serial]) VALUES (@p_PartNumber,@p_ShopOrder,@p_Serial);", connection)) {
+                    command.Connection = connection;
+                    command.Parameters.AddWithValue("@p_ShopOrder", ShopOrder);
+                    command.Parameters.AddWithValue("@p_PartNumber", PartNumber);
+                    command.Parameters.AddWithValue("@p_Serial", Serial);
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public static void RemoveUniqueSerial(string ShopOrder = null, string PartNumber=null, string Serial = null) {
+            DataTable table1 = new DataTable();
+            using (SqliteConnection connection = CreateConnection()) {
+
+                string Where = "";
+
+                Where = (PartNumber != null) ? Where + "[PartNumber]=@p_PartNumber AND " : Where;
+                Where = (ShopOrder != null) ? Where + "[ShopOrder]=@p_ShopOrder AND " : Where;
+                Where = (Serial != null) ? Where + "[Serial]=@p_Serial AND " : Where;
+
+                Where = Where.Substring(0, Where.Length - 4);
+
+                string str = string.Format(" DELETE  FROM [UniqueSerial] WHERE {0};", Where);
+
+                using (SqliteCommand command = new SqliteCommand(str, connection)) {
+                    command.Connection = connection;
+                    command.Parameters.AddWithValue("@p_ShopOrder", ShopOrder);
+                    command.Parameters.AddWithValue("@p_PartNumber", PartNumber);
+                    command.Parameters.AddWithValue("@p_Serial", Serial);
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
+
+        public static DataTable GetUniqueSerial(string ShopOrder = null, string PartNumber = null, string Serial = null) {
+            DataTable tempTable = new DataTable();
+            using (SqliteConnection connection = CreateConnection()) {
+
+                string Where = "";
+
+                Where = (PartNumber != null) ? Where + "[PartNumber]=@p_PartNumber AND " : Where;
+                Where = (ShopOrder != null) ? Where + "[ShopOrder]=@p_ShopOrder AND " : Where;
+                Where = (Serial != null) ? Where + "[Serial]=@p_Serial AND " : Where;
+
+                Where = Where.Substring(0, Where.Length - 4);
+
+                string str = string.Format("SELECT * FROM [UniqueSerial] WHERE {0} ORDER BY [Serial] ASC;", Where);
+
+
+
+                SqliteCommand command = new SqliteCommand(str);
+
+                command.Parameters.AddWithValue("@p_ShopOrder", ShopOrder);
+                command.Parameters.AddWithValue("@p_PartNumber", PartNumber);
+                command.Parameters.AddWithValue("@p_Serial", Serial);
+
+                command.Connection = connection;
+                tempTable.Load(command.ExecuteReader());
+
+            }
+            return tempTable;
         }
 
         public static void UpdateDocsPN_RowID(Int64 RowID, Int64 DocID, Int64 DocOrder) {

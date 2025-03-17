@@ -15,15 +15,36 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Management;
 using System.Windows.Forms.VisualStyles;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using System.IO.Ports;
+using System.Security.Cryptography;
 
 namespace Data_Collector {
     public partial class Main : Form {
 
+        
+        /// Keep it Alive
+        [FlagsAttribute]
+        public enum EXECUTION_STATE : uint {
+            ES_AWAYMODE_REQUIRED = 0x00000040,
+            ES_CONTINUOUS = 0x80000000,
+            ES_DISPLAY_REQUIRED = 0x00000002,
+            ES_SYSTEM_REQUIRED = 0x00000001
+            // Legacy flag, should not be used.
+            // ES_USER_PRESENT = 0x00000004
+        }
+
+        [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        static extern EXECUTION_STATE SetThreadExecutionState(EXECUTION_STATE esFlags);
+        ///
+
         string LocalFolder = "";
+        string GUID_Beat ="";
 
         public Main() {
             InitializeComponent();
@@ -44,7 +65,7 @@ namespace Data_Collector {
 
 
         private void btn_Search_Click(object sender, EventArgs e) {
-
+            GUID_Beat = "";
 
 
             //Lets make everything clean.
@@ -87,7 +108,7 @@ namespace Data_Collector {
                     //We have a potently valid shoporder. Lets go and see if it exists. 
 
                     DataTable ShopOrderData = DataTools.DataMaster.GetShopOrder_ShopOrder(str_ShopOrder);
-                    DataTable ShopOrderSN = DataTools.DataMaster.GetUniqueSerial(null, str_ShopOrder, null);
+                    DataTable ShopOrderSN = DataTools.DataMaster.GetUniqueSerial(str_ShopOrder, null , null);
 
 
                     foreach (DataRow RowSN in ShopOrderSN.Rows) {
@@ -149,9 +170,16 @@ namespace Data_Collector {
 
 
                 }
-            }else {
+                timer_Refresh.Enabled = true;
+                btn_Sync.Enabled = true;
+
+                
+
+            } else {
                 tb_ShopOrder.BackColor = SystemColors.Window;
                 tb_ShopOrder.Enabled = true;
+                timer_Refresh.Enabled = false;
+                btn_Sync.Enabled = false;
 
                 btn_Search.Text = "Search";
             }
@@ -329,10 +357,8 @@ namespace Data_Collector {
                 cob_DocList.DisplayMember = "Display";
                 cob_DocList.DataSource = DetailDocList;
 
-
-
                 //We now have the documents now we need to get a list of Inspection points.
-                DataTable OrderInspPN = DataTools.DataMaster.GetOrderInspPN_PartID(intPartID);
+                DataTable OrderInspPN = DataTools.DataMaster.GetOrderInspPN_PartID(Convert.ToInt64(tb_PartID.Text));
                 List<Int64> InspectionCriteriaID = new List<Int64>();
 
                 foreach (DataRow Row in OrderInspPN.Rows) {
@@ -344,6 +370,7 @@ namespace Data_Collector {
                     dgv_Main.Rows.Add(OrderID, InpCrID, ReqOpen, ReqClos);
                     InspectionCriteriaID.Add(InpCrID);
                 }
+
 
                 if (InspectionCriteriaID.Count > 0) {
                     DataTable Records = DataTools.DataMaster.GetInspCriteria_DataPointID_Bulk(InspectionCriteriaID);
@@ -365,10 +392,7 @@ namespace Data_Collector {
                                 DGV_Row.Cells["dgv_cb_Mandatory"].Value = Convert.ToBoolean(Row.Field<Int64?>("Mandatory") ?? 0);
                                 DGV_Row.Cells[dgv_tb_DocID.Index].Value = Row.Field<Int64?>("DocID") ?? 0;
                                 DGV_Row.Cells[dgv_tb_Position.Index].Value = Row.Field<string>("DocPosition");
-
-
                             }
-
                         }
 
                         //Parse Though the Values
@@ -381,16 +405,21 @@ namespace Data_Collector {
                         foreach (DataRow FoundRowData in foundRows) {
                             TempValue.ImportRow(FoundRowData);
                         }
-
                         UpdateMainValue(int_RowIndexDGV, Convert.ToInt64(str_ICID), TempValue);
-
                         int_RowIndexDGV++;
-
                     }
                 }
 
 
-                
+                if (!string.IsNullOrWhiteSpace(tb_ShopOrder.Text)) {
+                    GUID_Beat = Guid.NewGuid().ToString();
+
+                    DataTools.DataMaster.UpsertClockingLog(GUID_Beat, tb_ShopOrder.Text, ss_User.Text, DateTime.UtcNow.ToString(), DateTime.UtcNow.ToString());
+
+
+                }
+
+
             }
         }
 
@@ -507,7 +536,9 @@ namespace Data_Collector {
             ts_EditPoints.Checked = !ts_EditPoints.Checked;
             dgv_Main.Columns["dgv_tb_Position"].Visible = ts_EditPoints.Checked;
             dgv_Main.Columns["dgv_tb_DocID"].Visible = ts_EditPoints.Checked;
-            
+
+            timer_Refresh.Enabled= !ts_EditPoints.Checked;
+
             if (ts_EditPoints.Checked) {
                 dgv_Main.Width = dgv_Main.Width - 75;
                 
@@ -604,8 +635,8 @@ namespace Data_Collector {
 
                     if (!Allowed) {
                         //End user not allowed 
-                        
-                        
+
+                        MessageBox.Show("User is not a " + strUserRole, "Group Error");
 
 
                     } else {
@@ -838,6 +869,9 @@ namespace Data_Collector {
         private void Main_Load(object sender, EventArgs e) {
             ss_Version.Text = Assembly.GetExecutingAssembly().GetName().Version.ToString();
             ss_User.Text = Environment.UserName;
+
+            SetThreadExecutionState(EXECUTION_STATE.ES_DISPLAY_REQUIRED | EXECUTION_STATE.ES_CONTINUOUS);
+
         }
 
         private void tb_ShopOrder_KeyUp(object sender, KeyEventArgs e) {
@@ -845,5 +879,143 @@ namespace Data_Collector {
                 btn_Search_Click(null, EventArgs.Empty);
             }
             }
+
+        private void btn_Sync_Click(object sender, EventArgs e) {
+
+
+            Thread thread1 = new Thread(new ThreadStart(DoSync));
+            thread1.Start();
+
+
+
+        }
+
+        private void DoSync() {
+            try {
+
+                DataTools.DataMaster.UpsertClockingLog(GUID_Beat, tb_ShopOrder.Text, ss_User.Text, DateTime.UtcNow.ToString(), DateTime.UtcNow.ToString());
+
+
+                if (!string.IsNullOrWhiteSpace(tb_ShopOrder.Text)) {
+
+                    List<Int64> InspectionCriteriaID = new List<Int64>();
+
+                    foreach (DataGridViewRow RowsMain in dgv_Main.Rows) {
+                        string str_ICID = (RowsMain.Cells[dgv_Main_ICID.Index].Value ?? "0").ToString();
+                        InspectionCriteriaID.Add(Convert.ToInt64(str_ICID));
+                    }
+
+
+                    if (InspectionCriteriaID.Count > 0) {
+                        DataTable Records = DataTools.DataMaster.GetInspCriteria_DataPointID_Bulk(InspectionCriteriaID);
+                        DataTable Values = DataTools.DataMaster.GetDataRecords(null, tb_ShopOrder.Text, null);
+
+                        //Find the spcific row in the data Table that matches
+                        int int_RowIndexDGV = 0;
+                        foreach (DataGridViewRow DGV_Row in dgv_Main.Rows) {
+
+                            string str_ICID = (DGV_Row.Cells["dgv_Main_ICID"].Value ?? "0").ToString();
+
+                            //Parse though the Records
+                            foreach (DataRow Row in Records.Rows) {
+                                if (str_ICID == Row.Field<Int64?>("DataPointID").ToString()) {
+                                    DGV_Row.Cells["dgv_tb_Name"].Value = Row.Field<string>("DataPointName");
+                                    DGV_Row.Cells["dgv_tb_Name"].ToolTipText = Row.Field<string>("Description");
+
+                                    DGV_Row.Cells["dgv_tb_User"].Value = Row.Field<string>("UserType");
+                                    DGV_Row.Cells["dgv_cb_Mandatory"].Value = Convert.ToBoolean(Row.Field<Int64?>("Mandatory") ?? 0);
+                                    DGV_Row.Cells[dgv_tb_DocID.Index].Value = Row.Field<Int64?>("DocID") ?? 0;
+                                    DGV_Row.Cells[dgv_tb_Position.Index].Value = Row.Field<string>("DocPosition");
+
+
+                                }
+
+                            }
+
+                            //Parse Though the Values
+
+                            // Use the Select method to find all rows matching the filter.
+                            string expression = "DataPointID = " + str_ICID;
+                            DataRow[] foundRows = Values.Select(expression, "Rec_ID DESC");
+                            DataTable TempValue = Values.Clone();
+
+                            foreach (DataRow FoundRowData in foundRows) {
+                                TempValue.ImportRow(FoundRowData);
+                            }
+
+                            UpdateMainValue(int_RowIndexDGV, Convert.ToInt64(str_ICID), TempValue);
+
+                            int_RowIndexDGV++;
+
+                        }
+                    }
+                }
+            } finally {
+
+                ss_LasSync.Text = DateTime.Now.ToString("HH:mm:ss");
+            
+            }
+        }
+
+        private void timer_Refresh_Tick(object sender, EventArgs e) {
+
+            if (!ts_EditPoints.Checked) {
+
+                PowerStatus pwr = SystemInformation.PowerStatus;
+
+
+
+
+                Thread thread1 = new Thread(new ThreadStart(DoSync));
+                thread1.Start();
+
+                float strBatterylife = pwr.BatteryLifePercent;
+                ts_Battery.Text = (strBatterylife * 100).ToString() + "%";
+
+                if (strBatterylife < .80) {
+                    MessageBox.Show("The computer battery is critical at " + ts_Battery.Text + ".", "Charger Request", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                }
+            }
+        }
+
+        private void ts_CreateTable_Click(object sender, EventArgs e) {
+            DataTools.BlankSQlite.CreateDB();
+        }
+
+        private void Main_FormClosing(object sender, FormClosingEventArgs e) {
+            //Night time pill!
+            SetThreadExecutionState(EXECUTION_STATE.ES_CONTINUOUS);
+        }
+
+        private void btn_SaveAll_Click(object sender, EventArgs e) {
+
+            //Let loop though all of the rows and save the Order and the position. 
+            foreach(DataGridViewRow MainRow in dgv_Main.Rows) {
+
+                Int64 OrderNumber = MainRow.Index;
+
+                Int64 OrderICID = Convert.ToInt64(MainRow.Cells[dgv_tb_OrderID.Index].Value ?? 0);
+                Int64 ICID = Convert.ToInt64(MainRow.Cells[dgv_Main_ICID.Index].Value ?? 0);
+                if (ICID != 0 && OrderICID != 0) {
+                    Int64 DocID = Convert.ToInt64(MainRow.Cells[dgv_tb_DocID.Index].Value ?? 0);
+                    string Position = (MainRow.Cells[dgv_tb_Position.Index].Value ?? "").ToString();
+
+
+                    DataTools.DataMaster.UpdateInspCriteria(ICID, null, null, null, null, null, DocID, Position);
+
+                    DataTools.DataMaster.UpdateOrderInspPN(OrderICID, null, null, null, null, OrderNumber);
+
+
+                    MainRow.DefaultCellStyle.BackColor = Color.LightGreen;
+
+                }
+            }
+
+
+
+
+
+
+        }
     }
 }

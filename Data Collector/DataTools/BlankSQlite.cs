@@ -10,7 +10,9 @@ namespace Data_Collector.DataTools {
 
 
         private static SqliteConnection CreateConnection() {
-            SqliteConnection connection = new SqliteConnection("Data Source=database.db;");
+
+            string obtain_value = System.Configuration.ConfigurationManager.AppSettings["DataBaseRemote"];
+            SqliteConnection connection = new SqliteConnection("Data Source=" + obtain_value + ";");
             try {
                 connection.Open();
             } catch (Exception) {
@@ -21,7 +23,6 @@ namespace Data_Collector.DataTools {
         public static void CreateDB() {
             using (SqliteConnection connection = CreateConnection()) {
                 using (SqliteCommand command = new SqliteCommand(@"
-
 CREATE TABLE BarDecode (
     Contains   TEXT    NOT NULL
                        UNIQUE
@@ -39,12 +40,11 @@ CREATE TABLE BarDecode (
 STRICT;
 
 CREATE TABLE ClockingLog (
-    ClockID        INTEGER PRIMARY KEY,
-    UserID         TEXT,
-    SessionID      TEXT,
-    Type           INTEGER DEFAULT (0),
-    [DateTime UTC] TEXT    NOT NULL,
-    ShopOrder      TEXT
+    GUID      TEXT PRIMARY KEY,
+    ShopOrder TEXT NOT NULL,
+    UserID    TEXT NOT NULL,
+    Start     TEXT NOT NULL,
+    Stop      TEXT NOT NULL
 )
 STRICT;
 
@@ -54,7 +54,8 @@ CREATE TABLE DataRecords (
     DataPointID    INTEGER NOT NULL,
     Value          TEXT    NOT NULL,
     User_ID        TEXT    NOT NULL,
-    [DateTime UTC] TEXT    NOT NULL
+    [DateTime UTC] TEXT    NOT NULL,
+    Hidden         TEXT
 )
 STRICT;
 
@@ -67,27 +68,34 @@ CREATE TABLE DocsPN (
 STRICT;
 
 CREATE TABLE InspCriteria (
-    DataPointID    INTEGER PRIMARY KEY,
-    DataPointName  TEXT    DEFAULT TBD,
-    Description    TEXT    DEFAULT TBD,
-    DataPointOrder INTEGER,
-    Type           TEXT,
-    PartID         INTEGER,
-    DocID          INTEGER,
-    DocPosition    TEXT,
-    UserType       TEXT,
-    ReqOpen        INTEGER,
-    ReqClose       INTEGER,
-    Mandatory      INTEGER DEFAULT (1) 
+    DataPointID   INTEGER PRIMARY KEY,
+    DataPointName TEXT    DEFAULT TBD,
+    Description   TEXT    DEFAULT TBD,
+    Type          TEXT,
+    DocID         INTEGER,
+    DocPosition   TEXT,
+    UserType      TEXT,
+    Mandatory     INTEGER DEFAULT (1),
+    Format        TEXT
+)
+STRICT;
+
+CREATE TABLE OrderInspPN (
+    RowID       INTEGER PRIMARY KEY,
+    PartID      INTEGER,
+    DataPointID INTEGER,
+    ReqOpen     INTEGER,
+    ReqClose    INTEGER,
+    [Order]     INTEGER
 )
 STRICT;
 
 CREATE TABLE ShopOrder (
-    ShopOrder TEXT PRIMARY KEY
-                   NOT NULL
-                   COLLATE NOCASE,
-    PartID    INT  NOT NULL,
-    Serial    TEXT
+    ShopOrder TEXT    PRIMARY KEY
+                      NOT NULL
+                      COLLATE NOCASE,
+    PartID    INT     NOT NULL,
+    Qty       INTEGER DEFAULT (1) 
 )
 WITHOUT ROWID,
 STRICT;
@@ -108,6 +116,14 @@ CREATE TABLE UniquePN (
 )
 STRICT;
 
+CREATE TABLE UniqueSerial (
+    RowID      INTEGER PRIMARY KEY,
+    ShopOrder  TEXT    COLLATE NOCASE,
+    PartNumber TEXT    COLLATE NOCASE,
+    Serial     TEXT
+)
+STRICT;
+
 CREATE TABLE UserGroup (
     UserTID  TEXT    NOT NULL
                      COLLATE NOCASE,
@@ -117,6 +133,7 @@ CREATE TABLE UserGroup (
 )
 STRICT;
 
+
 CREATE TABLE UserInfo (
     User_ID TEXT PRIMARY KEY
                  NOT NULL,
@@ -125,6 +142,8 @@ CREATE TABLE UserInfo (
 )
 WITHOUT ROWID,
 STRICT;
+
+
 
 ", connection)) {
                     command.Connection = connection;

@@ -115,11 +115,19 @@ namespace Data_Collector.Production {
             ListBox.SelectedObjectCollection selectedItems = new ListBox.SelectedObjectCollection(lb_Serials);
             selectedItems = lb_Serials.SelectedItems;
 
+            foreach (var Items in lb_Serials.SelectedItems) {
+
+                DataTools.DataMaster.RemoveUniqueSerial(cob_ShopOrders.Text, cob_PartNumber.Text, Items.ToString());
+
+                //lb_Serials.Items.Remove(Items);
+            }
+
+            
             if (lb_Serials.SelectedIndex != -1) {
                 for (int i = selectedItems.Count - 1; i >= 0; i--)
                     lb_Serials.Items.Remove(selectedItems[i]);
             }
-
+            
 
         }
 
@@ -181,6 +189,13 @@ namespace Data_Collector.Production {
 
                 DataTools.DataMaster.InsertShopOrder(TempShopOrder, tempPartID, tempQty);
 
+            }
+
+            foreach (string TempSN in lb_Serials.Items) {
+
+
+
+                DataTools.DataMaster.InsertUniqueSerial(TempShopOrder, cob_PartNumber.Text, TempSN);
             }
 
             this.Close();

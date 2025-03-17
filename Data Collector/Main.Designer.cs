@@ -23,6 +23,8 @@
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.supportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.supervisorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -52,6 +54,9 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.pdf_Document = new PdfiumViewer.PdfRenderer();
             this.dgv_Main = new System.Windows.Forms.DataGridView();
+            this.dgv_Image_Value = new System.Windows.Forms.DataGridViewImageColumn();
+            this.dgv_cb_Mandatory = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.dgv_Main_Closed = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.btn_SaveAll = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
@@ -64,6 +69,13 @@
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.ss_versionLab = new System.Windows.Forms.ToolStripStatusLabel();
+            this.ss_Version = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.ss_User = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.ss_LasSync = new System.Windows.Forms.ToolStripStatusLabel();
             this.fileToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.supportToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.productionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -78,25 +90,22 @@
             this.fileToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.supportToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.productionToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.supervisorToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.engineerToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.ts_ShopOrder = new System.Windows.Forms.ToolStripMenuItem();
+            this.supervisorToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.ts_UserRoles = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteUserInputsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.engineerToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.ts_EditDataPoint = new System.Windows.Forms.ToolStripMenuItem();
             this.ts_EditPartNumber = new System.Windows.Forms.ToolStripMenuItem();
             this.ts_EditDocument = new System.Windows.Forms.ToolStripMenuItem();
             this.administratorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dangerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.createNewTablesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.deleteUserInputsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ts_CreateTable = new System.Windows.Forms.ToolStripMenuItem();
             this.editUserDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.dgv_Image_Value = new System.Windows.Forms.DataGridViewImageColumn();
-            this.dgv_cb_Mandatory = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.dgv_Main_Closed = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.ss_versionLab = new System.Windows.Forms.ToolStripStatusLabel();
-            this.ss_Version = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.ss_User = new System.Windows.Forms.ToolStripStatusLabel();
+            this.timer_Refresh = new System.Windows.Forms.Timer(this.components);
+            this.toolStripStatusLabel4 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel5 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.ts_Battery = new System.Windows.Forms.ToolStripStatusLabel();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -421,6 +430,32 @@
             this.dgv_Main.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_Main_CellClick);
             this.dgv_Main.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_Main_CellDoubleClick);
             // 
+            // dgv_Image_Value
+            // 
+            this.dgv_Image_Value.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.dgv_Image_Value.FillWeight = 75F;
+            this.dgv_Image_Value.HeaderText = "Value";
+            this.dgv_Image_Value.MinimumWidth = 75;
+            this.dgv_Image_Value.Name = "dgv_Image_Value";
+            this.dgv_Image_Value.ReadOnly = true;
+            this.dgv_Image_Value.Width = 75;
+            // 
+            // dgv_cb_Mandatory
+            // 
+            this.dgv_cb_Mandatory.HeaderText = "Mandatory";
+            this.dgv_cb_Mandatory.Name = "dgv_cb_Mandatory";
+            this.dgv_cb_Mandatory.ReadOnly = true;
+            this.dgv_cb_Mandatory.Visible = false;
+            // 
+            // dgv_Main_Closed
+            // 
+            this.dgv_Main_Closed.HeaderText = "Closed";
+            this.dgv_Main_Closed.Name = "dgv_Main_Closed";
+            this.dgv_Main_Closed.ReadOnly = true;
+            this.dgv_Main_Closed.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_Main_Closed.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.dgv_Main_Closed.Visible = false;
+            // 
             // btn_SaveAll
             // 
             this.btn_SaveAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -430,6 +465,7 @@
             this.btn_SaveAll.TabIndex = 8;
             this.btn_SaveAll.Text = "Save All";
             this.btn_SaveAll.UseVisualStyleBackColor = true;
+            this.btn_SaveAll.Click += new System.EventHandler(this.btn_SaveAll_Click);
             // 
             // button4
             // 
@@ -476,17 +512,20 @@
             // 
             this.btn_Sync.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_Sync.Enabled = false;
             this.btn_Sync.Location = new System.Drawing.Point(3, 431);
             this.btn_Sync.Name = "btn_Sync";
             this.btn_Sync.Size = new System.Drawing.Size(336, 23);
             this.btn_Sync.TabIndex = 3;
             this.btn_Sync.Text = "Refresh Sync";
             this.btn_Sync.UseVisualStyleBackColor = true;
+            this.btn_Sync.Click += new System.EventHandler(this.btn_Sync_Click);
             // 
             // btn_Export
             // 
             this.btn_Export.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_Export.Enabled = false;
             this.btn_Export.Location = new System.Drawing.Point(3, 460);
             this.btn_Export.Name = "btn_Export";
             this.btn_Export.Size = new System.Drawing.Size(336, 23);
@@ -540,12 +579,60 @@
             this.ss_versionLab,
             this.ss_Version,
             this.toolStripStatusLabel1,
-            this.ss_User});
+            this.ss_User,
+            this.toolStripStatusLabel2,
+            this.toolStripStatusLabel3,
+            this.ss_LasSync,
+            this.toolStripStatusLabel4,
+            this.toolStripStatusLabel5,
+            this.ts_Battery});
             this.statusStrip1.Location = new System.Drawing.Point(0, 574);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(1046, 22);
             this.statusStrip1.TabIndex = 13;
             this.statusStrip1.Text = "statusStrip1";
+            // 
+            // ss_versionLab
+            // 
+            this.ss_versionLab.Name = "ss_versionLab";
+            this.ss_versionLab.Size = new System.Drawing.Size(48, 17);
+            this.ss_versionLab.Text = "Version:";
+            // 
+            // ss_Version
+            // 
+            this.ss_Version.Name = "ss_Version";
+            this.ss_Version.Size = new System.Drawing.Size(44, 17);
+            this.ss_Version.Text = "X.X.X.X";
+            // 
+            // toolStripStatusLabel1
+            // 
+            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(10, 17);
+            this.toolStripStatusLabel1.Text = "|";
+            // 
+            // ss_User
+            // 
+            this.ss_User.Name = "ss_User";
+            this.ss_User.Size = new System.Drawing.Size(30, 17);
+            this.ss_User.Text = "User";
+            // 
+            // toolStripStatusLabel2
+            // 
+            this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
+            this.toolStripStatusLabel2.Size = new System.Drawing.Size(10, 17);
+            this.toolStripStatusLabel2.Text = "|";
+            // 
+            // toolStripStatusLabel3
+            // 
+            this.toolStripStatusLabel3.Name = "toolStripStatusLabel3";
+            this.toolStripStatusLabel3.Size = new System.Drawing.Size(62, 17);
+            this.toolStripStatusLabel3.Text = "Last Sync: ";
+            // 
+            // ss_LasSync
+            // 
+            this.ss_LasSync.Name = "ss_LasSync";
+            this.ss_LasSync.Size = new System.Drawing.Size(34, 17);
+            this.ss_LasSync.Text = "00:00";
             // 
             // fileToolStripMenuItem1
             // 
@@ -647,6 +734,13 @@
             this.productionToolStripMenuItem1.Size = new System.Drawing.Size(147, 22);
             this.productionToolStripMenuItem1.Text = "Production";
             // 
+            // ts_ShopOrder
+            // 
+            this.ts_ShopOrder.Name = "ts_ShopOrder";
+            this.ts_ShopOrder.Size = new System.Drawing.Size(180, 22);
+            this.ts_ShopOrder.Text = "Manage Shop Order";
+            this.ts_ShopOrder.Click += new System.EventHandler(this.ts_ShoOrder_Click);
+            // 
             // supervisorToolStripMenuItem2
             // 
             this.supervisorToolStripMenuItem2.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -655,6 +749,19 @@
             this.supervisorToolStripMenuItem2.Name = "supervisorToolStripMenuItem2";
             this.supervisorToolStripMenuItem2.Size = new System.Drawing.Size(147, 22);
             this.supervisorToolStripMenuItem2.Text = "Supervisor";
+            // 
+            // ts_UserRoles
+            // 
+            this.ts_UserRoles.Name = "ts_UserRoles";
+            this.ts_UserRoles.Size = new System.Drawing.Size(169, 22);
+            this.ts_UserRoles.Text = "User Roles";
+            this.ts_UserRoles.Click += new System.EventHandler(this.ts_editGroups_Click);
+            // 
+            // deleteUserInputsToolStripMenuItem
+            // 
+            this.deleteUserInputsToolStripMenuItem.Name = "deleteUserInputsToolStripMenuItem";
+            this.deleteUserInputsToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
+            this.deleteUserInputsToolStripMenuItem.Text = "Delete User Inputs";
             // 
             // engineerToolStripMenuItem1
             // 
@@ -665,20 +772,6 @@
             this.engineerToolStripMenuItem1.Name = "engineerToolStripMenuItem1";
             this.engineerToolStripMenuItem1.Size = new System.Drawing.Size(147, 22);
             this.engineerToolStripMenuItem1.Text = "Engineer";
-            // 
-            // ts_ShopOrder
-            // 
-            this.ts_ShopOrder.Name = "ts_ShopOrder";
-            this.ts_ShopOrder.Size = new System.Drawing.Size(180, 22);
-            this.ts_ShopOrder.Text = "Manage Shop Order";
-            this.ts_ShopOrder.Click += new System.EventHandler(this.ts_ShoOrder_Click);
-            // 
-            // ts_UserRoles
-            // 
-            this.ts_UserRoles.Name = "ts_UserRoles";
-            this.ts_UserRoles.Size = new System.Drawing.Size(169, 22);
-            this.ts_UserRoles.Text = "User Roles";
-            this.ts_UserRoles.Click += new System.EventHandler(this.ts_editGroups_Click);
             // 
             // ts_EditDataPoint
             // 
@@ -713,22 +806,17 @@
             // dangerToolStripMenuItem
             // 
             this.dangerToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.createNewTablesToolStripMenuItem});
+            this.ts_CreateTable});
             this.dangerToolStripMenuItem.Name = "dangerToolStripMenuItem";
             this.dangerToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
             this.dangerToolStripMenuItem.Text = "*Danger*";
             // 
-            // createNewTablesToolStripMenuItem
+            // ts_CreateTable
             // 
-            this.createNewTablesToolStripMenuItem.Name = "createNewTablesToolStripMenuItem";
-            this.createNewTablesToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
-            this.createNewTablesToolStripMenuItem.Text = "Create New Tables";
-            // 
-            // deleteUserInputsToolStripMenuItem
-            // 
-            this.deleteUserInputsToolStripMenuItem.Name = "deleteUserInputsToolStripMenuItem";
-            this.deleteUserInputsToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
-            this.deleteUserInputsToolStripMenuItem.Text = "Delete User Inputs";
+            this.ts_CreateTable.Name = "ts_CreateTable";
+            this.ts_CreateTable.Size = new System.Drawing.Size(171, 22);
+            this.ts_CreateTable.Text = "Create New Tables";
+            this.ts_CreateTable.Click += new System.EventHandler(this.ts_CreateTable_Click);
             // 
             // editUserDataToolStripMenuItem
             // 
@@ -736,55 +824,28 @@
             this.editUserDataToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
             this.editUserDataToolStripMenuItem.Text = "Edit User Data";
             // 
-            // dgv_Image_Value
+            // timer_Refresh
             // 
-            this.dgv_Image_Value.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.dgv_Image_Value.FillWeight = 75F;
-            this.dgv_Image_Value.HeaderText = "Value";
-            this.dgv_Image_Value.MinimumWidth = 75;
-            this.dgv_Image_Value.Name = "dgv_Image_Value";
-            this.dgv_Image_Value.ReadOnly = true;
-            this.dgv_Image_Value.Width = 75;
+            this.timer_Refresh.Interval = 300000;
+            this.timer_Refresh.Tick += new System.EventHandler(this.timer_Refresh_Tick);
             // 
-            // dgv_cb_Mandatory
+            // toolStripStatusLabel4
             // 
-            this.dgv_cb_Mandatory.HeaderText = "Mandatory";
-            this.dgv_cb_Mandatory.Name = "dgv_cb_Mandatory";
-            this.dgv_cb_Mandatory.ReadOnly = true;
-            this.dgv_cb_Mandatory.Visible = false;
+            this.toolStripStatusLabel4.Name = "toolStripStatusLabel4";
+            this.toolStripStatusLabel4.Size = new System.Drawing.Size(10, 17);
+            this.toolStripStatusLabel4.Text = "|";
             // 
-            // dgv_Main_Closed
+            // toolStripStatusLabel5
             // 
-            this.dgv_Main_Closed.HeaderText = "Closed";
-            this.dgv_Main_Closed.Name = "dgv_Main_Closed";
-            this.dgv_Main_Closed.ReadOnly = true;
-            this.dgv_Main_Closed.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgv_Main_Closed.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.dgv_Main_Closed.Visible = false;
+            this.toolStripStatusLabel5.Name = "toolStripStatusLabel5";
+            this.toolStripStatusLabel5.Size = new System.Drawing.Size(50, 17);
+            this.toolStripStatusLabel5.Text = "Battery: ";
             // 
-            // ss_versionLab
+            // ts_Battery
             // 
-            this.ss_versionLab.Name = "ss_versionLab";
-            this.ss_versionLab.Size = new System.Drawing.Size(48, 17);
-            this.ss_versionLab.Text = "Version:";
-            // 
-            // ss_Version
-            // 
-            this.ss_Version.Name = "ss_Version";
-            this.ss_Version.Size = new System.Drawing.Size(44, 17);
-            this.ss_Version.Text = "X.X.X.X";
-            // 
-            // toolStripStatusLabel1
-            // 
-            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(10, 17);
-            this.toolStripStatusLabel1.Text = "|";
-            // 
-            // ss_User
-            // 
-            this.ss_User.Name = "ss_User";
-            this.ss_User.Size = new System.Drawing.Size(30, 17);
-            this.ss_User.Text = "User";
+            this.ts_Battery.Name = "ts_Battery";
+            this.ts_Battery.Size = new System.Drawing.Size(13, 17);
+            this.ts_Battery.Text = "0";
             // 
             // dataGridViewTextBoxColumn1
             // 
@@ -948,11 +1009,13 @@
             this.Controls.Add(this.btn_Search);
             this.Controls.Add(this.tb_ShopOrder);
             this.Controls.Add(this.label1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(965, 39);
             this.Name = "Main";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Digital Data Collector";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Main_FormClosing);
             this.Load += new System.EventHandler(this.Main_Load);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
@@ -1044,7 +1107,7 @@
         private System.Windows.Forms.ToolStripMenuItem administratorToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem deleteUserInputsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem dangerToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem createNewTablesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ts_CreateTable;
         private System.Windows.Forms.ToolStripMenuItem editUserDataToolStripMenuItem;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_tb_OrderID;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_Main_ICID;
@@ -1061,6 +1124,13 @@
         private System.Windows.Forms.ToolStripStatusLabel ss_Version;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.ToolStripStatusLabel ss_User;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel3;
+        private System.Windows.Forms.ToolStripStatusLabel ss_LasSync;
+        private System.Windows.Forms.Timer timer_Refresh;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel4;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel5;
+        private System.Windows.Forms.ToolStripStatusLabel ts_Battery;
     }
 }
 
