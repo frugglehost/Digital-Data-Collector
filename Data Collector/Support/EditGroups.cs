@@ -78,5 +78,11 @@ namespace Data_Collector.Support {
 
 
         }
+
+        private void tb_NTID_KeyDown(object sender, KeyEventArgs e) {
+            if (e.KeyCode.Equals(Keys.Enter)) {
+                btn_Search_Click(null, EventArgs.Empty);
+            }
+        }
     }
 }

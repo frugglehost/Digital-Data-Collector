@@ -289,6 +289,50 @@ namespace Data_Collector.Engineering {
             
 
         }
+
+        private void btn_Up_Click(object sender, EventArgs e) {
+
+            if (dataGridView1.CurrentCell.RowIndex > 0) {
+                try {
+                    int count = dataGridView1.Rows.Count;
+                    int index = dataGridView1.SelectedCells[0].OwningRow.Index;
+                    if (index != 0) {
+                        int num2 = this.dataGridView1.SelectedCells[0].OwningColumn.Index;
+                        DataGridViewRow dataGridViewRow = this.dataGridView1.Rows[index];
+                        dataGridView1.Rows.Remove(dataGridViewRow);
+                        dataGridView1.Rows.Insert(index - 1, dataGridViewRow);
+                        dataGridView1.ClearSelection();
+                        dataGridView1.Rows[index - 1].Cells[num2].Selected = true;
+                    }
+                } catch {
+                }
+            }
+
+
+
+        }
+
+        private void btn_Down_Click(object sender, EventArgs e) {
+
+            if (dataGridView1.CurrentCell.RowIndex > 0) {
+                DataGridView view = dataGridView1;
+                try {
+                    int index = view.SelectedCells[0].OwningRow.Index;
+                    if (index != (view.Rows.Count - 1)) {
+                        int num3 = view.SelectedCells[0].OwningColumn.Index;
+                        DataGridViewRow dataGridViewRow = view.Rows[index];
+                        view.Rows.Remove(dataGridViewRow);
+                        view.Rows.Insert(index + 1, dataGridViewRow);
+                        view.ClearSelection();
+                        view.Rows[index + 1].Cells[num3].Selected = true;
+                    }
+                } catch {
+                }
+            }
+
+
+
+        }
     }
     
 }

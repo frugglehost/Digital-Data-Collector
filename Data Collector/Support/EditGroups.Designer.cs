@@ -52,6 +52,7 @@
             this.tb_NTID.Name = "tb_NTID";
             this.tb_NTID.Size = new System.Drawing.Size(100, 20);
             this.tb_NTID.TabIndex = 1;
+            this.tb_NTID.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tb_NTID_KeyDown);
             // 
             // label1
             // 

@@ -54,20 +54,9 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.pdf_Document = new PdfiumViewer.PdfRenderer();
             this.dgv_Main = new System.Windows.Forms.DataGridView();
-            this.dgv_tb_OrderID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_Main_ICID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_Main_ReqOpen = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_Main_ReqClosed = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_tb_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_tb_User = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_Image_Value = new System.Windows.Forms.DataGridViewImageColumn();
-            this.dgv_tb_DocID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_tb_Position = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_cb_Mandatory = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.dgv_Main_Closed = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.btn_SaveAll = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
+            this.btn_Down = new System.Windows.Forms.Button();
+            this.btn_Up = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.btn_Add = new System.Windows.Forms.Button();
             this.btn_Sync = new System.Windows.Forms.Button();
@@ -99,23 +88,25 @@
             this.manageDocumentsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.supportToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.productionToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.ts_Support = new System.Windows.Forms.ToolStripMenuItem();
+            this.ts_Production = new System.Windows.Forms.ToolStripMenuItem();
             this.ts_ShopOrder = new System.Windows.Forms.ToolStripMenuItem();
-            this.supervisorToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.ts_Supervisor = new System.Windows.Forms.ToolStripMenuItem();
             this.ts_UserRoles = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteUserInputsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.engineerToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.ts_Engineer = new System.Windows.Forms.ToolStripMenuItem();
             this.ts_EditDataPoint = new System.Windows.Forms.ToolStripMenuItem();
             this.ts_EditPartNumber = new System.Windows.Forms.ToolStripMenuItem();
             this.ts_EditDocument = new System.Windows.Forms.ToolStripMenuItem();
-            this.administratorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ts_Admin = new System.Windows.Forms.ToolStripMenuItem();
             this.dangerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ts_CreateTable = new System.Windows.Forms.ToolStripMenuItem();
             this.editUserDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ts_ShowFields = new System.Windows.Forms.ToolStripMenuItem();
             this.manageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ts_SetRoot = new System.Windows.Forms.ToolStripMenuItem();
             this.timer_Refresh = new System.Windows.Forms.Timer(this.components);
+            this.fbd_SetPath = new System.Windows.Forms.FolderBrowserDialog();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -124,8 +115,18 @@
             this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.fbd_SetPath = new System.Windows.Forms.FolderBrowserDialog();
-            this.ts_ShowFields = new System.Windows.Forms.ToolStripMenuItem();
+            this.ts_MasterPassword = new System.Windows.Forms.ToolStripMenuItem();
+            this.dgv_tb_OrderID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_Main_ICID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_Main_ReqOpen = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_Main_ReqClosed = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_tb_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_tb_User = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_Image_Value = new System.Windows.Forms.DataGridViewImageColumn();
+            this.dgv_tb_DocID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_tb_Position = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_cb_Mandatory = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.dgv_Main_Closed = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -377,8 +378,8 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.dgv_Main);
             this.splitContainer1.Panel2.Controls.Add(this.btn_SaveAll);
-            this.splitContainer1.Panel2.Controls.Add(this.button4);
-            this.splitContainer1.Panel2.Controls.Add(this.button3);
+            this.splitContainer1.Panel2.Controls.Add(this.btn_Down);
+            this.splitContainer1.Panel2.Controls.Add(this.btn_Up);
             this.splitContainer1.Panel2.Controls.Add(this.button2);
             this.splitContainer1.Panel2.Controls.Add(this.btn_Add);
             this.splitContainer1.Panel2.Controls.Add(this.btn_Sync);
@@ -434,103 +435,6 @@
             this.dgv_Main.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_Main_CellClick);
             this.dgv_Main.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_Main_CellDoubleClick);
             // 
-            // dgv_tb_OrderID
-            // 
-            this.dgv_tb_OrderID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.dgv_tb_OrderID.FillWeight = 50F;
-            this.dgv_tb_OrderID.HeaderText = "OrderID";
-            this.dgv_tb_OrderID.MinimumWidth = 50;
-            this.dgv_tb_OrderID.Name = "dgv_tb_OrderID";
-            this.dgv_tb_OrderID.ReadOnly = true;
-            this.dgv_tb_OrderID.Visible = false;
-            this.dgv_tb_OrderID.Width = 50;
-            // 
-            // dgv_Main_ICID
-            // 
-            this.dgv_Main_ICID.FillWeight = 50F;
-            this.dgv_Main_ICID.HeaderText = "ID";
-            this.dgv_Main_ICID.MinimumWidth = 50;
-            this.dgv_Main_ICID.Name = "dgv_Main_ICID";
-            this.dgv_Main_ICID.ReadOnly = true;
-            this.dgv_Main_ICID.Width = 50;
-            // 
-            // dgv_Main_ReqOpen
-            // 
-            this.dgv_Main_ReqOpen.HeaderText = "ReqOpen";
-            this.dgv_Main_ReqOpen.Name = "dgv_Main_ReqOpen";
-            this.dgv_Main_ReqOpen.ReadOnly = true;
-            this.dgv_Main_ReqOpen.Visible = false;
-            // 
-            // dgv_Main_ReqClosed
-            // 
-            this.dgv_Main_ReqClosed.HeaderText = "ReqClosed";
-            this.dgv_Main_ReqClosed.Name = "dgv_Main_ReqClosed";
-            this.dgv_Main_ReqClosed.ReadOnly = true;
-            this.dgv_Main_ReqClosed.Visible = false;
-            // 
-            // dgv_tb_Name
-            // 
-            this.dgv_tb_Name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.dgv_tb_Name.HeaderText = "Name";
-            this.dgv_tb_Name.Name = "dgv_tb_Name";
-            this.dgv_tb_Name.ReadOnly = true;
-            // 
-            // dgv_tb_User
-            // 
-            this.dgv_tb_User.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.dgv_tb_User.FillWeight = 75F;
-            this.dgv_tb_User.HeaderText = "User";
-            this.dgv_tb_User.MinimumWidth = 75;
-            this.dgv_tb_User.Name = "dgv_tb_User";
-            this.dgv_tb_User.ReadOnly = true;
-            this.dgv_tb_User.Width = 75;
-            // 
-            // dgv_Image_Value
-            // 
-            this.dgv_Image_Value.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.dgv_Image_Value.FillWeight = 75F;
-            this.dgv_Image_Value.HeaderText = "Value";
-            this.dgv_Image_Value.MinimumWidth = 75;
-            this.dgv_Image_Value.Name = "dgv_Image_Value";
-            this.dgv_Image_Value.ReadOnly = true;
-            this.dgv_Image_Value.Width = 75;
-            // 
-            // dgv_tb_DocID
-            // 
-            this.dgv_tb_DocID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.dgv_tb_DocID.FillWeight = 50F;
-            this.dgv_tb_DocID.HeaderText = "DocID";
-            this.dgv_tb_DocID.MinimumWidth = 50;
-            this.dgv_tb_DocID.Name = "dgv_tb_DocID";
-            this.dgv_tb_DocID.ReadOnly = true;
-            this.dgv_tb_DocID.Visible = false;
-            this.dgv_tb_DocID.Width = 50;
-            // 
-            // dgv_tb_Position
-            // 
-            this.dgv_tb_Position.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.dgv_tb_Position.HeaderText = "Position";
-            this.dgv_tb_Position.MinimumWidth = 100;
-            this.dgv_tb_Position.Name = "dgv_tb_Position";
-            this.dgv_tb_Position.ReadOnly = true;
-            this.dgv_tb_Position.Visible = false;
-            // 
-            // dgv_cb_Mandatory
-            // 
-            this.dgv_cb_Mandatory.HeaderText = "Mandatory";
-            this.dgv_cb_Mandatory.Name = "dgv_cb_Mandatory";
-            this.dgv_cb_Mandatory.ReadOnly = true;
-            this.dgv_cb_Mandatory.Visible = false;
-            // 
-            // dgv_Main_Closed
-            // 
-            this.dgv_Main_Closed.HeaderText = "Closed";
-            this.dgv_Main_Closed.Name = "dgv_Main_Closed";
-            this.dgv_Main_Closed.ReadOnly = true;
-            this.dgv_Main_Closed.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgv_Main_Closed.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.dgv_Main_Closed.Visible = false;
-            // 
             // btn_SaveAll
             // 
             this.btn_SaveAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -542,25 +446,27 @@
             this.btn_SaveAll.UseVisualStyleBackColor = true;
             this.btn_SaveAll.Click += new System.EventHandler(this.btn_SaveAll_Click);
             // 
-            // button4
+            // btn_Down
             // 
-            this.button4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button4.Location = new System.Drawing.Point(264, 183);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(75, 23);
-            this.button4.TabIndex = 7;
-            this.button4.Text = "Dwon";
-            this.button4.UseVisualStyleBackColor = true;
+            this.btn_Down.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_Down.Location = new System.Drawing.Point(264, 183);
+            this.btn_Down.Name = "btn_Down";
+            this.btn_Down.Size = new System.Drawing.Size(75, 23);
+            this.btn_Down.TabIndex = 7;
+            this.btn_Down.Text = "Dwon";
+            this.btn_Down.UseVisualStyleBackColor = true;
+            this.btn_Down.Click += new System.EventHandler(this.btn_Down_Click);
             // 
-            // button3
+            // btn_Up
             // 
-            this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button3.Location = new System.Drawing.Point(264, 154);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 23);
-            this.button3.TabIndex = 6;
-            this.button3.Text = "Up";
-            this.button3.UseVisualStyleBackColor = true;
+            this.btn_Up.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_Up.Location = new System.Drawing.Point(264, 154);
+            this.btn_Up.Name = "btn_Up";
+            this.btn_Up.Size = new System.Drawing.Size(75, 23);
+            this.btn_Up.TabIndex = 6;
+            this.btn_Up.Text = "Up";
+            this.btn_Up.UseVisualStyleBackColor = true;
+            this.btn_Up.Click += new System.EventHandler(this.btn_Up_Click);
             // 
             // button2
             // 
@@ -795,7 +701,7 @@
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem2,
-            this.supportToolStripMenuItem2,
+            this.ts_Support,
             this.manageToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
@@ -809,24 +715,28 @@
             this.fileToolStripMenuItem2.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem2.Text = "File";
             // 
-            // supportToolStripMenuItem2
+            // ts_Support
             // 
-            this.supportToolStripMenuItem2.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.productionToolStripMenuItem1,
-            this.supervisorToolStripMenuItem2,
-            this.engineerToolStripMenuItem1,
-            this.administratorToolStripMenuItem});
-            this.supportToolStripMenuItem2.Name = "supportToolStripMenuItem2";
-            this.supportToolStripMenuItem2.Size = new System.Drawing.Size(61, 20);
-            this.supportToolStripMenuItem2.Text = "Support";
+            this.ts_Support.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ts_Production,
+            this.ts_Supervisor,
+            this.ts_Engineer,
+            this.ts_Admin,
+            this.ts_MasterPassword});
+            this.ts_Support.Name = "ts_Support";
+            this.ts_Support.Size = new System.Drawing.Size(61, 20);
+            this.ts_Support.Text = "Support";
+            this.ts_Support.Click += new System.EventHandler(this.ts_Support_Click);
+            this.ts_Support.DoubleClick += new System.EventHandler(this.ts_Support_DoubleClick);
             // 
-            // productionToolStripMenuItem1
+            // ts_Production
             // 
-            this.productionToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ts_Production.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ts_ShopOrder});
-            this.productionToolStripMenuItem1.Name = "productionToolStripMenuItem1";
-            this.productionToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
-            this.productionToolStripMenuItem1.Text = "Production";
+            this.ts_Production.Enabled = false;
+            this.ts_Production.Name = "ts_Production";
+            this.ts_Production.Size = new System.Drawing.Size(180, 22);
+            this.ts_Production.Text = "Production";
             // 
             // ts_ShopOrder
             // 
@@ -835,14 +745,15 @@
             this.ts_ShopOrder.Text = "Manage Shop Order";
             this.ts_ShopOrder.Click += new System.EventHandler(this.ts_ShoOrder_Click);
             // 
-            // supervisorToolStripMenuItem2
+            // ts_Supervisor
             // 
-            this.supervisorToolStripMenuItem2.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ts_Supervisor.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ts_UserRoles,
             this.deleteUserInputsToolStripMenuItem});
-            this.supervisorToolStripMenuItem2.Name = "supervisorToolStripMenuItem2";
-            this.supervisorToolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
-            this.supervisorToolStripMenuItem2.Text = "Supervisor";
+            this.ts_Supervisor.Enabled = false;
+            this.ts_Supervisor.Name = "ts_Supervisor";
+            this.ts_Supervisor.Size = new System.Drawing.Size(180, 22);
+            this.ts_Supervisor.Text = "Supervisor";
             // 
             // ts_UserRoles
             // 
@@ -857,15 +768,16 @@
             this.deleteUserInputsToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
             this.deleteUserInputsToolStripMenuItem.Text = "Delete User Inputs";
             // 
-            // engineerToolStripMenuItem1
+            // ts_Engineer
             // 
-            this.engineerToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ts_Engineer.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ts_EditDataPoint,
             this.ts_EditPartNumber,
             this.ts_EditDocument});
-            this.engineerToolStripMenuItem1.Name = "engineerToolStripMenuItem1";
-            this.engineerToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
-            this.engineerToolStripMenuItem1.Text = "Engineer";
+            this.ts_Engineer.Enabled = false;
+            this.ts_Engineer.Name = "ts_Engineer";
+            this.ts_Engineer.Size = new System.Drawing.Size(180, 22);
+            this.ts_Engineer.Text = "Engineer";
             // 
             // ts_EditDataPoint
             // 
@@ -888,15 +800,16 @@
             this.ts_EditDocument.Text = "Manage Documents";
             this.ts_EditDocument.Click += new System.EventHandler(this.ts_ManageDocument_Click);
             // 
-            // administratorToolStripMenuItem
+            // ts_Admin
             // 
-            this.administratorToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ts_Admin.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.dangerToolStripMenuItem,
             this.editUserDataToolStripMenuItem,
             this.ts_ShowFields});
-            this.administratorToolStripMenuItem.Name = "administratorToolStripMenuItem";
-            this.administratorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.administratorToolStripMenuItem.Text = "Administrator";
+            this.ts_Admin.Enabled = false;
+            this.ts_Admin.Name = "ts_Admin";
+            this.ts_Admin.Size = new System.Drawing.Size(180, 22);
+            this.ts_Admin.Text = "Administrator";
             // 
             // dangerToolStripMenuItem
             // 
@@ -919,6 +832,13 @@
             this.editUserDataToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.editUserDataToolStripMenuItem.Text = "Edit User Data";
             // 
+            // ts_ShowFields
+            // 
+            this.ts_ShowFields.Name = "ts_ShowFields";
+            this.ts_ShowFields.Size = new System.Drawing.Size(180, 22);
+            this.ts_ShowFields.Text = "Show All Fields";
+            this.ts_ShowFields.Click += new System.EventHandler(this.ts_ShowFields_Click);
+            // 
             // manageToolStripMenuItem
             // 
             this.manageToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -938,6 +858,11 @@
             // 
             this.timer_Refresh.Interval = 300000;
             this.timer_Refresh.Tick += new System.EventHandler(this.timer_Refresh_Tick);
+            // 
+            // fbd_SetPath
+            // 
+            this.fbd_SetPath.RootFolder = System.Environment.SpecialFolder.MyComputer;
+            this.fbd_SetPath.ShowNewFolderButton = false;
             // 
             // dataGridViewTextBoxColumn1
             // 
@@ -1011,17 +936,114 @@
             this.dataGridViewTextBoxColumn8.ReadOnly = true;
             this.dataGridViewTextBoxColumn8.Visible = false;
             // 
-            // fbd_SetPath
+            // ts_MasterPassword
             // 
-            this.fbd_SetPath.RootFolder = System.Environment.SpecialFolder.MyComputer;
-            this.fbd_SetPath.ShowNewFolderButton = false;
+            this.ts_MasterPassword.Name = "ts_MasterPassword";
+            this.ts_MasterPassword.Size = new System.Drawing.Size(180, 22);
+            this.ts_MasterPassword.Text = "Master Password";
+            this.ts_MasterPassword.Click += new System.EventHandler(this.ts_MasterPassword_Click);
             // 
-            // ts_ShowFields
+            // dgv_tb_OrderID
             // 
-            this.ts_ShowFields.Name = "ts_ShowFields";
-            this.ts_ShowFields.Size = new System.Drawing.Size(180, 22);
-            this.ts_ShowFields.Text = "Show All Fields";
-            this.ts_ShowFields.Click += new System.EventHandler(this.ts_ShowFields_Click);
+            this.dgv_tb_OrderID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.dgv_tb_OrderID.FillWeight = 50F;
+            this.dgv_tb_OrderID.HeaderText = "OrderID";
+            this.dgv_tb_OrderID.MinimumWidth = 50;
+            this.dgv_tb_OrderID.Name = "dgv_tb_OrderID";
+            this.dgv_tb_OrderID.ReadOnly = true;
+            this.dgv_tb_OrderID.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.dgv_tb_OrderID.Visible = false;
+            this.dgv_tb_OrderID.Width = 50;
+            // 
+            // dgv_Main_ICID
+            // 
+            this.dgv_Main_ICID.FillWeight = 50F;
+            this.dgv_Main_ICID.HeaderText = "ID";
+            this.dgv_Main_ICID.MinimumWidth = 50;
+            this.dgv_Main_ICID.Name = "dgv_Main_ICID";
+            this.dgv_Main_ICID.ReadOnly = true;
+            this.dgv_Main_ICID.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.dgv_Main_ICID.Width = 50;
+            // 
+            // dgv_Main_ReqOpen
+            // 
+            this.dgv_Main_ReqOpen.HeaderText = "ReqOpen";
+            this.dgv_Main_ReqOpen.Name = "dgv_Main_ReqOpen";
+            this.dgv_Main_ReqOpen.ReadOnly = true;
+            this.dgv_Main_ReqOpen.Visible = false;
+            // 
+            // dgv_Main_ReqClosed
+            // 
+            this.dgv_Main_ReqClosed.HeaderText = "ReqClosed";
+            this.dgv_Main_ReqClosed.Name = "dgv_Main_ReqClosed";
+            this.dgv_Main_ReqClosed.ReadOnly = true;
+            this.dgv_Main_ReqClosed.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.dgv_Main_ReqClosed.Visible = false;
+            // 
+            // dgv_tb_Name
+            // 
+            this.dgv_tb_Name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dgv_tb_Name.HeaderText = "Name";
+            this.dgv_tb_Name.Name = "dgv_tb_Name";
+            this.dgv_tb_Name.ReadOnly = true;
+            this.dgv_tb_Name.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // dgv_tb_User
+            // 
+            this.dgv_tb_User.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.dgv_tb_User.FillWeight = 75F;
+            this.dgv_tb_User.HeaderText = "User";
+            this.dgv_tb_User.MinimumWidth = 75;
+            this.dgv_tb_User.Name = "dgv_tb_User";
+            this.dgv_tb_User.ReadOnly = true;
+            this.dgv_tb_User.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.dgv_tb_User.Width = 75;
+            // 
+            // dgv_Image_Value
+            // 
+            this.dgv_Image_Value.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.dgv_Image_Value.FillWeight = 75F;
+            this.dgv_Image_Value.HeaderText = "Value";
+            this.dgv_Image_Value.MinimumWidth = 75;
+            this.dgv_Image_Value.Name = "dgv_Image_Value";
+            this.dgv_Image_Value.ReadOnly = true;
+            this.dgv_Image_Value.Width = 75;
+            // 
+            // dgv_tb_DocID
+            // 
+            this.dgv_tb_DocID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.dgv_tb_DocID.FillWeight = 50F;
+            this.dgv_tb_DocID.HeaderText = "DocID";
+            this.dgv_tb_DocID.MinimumWidth = 50;
+            this.dgv_tb_DocID.Name = "dgv_tb_DocID";
+            this.dgv_tb_DocID.ReadOnly = true;
+            this.dgv_tb_DocID.Visible = false;
+            this.dgv_tb_DocID.Width = 50;
+            // 
+            // dgv_tb_Position
+            // 
+            this.dgv_tb_Position.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.dgv_tb_Position.HeaderText = "Position";
+            this.dgv_tb_Position.MinimumWidth = 100;
+            this.dgv_tb_Position.Name = "dgv_tb_Position";
+            this.dgv_tb_Position.ReadOnly = true;
+            this.dgv_tb_Position.Visible = false;
+            // 
+            // dgv_cb_Mandatory
+            // 
+            this.dgv_cb_Mandatory.HeaderText = "Mandatory";
+            this.dgv_cb_Mandatory.Name = "dgv_cb_Mandatory";
+            this.dgv_cb_Mandatory.ReadOnly = true;
+            this.dgv_cb_Mandatory.Visible = false;
+            // 
+            // dgv_Main_Closed
+            // 
+            this.dgv_Main_Closed.HeaderText = "Closed";
+            this.dgv_Main_Closed.Name = "dgv_Main_Closed";
+            this.dgv_Main_Closed.ReadOnly = true;
+            this.dgv_Main_Closed.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_Main_Closed.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.dgv_Main_Closed.Visible = false;
             // 
             // Main
             // 
@@ -1101,8 +1123,8 @@
         private System.Windows.Forms.Button btn_Sync;
         private System.Windows.Forms.Button btn_Export;
         private System.Windows.Forms.ComboBox cob_DocList;
-        private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button btn_Down;
+        private System.Windows.Forms.Button btn_Up;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button btn_Add;
         private PdfiumViewer.PdfRenderer pdf_Document;
@@ -1128,31 +1150,20 @@
         private System.Windows.Forms.ToolStripMenuItem manageDocumentsToolStripMenuItem;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem2;
-        private System.Windows.Forms.ToolStripMenuItem supportToolStripMenuItem2;
-        private System.Windows.Forms.ToolStripMenuItem productionToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem ts_Support;
+        private System.Windows.Forms.ToolStripMenuItem ts_Production;
         private System.Windows.Forms.ToolStripMenuItem ts_ShopOrder;
-        private System.Windows.Forms.ToolStripMenuItem supervisorToolStripMenuItem2;
+        private System.Windows.Forms.ToolStripMenuItem ts_Supervisor;
         private System.Windows.Forms.ToolStripMenuItem ts_UserRoles;
-        private System.Windows.Forms.ToolStripMenuItem engineerToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem ts_Engineer;
         private System.Windows.Forms.ToolStripMenuItem ts_EditDataPoint;
         private System.Windows.Forms.ToolStripMenuItem ts_EditPartNumber;
         private System.Windows.Forms.ToolStripMenuItem ts_EditDocument;
-        private System.Windows.Forms.ToolStripMenuItem administratorToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ts_Admin;
         private System.Windows.Forms.ToolStripMenuItem deleteUserInputsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem dangerToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ts_CreateTable;
         private System.Windows.Forms.ToolStripMenuItem editUserDataToolStripMenuItem;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_tb_OrderID;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_Main_ICID;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_Main_ReqOpen;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_Main_ReqClosed;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_tb_Name;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_tb_User;
-        private System.Windows.Forms.DataGridViewImageColumn dgv_Image_Value;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_tb_DocID;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_tb_Position;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn dgv_cb_Mandatory;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn dgv_Main_Closed;
         private System.Windows.Forms.ToolStripStatusLabel ss_versionLab;
         private System.Windows.Forms.ToolStripStatusLabel ss_Version;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
@@ -1168,6 +1179,18 @@
         private System.Windows.Forms.ToolStripMenuItem ts_SetRoot;
         private System.Windows.Forms.FolderBrowserDialog fbd_SetPath;
         private System.Windows.Forms.ToolStripMenuItem ts_ShowFields;
+        private System.Windows.Forms.ToolStripMenuItem ts_MasterPassword;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_tb_OrderID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_Main_ICID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_Main_ReqOpen;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_Main_ReqClosed;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_tb_Name;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_tb_User;
+        private System.Windows.Forms.DataGridViewImageColumn dgv_Image_Value;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_tb_DocID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_tb_Position;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn dgv_cb_Mandatory;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn dgv_Main_Closed;
     }
 }
 

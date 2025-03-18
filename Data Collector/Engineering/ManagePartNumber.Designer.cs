@@ -33,17 +33,17 @@
             this.tb_PartID = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.btn_Add = new System.Windows.Forms.Button();
-            this.btn_delete = new System.Windows.Forms.Button();
-            this.btn_Up = new System.Windows.Forms.Button();
-            this.btn_Down = new System.Windows.Forms.Button();
-            this.btn_Save = new System.Windows.Forms.Button();
             this.dgv_btn_Change = new System.Windows.Forms.DataGridViewButtonColumn();
             this.dgv_tb_RowID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_tb_DocID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_tb_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_tb_Rev = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_tb_OldDocID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btn_Add = new System.Windows.Forms.Button();
+            this.btn_delete = new System.Windows.Forms.Button();
+            this.btn_Up = new System.Windows.Forms.Button();
+            this.btn_Down = new System.Windows.Forms.Button();
+            this.btn_Save = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
@@ -153,60 +153,6 @@
             this.dataGridView1.TabIndex = 8;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
-            // btn_Add
-            // 
-            this.btn_Add.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_Add.Location = new System.Drawing.Point(693, 81);
-            this.btn_Add.Name = "btn_Add";
-            this.btn_Add.Size = new System.Drawing.Size(111, 23);
-            this.btn_Add.TabIndex = 9;
-            this.btn_Add.Text = "Add Row";
-            this.btn_Add.UseVisualStyleBackColor = true;
-            this.btn_Add.Click += new System.EventHandler(this.btn_Add_Click);
-            // 
-            // btn_delete
-            // 
-            this.btn_delete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_delete.Location = new System.Drawing.Point(693, 110);
-            this.btn_delete.Name = "btn_delete";
-            this.btn_delete.Size = new System.Drawing.Size(111, 23);
-            this.btn_delete.TabIndex = 10;
-            this.btn_delete.Text = "Remove Row";
-            this.btn_delete.UseVisualStyleBackColor = true;
-            this.btn_delete.Click += new System.EventHandler(this.btn_delete_Click);
-            // 
-            // btn_Up
-            // 
-            this.btn_Up.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_Up.Location = new System.Drawing.Point(693, 164);
-            this.btn_Up.Name = "btn_Up";
-            this.btn_Up.Size = new System.Drawing.Size(111, 23);
-            this.btn_Up.TabIndex = 11;
-            this.btn_Up.Text = "Up";
-            this.btn_Up.UseVisualStyleBackColor = true;
-            // 
-            // btn_Down
-            // 
-            this.btn_Down.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_Down.Location = new System.Drawing.Point(693, 193);
-            this.btn_Down.Name = "btn_Down";
-            this.btn_Down.Size = new System.Drawing.Size(111, 23);
-            this.btn_Down.TabIndex = 12;
-            this.btn_Down.Text = "Down";
-            this.btn_Down.UseVisualStyleBackColor = true;
-            // 
-            // btn_Save
-            // 
-            this.btn_Save.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_Save.Location = new System.Drawing.Point(12, 495);
-            this.btn_Save.Name = "btn_Save";
-            this.btn_Save.Size = new System.Drawing.Size(792, 46);
-            this.btn_Save.TabIndex = 13;
-            this.btn_Save.Text = "Save";
-            this.btn_Save.UseVisualStyleBackColor = true;
-            this.btn_Save.Click += new System.EventHandler(this.btn_Save_Click);
-            // 
             // dgv_btn_Change
             // 
             this.dgv_btn_Change.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
@@ -253,6 +199,62 @@
             this.dgv_tb_OldDocID.Name = "dgv_tb_OldDocID";
             this.dgv_tb_OldDocID.ReadOnly = true;
             this.dgv_tb_OldDocID.Visible = false;
+            // 
+            // btn_Add
+            // 
+            this.btn_Add.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_Add.Location = new System.Drawing.Point(693, 81);
+            this.btn_Add.Name = "btn_Add";
+            this.btn_Add.Size = new System.Drawing.Size(111, 23);
+            this.btn_Add.TabIndex = 9;
+            this.btn_Add.Text = "Add Row";
+            this.btn_Add.UseVisualStyleBackColor = true;
+            this.btn_Add.Click += new System.EventHandler(this.btn_Add_Click);
+            // 
+            // btn_delete
+            // 
+            this.btn_delete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_delete.Location = new System.Drawing.Point(693, 110);
+            this.btn_delete.Name = "btn_delete";
+            this.btn_delete.Size = new System.Drawing.Size(111, 23);
+            this.btn_delete.TabIndex = 10;
+            this.btn_delete.Text = "Remove Row";
+            this.btn_delete.UseVisualStyleBackColor = true;
+            this.btn_delete.Click += new System.EventHandler(this.btn_delete_Click);
+            // 
+            // btn_Up
+            // 
+            this.btn_Up.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_Up.Location = new System.Drawing.Point(693, 164);
+            this.btn_Up.Name = "btn_Up";
+            this.btn_Up.Size = new System.Drawing.Size(111, 23);
+            this.btn_Up.TabIndex = 11;
+            this.btn_Up.Text = "Up";
+            this.btn_Up.UseVisualStyleBackColor = true;
+            this.btn_Up.Click += new System.EventHandler(this.btn_Up_Click);
+            // 
+            // btn_Down
+            // 
+            this.btn_Down.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_Down.Location = new System.Drawing.Point(693, 193);
+            this.btn_Down.Name = "btn_Down";
+            this.btn_Down.Size = new System.Drawing.Size(111, 23);
+            this.btn_Down.TabIndex = 12;
+            this.btn_Down.Text = "Down";
+            this.btn_Down.UseVisualStyleBackColor = true;
+            this.btn_Down.Click += new System.EventHandler(this.btn_Down_Click);
+            // 
+            // btn_Save
+            // 
+            this.btn_Save.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_Save.Location = new System.Drawing.Point(12, 495);
+            this.btn_Save.Name = "btn_Save";
+            this.btn_Save.Size = new System.Drawing.Size(792, 46);
+            this.btn_Save.TabIndex = 13;
+            this.btn_Save.Text = "Save";
+            this.btn_Save.UseVisualStyleBackColor = true;
+            this.btn_Save.Click += new System.EventHandler(this.btn_Save_Click);
             // 
             // ManagePartNumber
             // 

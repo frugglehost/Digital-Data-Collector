@@ -24,6 +24,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using System.IO.Ports;
 using System.Security.Cryptography;
 using Data_Collector.DataTools;
+using Microsoft.VisualBasic;
 
 namespace Data_Collector {
     public partial class Main : Form {
@@ -548,9 +549,7 @@ namespace Data_Collector {
             dgv_Main.Columns[dgv_tb_Position.Index].Visible = ts_EditPoints.Checked;
             dgv_Main.Columns[dgv_tb_DocID.Index].Visible = ts_EditPoints.Checked;
             dgv_Main.Columns[dgv_tb_OrderID.Index].Visible = ts_EditPoints.Checked;
-            dgv_Main.Columns[dgv_Main_ReqOpen.Index].Visible = ts_EditPoints.Checked;
-            dgv_Main.Columns[dgv_Main_ReqClosed.Index].Visible = ts_EditPoints.Checked;
-            dgv_Main.Columns[dgv_Main_Closed.Index].Visible = ts_EditPoints.Checked;
+
             
 
 
@@ -950,13 +949,45 @@ namespace Data_Collector {
 
             SetThreadExecutionState(EXECUTION_STATE.ES_DISPLAY_REQUIRED | EXECUTION_STATE.ES_CONTINUOUS);
 
+
+
+
+            try {
+                //Get groups that the operator is assigned too. 
+                DataTable UserRoles = DataTools.DataMaster.GetUserGroup_UserID(Environment.UserName);
+                foreach (DataRow Row in UserRoles.Rows) {
+                    //Check if the user is apart of the group and "active" (1= true)
+                    if (Convert.ToBoolean(Row.Field<Int64>("Active"))) {
+                        switch (Row.Field<string>("UserType").ToLower()) {
+                            case "me":
+                            case "qe": {
+
+                                ts_Engineer.Enabled = true;
+                            }
+                            break;
+
+                            case "supervisor": {
+
+                                ts_Supervisor.Enabled = true;
+                            }
+                            break;
+                            case "support": {
+                                ts_Production.Enabled = true;
+                            }
+                            break;
+                        }
+                    }
+                }
+            } catch { }
+
         }
 
         private void tb_ShopOrder_KeyUp(object sender, KeyEventArgs e) {
             if (e.KeyCode.Equals(Keys.Enter)) {
                 btn_Search_Click(null, EventArgs.Empty);
             }
-            }
+
+        }
 
         private void btn_Sync_Click(object sender, EventArgs e) {
 
@@ -1039,7 +1070,7 @@ namespace Data_Collector {
             timer_Refresh.Enabled=false;
             if (!ts_EditPoints.Checked) {
 
-                PowerStatus pwr = SystemInformation.PowerStatus;
+                
 
 
 
@@ -1047,6 +1078,7 @@ namespace Data_Collector {
                 Thread thread1 = new Thread(new ThreadStart(DoSync));
                 thread1.Start();
 
+                PowerStatus pwr = SystemInformation.PowerStatus;
                 float strBatterylife = pwr.BatteryLifePercent;
                 ts_Battery.Text = (strBatterylife * 100).ToString() + "%";
 
@@ -1127,6 +1159,79 @@ namespace Data_Collector {
             dgv_Main.Columns[dgv_Main_ReqOpen.Index].Visible = ts_ShowFields.Checked;
             dgv_Main.Columns[dgv_Main_ReqClosed.Index].Visible = ts_ShowFields.Checked;
             dgv_Main.Columns[dgv_Main_Closed.Index].Visible = ts_ShowFields.Checked;
+
+
+        }
+
+        private void ts_Support_Click(object sender, EventArgs e) {
+
+
+
+
+
+
+        }
+
+        private void ts_Support_DoubleClick(object sender, EventArgs e) {
+
+            
+
+        }
+
+        private void ts_MasterPassword_Click(object sender, EventArgs e) {
+            string input = Interaction.InputBox("Enter the master password to unlock all items.", "Master Password");
+
+            if (input == "TheKoolKat") {
+
+                ts_Production.Enabled = true;
+                ts_Engineer.Enabled = true;
+                ts_Supervisor.Enabled = true;
+                ts_Admin.Enabled = true;
+
+            }
+
+        }
+
+        private void btn_Up_Click(object sender, EventArgs e) {
+
+            if (dgv_Main.CurrentCell.RowIndex > 0) {
+                try {
+                    int count = dgv_Main.Rows.Count;
+                    int index = dgv_Main.SelectedCells[0].OwningRow.Index;
+                    if (index != 0) {
+                        int num2 = this.dgv_Main.SelectedCells[0].OwningColumn.Index;
+                        DataGridViewRow dataGridViewRow = this.dgv_Main.Rows[index];
+                        dgv_Main.Rows.Remove(dataGridViewRow);
+                        dgv_Main.Rows.Insert(index - 1, dataGridViewRow);
+                        dgv_Main.ClearSelection();
+                        dgv_Main.Rows[index - 1].Cells[num2].Selected = true;
+                    }
+                } catch {
+                }
+            }
+
+
+
+        }
+
+        private void btn_Down_Click(object sender, EventArgs e) {
+
+            if (dgv_Main.CurrentCell.RowIndex > 0) {
+                DataGridView view = dgv_Main;
+                try {
+                    int index = view.SelectedCells[0].OwningRow.Index;
+                    if (index != (view.Rows.Count - 1)) {
+                        int num3 = view.SelectedCells[0].OwningColumn.Index;
+                        DataGridViewRow dataGridViewRow = view.Rows[index];
+                        view.Rows.Remove(dataGridViewRow);
+                        view.Rows.Insert(index + 1, dataGridViewRow);
+                        view.ClearSelection();
+                        view.Rows[index + 1].Cells[num3].Selected = true;
+                    }
+                } catch {
+                }
+            }
+
 
 
         }
