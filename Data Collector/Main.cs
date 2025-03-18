@@ -708,6 +708,7 @@ namespace Data_Collector {
 
 
 
+
                     if (!AllowedType || !AllowedOpen || !AllowedClosed) {
                         //End user not allowed 
 
