@@ -23,6 +23,7 @@ using System.Windows.Forms.VisualStyles;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using System.IO.Ports;
 using System.Security.Cryptography;
+using Data_Collector.DataTools;
 
 namespace Data_Collector {
     public partial class Main : Form {
@@ -41,10 +42,15 @@ namespace Data_Collector {
 
         [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         static extern EXECUTION_STATE SetThreadExecutionState(EXECUTION_STATE esFlags);
-        ///
+        /// Sleeping Pils
+        [DllImport("Powrprof.dll", CharSet = CharSet.Auto, ExactSpelling = true)]
+        public static extern bool SetSuspendState(bool hiberate, bool forceCritical, bool disableWakeEvent);
+        /// 
+        
 
         string LocalFolder = "";
         string GUID_Beat ="";
+        IniFile MyIni = new IniFile();
 
         public Main() {
             InitializeComponent();
@@ -60,6 +66,11 @@ namespace Data_Collector {
             if (!Directory.Exists(LocalFolder + @"\OfflinePDF")) {
                 Directory.CreateDirectory(LocalFolder + @"\OfflinePDF");
             }
+
+
+            MyIni = new IniFile(@LocalFolder + @"\Settings.ini");
+            string HomePage = MyIni.Read("RootFoder");
+
         }
 
 
@@ -534,8 +545,16 @@ namespace Data_Collector {
         private void ts_EditPoints_Click(object sender, EventArgs e) {
 
             ts_EditPoints.Checked = !ts_EditPoints.Checked;
-            dgv_Main.Columns["dgv_tb_Position"].Visible = ts_EditPoints.Checked;
-            dgv_Main.Columns["dgv_tb_DocID"].Visible = ts_EditPoints.Checked;
+            dgv_Main.Columns[dgv_tb_Position.Index].Visible = ts_EditPoints.Checked;
+            dgv_Main.Columns[dgv_tb_DocID.Index].Visible = ts_EditPoints.Checked;
+            dgv_Main.Columns[dgv_tb_OrderID.Index].Visible = ts_EditPoints.Checked;
+            dgv_Main.Columns[dgv_Main_ReqOpen.Index].Visible = ts_EditPoints.Checked;
+            dgv_Main.Columns[dgv_Main_ReqClosed.Index].Visible = ts_EditPoints.Checked;
+            dgv_Main.Columns[dgv_Main_Closed.Index].Visible = ts_EditPoints.Checked;
+            
+
+
+
 
             timer_Refresh.Enabled= !ts_EditPoints.Checked;
 
@@ -601,8 +620,8 @@ namespace Data_Collector {
 
                     DataTable OrderInspPNNew = DataTools.DataMaster.GetOrderInspPN_RowID(Convert.ToInt64(str_OrderICID));
                     if (OrderInspPNNew.Rows.Count > 0) {
-                        dgv_Main.Rows[e.RowIndex].Cells["dgv_tb_ReqOpen"].Value = OrderInspPNNew.Rows[0].Field<Int64>("ReqOpen");
-                        dgv_Main.Rows[e.RowIndex].Cells["dgv_tb_ReqClosed"].Value = OrderInspPNNew.Rows[0].Field<Int64>("ReqClose");
+                        dgv_Main.Rows[e.RowIndex].Cells["dgv_Main_ReqOpen"].Value = (OrderInspPNNew.Rows[0].Field<Int64?>("ReqOpen") ?? 0);
+                        dgv_Main.Rows[e.RowIndex].Cells["dgv_Main_ReqClosed"].Value = (OrderInspPNNew.Rows[0].Field<Int64?>("ReqClose") ?? 0);
                     }
 
                     DataTable InspCriteriaNew = DataTools.DataMaster.GetInspCriteria_DataPointID(Convert.ToInt64(str_ICID));
@@ -624,19 +643,75 @@ namespace Data_Collector {
 
                     //Get groups that the operator is assigned too. 
                     DataTable UserRoles= DataTools.DataMaster.GetUserGroup_UserID(Environment.UserName);
-                    bool Allowed = false;
+                    bool AllowedType = false;
+                    bool AllowedOpen = false;
+                    bool AllowedClosed = false;
+
+                    string BlockedReason = "";
+
+                    
                     foreach (DataRow Row in UserRoles.Rows) {
                         //Check if the user is apart of the group and "active" (1= true)
                         if(Row.Field<string>("UserType")== strUserRole && Convert.ToBoolean(Row.Field<Int64>("Active"))) {
-                            Allowed = true;
+                            AllowedType = true;
                         }
                     }
 
+                    if (!AllowedType) {
+                        BlockedReason = BlockedReason + "The user " + Environment.UserName + " is not apart of the \"" + strUserRole + "\" Group\n";
+                    }
 
-                    if (!Allowed) {
+                    int ReqOpen = Convert.ToInt32(dgv_Main.Rows[e.RowIndex].Cells[dgv_Main_ReqOpen.Index].Value??0);
+                    int ReqClose = Convert.ToInt32(dgv_Main.Rows[e.RowIndex].Cells[dgv_Main_ReqClosed.Index].Value ?? 0);
+
+                    int? ReqOpenRow = null;
+                    int? ReqCloseRow = null;
+
+                    //Get a row number that matches the ICID 
+                    if (ReqOpen != 0) {
+                        foreach (DataGridViewRow MainRow in dgv_Main.Rows) {
+                            if (Convert.ToInt32(MainRow.Cells[dgv_Main_ICID.Index].Value ?? 0) == ReqOpen) {
+                                ReqOpenRow = MainRow.Index;
+
+                                if (!Convert.ToBoolean(MainRow.Cells[dgv_Main_Closed.Index].Value)) {
+                                    AllowedOpen = true;
+
+                                } else {
+                                    BlockedReason = BlockedReason + "The Inpsection Point ID: " + ReqOpen + " is not \"Open\".\n";
+                                }
+                            }
+                        }
+                    } else {
+                        //It is a blank so let them in.
+                        AllowedOpen = true;
+                    }
+                    if (ReqClose != 0) {
+                        foreach (DataGridViewRow MainRow in dgv_Main.Rows) {
+                            if (Convert.ToInt32(MainRow.Cells[dgv_Main_ICID.Index].Value ?? 0) == ReqClose) {
+                                ReqCloseRow = MainRow.Index;
+
+                                if (Convert.ToBoolean(MainRow.Cells[dgv_Main_Closed.Index].Value)) {
+                                    AllowedClosed = true;
+
+                                } else {
+                                    BlockedReason = BlockedReason + "The Inpsection Point ID: " + ReqClose + " is not \"Closed\".\n";
+                                }
+                            }
+                        }
+                    } else {
+                        //It is a blank so let them in.
+                        AllowedClosed = true;
+                    }
+
+
+
+
+
+
+                    if (!AllowedType || !AllowedOpen || !AllowedClosed) {
                         //End user not allowed 
 
-                        MessageBox.Show("User is not a " + strUserRole, "Group Error");
+                        MessageBox.Show("You are not permitted for the reason below:\n\n"+BlockedReason, "Not Permited");
 
 
                     } else {
@@ -842,11 +917,12 @@ namespace Data_Collector {
                 dgv_Main.Rows[RowIndex].Cells[dgv_Main_Closed.Index].Value = true;
                 if (TimerClosed) {
                     IconSet = Properties.Resources.GreenCheck;
-
+                    dgv_Main.Rows[RowIndex].Cells[dgv_Main_Closed.Index].Value = true;
                 } else {
                     IconSet = Properties.Resources.Timer;
                     //Almost gotem. If there is an open timer we need to close it out.
                     dgv_Main.Rows[RowIndex].Cells[dgv_Main_Closed.Index].Value = false;
+
                 }
 
 
@@ -855,6 +931,7 @@ namespace Data_Collector {
 
             } else {
                 IconSet = Properties.Resources.RedX;
+                dgv_Main.Rows[RowIndex].Cells[dgv_Main_Closed.Index].Value = false;
             }
 
                 dgv_Main.Rows[RowIndex].Cells[dgv_Image_Value.Index].Value = Resize(IconSet, BoxSize, BoxSize);
@@ -958,7 +1035,7 @@ namespace Data_Collector {
         }
 
         private void timer_Refresh_Tick(object sender, EventArgs e) {
-
+            timer_Refresh.Enabled=false;
             if (!ts_EditPoints.Checked) {
 
                 PowerStatus pwr = SystemInformation.PowerStatus;
@@ -972,10 +1049,14 @@ namespace Data_Collector {
                 float strBatterylife = pwr.BatteryLifePercent;
                 ts_Battery.Text = (strBatterylife * 100).ToString() + "%";
 
-                if (strBatterylife < .80) {
+                if (strBatterylife < .10) {
                     MessageBox.Show("The computer battery is critical at " + ts_Battery.Text + ".", "Charger Request", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 }
+                if (strBatterylife < .05) {
+                    SetSuspendState(true, true, true);
+                }
             }
+            timer_Refresh.Enabled = true;
         }
 
         private void ts_CreateTable_Click(object sender, EventArgs e) {
@@ -1014,6 +1095,37 @@ namespace Data_Collector {
 
 
 
+
+
+        }
+
+        private void ts_SetRoot_Click(object sender, EventArgs e) {
+
+            string folderName="";
+
+            // Show the FolderBrowserDialog.
+            DialogResult result = fbd_SetPath.ShowDialog();
+            if (result == DialogResult.OK) {
+                folderName = fbd_SetPath.SelectedPath;
+
+
+                MyIni.Write("RootFoder", folderName);
+
+            }
+
+
+        }
+
+        private void ts_ShowFields_Click(object sender, EventArgs e) {
+
+            ts_ShowFields.Checked = !ts_ShowFields.Checked;
+
+            dgv_Main.Columns[dgv_tb_Position.Index].Visible = ts_ShowFields.Checked;
+            dgv_Main.Columns[dgv_tb_DocID.Index].Visible = ts_ShowFields.Checked;
+            dgv_Main.Columns[dgv_tb_OrderID.Index].Visible = ts_ShowFields.Checked;
+            dgv_Main.Columns[dgv_Main_ReqOpen.Index].Visible = ts_ShowFields.Checked;
+            dgv_Main.Columns[dgv_Main_ReqClosed.Index].Visible = ts_ShowFields.Checked;
+            dgv_Main.Columns[dgv_Main_Closed.Index].Visible = ts_ShowFields.Checked;
 
 
         }

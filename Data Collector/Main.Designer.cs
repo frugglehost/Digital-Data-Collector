@@ -54,7 +54,15 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.pdf_Document = new PdfiumViewer.PdfRenderer();
             this.dgv_Main = new System.Windows.Forms.DataGridView();
+            this.dgv_tb_OrderID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_Main_ICID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_Main_ReqOpen = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_Main_ReqClosed = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_tb_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_tb_User = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_Image_Value = new System.Windows.Forms.DataGridViewImageColumn();
+            this.dgv_tb_DocID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_tb_Position = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_cb_Mandatory = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.dgv_Main_Closed = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.btn_SaveAll = new System.Windows.Forms.Button();
@@ -76,6 +84,9 @@
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
             this.ss_LasSync = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel4 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel5 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.ts_Battery = new System.Windows.Forms.ToolStripStatusLabel();
             this.fileToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.supportToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.productionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -102,10 +113,9 @@
             this.dangerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ts_CreateTable = new System.Windows.Forms.ToolStripMenuItem();
             this.editUserDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.manageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ts_SetRoot = new System.Windows.Forms.ToolStripMenuItem();
             this.timer_Refresh = new System.Windows.Forms.Timer(this.components);
-            this.toolStripStatusLabel4 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripStatusLabel5 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.ts_Battery = new System.Windows.Forms.ToolStripStatusLabel();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -114,14 +124,8 @@
             this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_tb_OrderID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_Main_ICID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_tb_ReqOpen = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_tb_ReqClosed = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_tb_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_tb_User = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_tb_DocID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_tb_Position = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.fbd_SetPath = new System.Windows.Forms.FolderBrowserDialog();
+            this.ts_ShowFields = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -412,8 +416,8 @@
             this.dgv_Main.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dgv_tb_OrderID,
             this.dgv_Main_ICID,
-            this.dgv_tb_ReqOpen,
-            this.dgv_tb_ReqClosed,
+            this.dgv_Main_ReqOpen,
+            this.dgv_Main_ReqClosed,
             this.dgv_tb_Name,
             this.dgv_tb_User,
             this.dgv_Image_Value,
@@ -430,6 +434,57 @@
             this.dgv_Main.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_Main_CellClick);
             this.dgv_Main.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_Main_CellDoubleClick);
             // 
+            // dgv_tb_OrderID
+            // 
+            this.dgv_tb_OrderID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.dgv_tb_OrderID.FillWeight = 50F;
+            this.dgv_tb_OrderID.HeaderText = "OrderID";
+            this.dgv_tb_OrderID.MinimumWidth = 50;
+            this.dgv_tb_OrderID.Name = "dgv_tb_OrderID";
+            this.dgv_tb_OrderID.ReadOnly = true;
+            this.dgv_tb_OrderID.Visible = false;
+            this.dgv_tb_OrderID.Width = 50;
+            // 
+            // dgv_Main_ICID
+            // 
+            this.dgv_Main_ICID.FillWeight = 50F;
+            this.dgv_Main_ICID.HeaderText = "ID";
+            this.dgv_Main_ICID.MinimumWidth = 50;
+            this.dgv_Main_ICID.Name = "dgv_Main_ICID";
+            this.dgv_Main_ICID.ReadOnly = true;
+            this.dgv_Main_ICID.Width = 50;
+            // 
+            // dgv_Main_ReqOpen
+            // 
+            this.dgv_Main_ReqOpen.HeaderText = "ReqOpen";
+            this.dgv_Main_ReqOpen.Name = "dgv_Main_ReqOpen";
+            this.dgv_Main_ReqOpen.ReadOnly = true;
+            this.dgv_Main_ReqOpen.Visible = false;
+            // 
+            // dgv_Main_ReqClosed
+            // 
+            this.dgv_Main_ReqClosed.HeaderText = "ReqClosed";
+            this.dgv_Main_ReqClosed.Name = "dgv_Main_ReqClosed";
+            this.dgv_Main_ReqClosed.ReadOnly = true;
+            this.dgv_Main_ReqClosed.Visible = false;
+            // 
+            // dgv_tb_Name
+            // 
+            this.dgv_tb_Name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dgv_tb_Name.HeaderText = "Name";
+            this.dgv_tb_Name.Name = "dgv_tb_Name";
+            this.dgv_tb_Name.ReadOnly = true;
+            // 
+            // dgv_tb_User
+            // 
+            this.dgv_tb_User.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.dgv_tb_User.FillWeight = 75F;
+            this.dgv_tb_User.HeaderText = "User";
+            this.dgv_tb_User.MinimumWidth = 75;
+            this.dgv_tb_User.Name = "dgv_tb_User";
+            this.dgv_tb_User.ReadOnly = true;
+            this.dgv_tb_User.Width = 75;
+            // 
             // dgv_Image_Value
             // 
             this.dgv_Image_Value.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
@@ -439,6 +494,26 @@
             this.dgv_Image_Value.Name = "dgv_Image_Value";
             this.dgv_Image_Value.ReadOnly = true;
             this.dgv_Image_Value.Width = 75;
+            // 
+            // dgv_tb_DocID
+            // 
+            this.dgv_tb_DocID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.dgv_tb_DocID.FillWeight = 50F;
+            this.dgv_tb_DocID.HeaderText = "DocID";
+            this.dgv_tb_DocID.MinimumWidth = 50;
+            this.dgv_tb_DocID.Name = "dgv_tb_DocID";
+            this.dgv_tb_DocID.ReadOnly = true;
+            this.dgv_tb_DocID.Visible = false;
+            this.dgv_tb_DocID.Width = 50;
+            // 
+            // dgv_tb_Position
+            // 
+            this.dgv_tb_Position.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.dgv_tb_Position.HeaderText = "Position";
+            this.dgv_tb_Position.MinimumWidth = 100;
+            this.dgv_tb_Position.Name = "dgv_tb_Position";
+            this.dgv_tb_Position.ReadOnly = true;
+            this.dgv_tb_Position.Visible = false;
             // 
             // dgv_cb_Mandatory
             // 
@@ -634,6 +709,24 @@
             this.ss_LasSync.Size = new System.Drawing.Size(34, 17);
             this.ss_LasSync.Text = "00:00";
             // 
+            // toolStripStatusLabel4
+            // 
+            this.toolStripStatusLabel4.Name = "toolStripStatusLabel4";
+            this.toolStripStatusLabel4.Size = new System.Drawing.Size(10, 17);
+            this.toolStripStatusLabel4.Text = "|";
+            // 
+            // toolStripStatusLabel5
+            // 
+            this.toolStripStatusLabel5.Name = "toolStripStatusLabel5";
+            this.toolStripStatusLabel5.Size = new System.Drawing.Size(50, 17);
+            this.toolStripStatusLabel5.Text = "Battery: ";
+            // 
+            // ts_Battery
+            // 
+            this.ts_Battery.Name = "ts_Battery";
+            this.ts_Battery.Size = new System.Drawing.Size(13, 17);
+            this.ts_Battery.Text = "0";
+            // 
             // fileToolStripMenuItem1
             // 
             this.fileToolStripMenuItem1.Name = "fileToolStripMenuItem1";
@@ -702,7 +795,8 @@
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem2,
-            this.supportToolStripMenuItem2});
+            this.supportToolStripMenuItem2,
+            this.manageToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1046, 24);
@@ -731,7 +825,7 @@
             this.productionToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ts_ShopOrder});
             this.productionToolStripMenuItem1.Name = "productionToolStripMenuItem1";
-            this.productionToolStripMenuItem1.Size = new System.Drawing.Size(147, 22);
+            this.productionToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.productionToolStripMenuItem1.Text = "Production";
             // 
             // ts_ShopOrder
@@ -747,7 +841,7 @@
             this.ts_UserRoles,
             this.deleteUserInputsToolStripMenuItem});
             this.supervisorToolStripMenuItem2.Name = "supervisorToolStripMenuItem2";
-            this.supervisorToolStripMenuItem2.Size = new System.Drawing.Size(147, 22);
+            this.supervisorToolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
             this.supervisorToolStripMenuItem2.Text = "Supervisor";
             // 
             // ts_UserRoles
@@ -770,7 +864,7 @@
             this.ts_EditPartNumber,
             this.ts_EditDocument});
             this.engineerToolStripMenuItem1.Name = "engineerToolStripMenuItem1";
-            this.engineerToolStripMenuItem1.Size = new System.Drawing.Size(147, 22);
+            this.engineerToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.engineerToolStripMenuItem1.Text = "Engineer";
             // 
             // ts_EditDataPoint
@@ -798,9 +892,10 @@
             // 
             this.administratorToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.dangerToolStripMenuItem,
-            this.editUserDataToolStripMenuItem});
+            this.editUserDataToolStripMenuItem,
+            this.ts_ShowFields});
             this.administratorToolStripMenuItem.Name = "administratorToolStripMenuItem";
-            this.administratorToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
+            this.administratorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.administratorToolStripMenuItem.Text = "Administrator";
             // 
             // dangerToolStripMenuItem
@@ -808,7 +903,7 @@
             this.dangerToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ts_CreateTable});
             this.dangerToolStripMenuItem.Name = "dangerToolStripMenuItem";
-            this.dangerToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
+            this.dangerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.dangerToolStripMenuItem.Text = "*Danger*";
             // 
             // ts_CreateTable
@@ -821,31 +916,28 @@
             // editUserDataToolStripMenuItem
             // 
             this.editUserDataToolStripMenuItem.Name = "editUserDataToolStripMenuItem";
-            this.editUserDataToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
+            this.editUserDataToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.editUserDataToolStripMenuItem.Text = "Edit User Data";
+            // 
+            // manageToolStripMenuItem
+            // 
+            this.manageToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ts_SetRoot});
+            this.manageToolStripMenuItem.Name = "manageToolStripMenuItem";
+            this.manageToolStripMenuItem.Size = new System.Drawing.Size(62, 20);
+            this.manageToolStripMenuItem.Text = "Manage";
+            // 
+            // ts_SetRoot
+            // 
+            this.ts_SetRoot.Name = "ts_SetRoot";
+            this.ts_SetRoot.Size = new System.Drawing.Size(118, 22);
+            this.ts_SetRoot.Text = "Set Root";
+            this.ts_SetRoot.Click += new System.EventHandler(this.ts_SetRoot_Click);
             // 
             // timer_Refresh
             // 
             this.timer_Refresh.Interval = 300000;
             this.timer_Refresh.Tick += new System.EventHandler(this.timer_Refresh_Tick);
-            // 
-            // toolStripStatusLabel4
-            // 
-            this.toolStripStatusLabel4.Name = "toolStripStatusLabel4";
-            this.toolStripStatusLabel4.Size = new System.Drawing.Size(10, 17);
-            this.toolStripStatusLabel4.Text = "|";
-            // 
-            // toolStripStatusLabel5
-            // 
-            this.toolStripStatusLabel5.Name = "toolStripStatusLabel5";
-            this.toolStripStatusLabel5.Size = new System.Drawing.Size(50, 17);
-            this.toolStripStatusLabel5.Text = "Battery: ";
-            // 
-            // ts_Battery
-            // 
-            this.ts_Battery.Name = "ts_Battery";
-            this.ts_Battery.Size = new System.Drawing.Size(13, 17);
-            this.ts_Battery.Text = "0";
             // 
             // dataGridViewTextBoxColumn1
             // 
@@ -919,76 +1011,17 @@
             this.dataGridViewTextBoxColumn8.ReadOnly = true;
             this.dataGridViewTextBoxColumn8.Visible = false;
             // 
-            // dgv_tb_OrderID
+            // fbd_SetPath
             // 
-            this.dgv_tb_OrderID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.dgv_tb_OrderID.FillWeight = 50F;
-            this.dgv_tb_OrderID.HeaderText = "OrderID";
-            this.dgv_tb_OrderID.MinimumWidth = 50;
-            this.dgv_tb_OrderID.Name = "dgv_tb_OrderID";
-            this.dgv_tb_OrderID.ReadOnly = true;
-            this.dgv_tb_OrderID.Visible = false;
-            this.dgv_tb_OrderID.Width = 50;
+            this.fbd_SetPath.RootFolder = System.Environment.SpecialFolder.MyComputer;
+            this.fbd_SetPath.ShowNewFolderButton = false;
             // 
-            // dgv_Main_ICID
+            // ts_ShowFields
             // 
-            this.dgv_Main_ICID.FillWeight = 50F;
-            this.dgv_Main_ICID.HeaderText = "ID";
-            this.dgv_Main_ICID.MinimumWidth = 50;
-            this.dgv_Main_ICID.Name = "dgv_Main_ICID";
-            this.dgv_Main_ICID.ReadOnly = true;
-            this.dgv_Main_ICID.Width = 50;
-            // 
-            // dgv_tb_ReqOpen
-            // 
-            this.dgv_tb_ReqOpen.HeaderText = "ReqOpen";
-            this.dgv_tb_ReqOpen.Name = "dgv_tb_ReqOpen";
-            this.dgv_tb_ReqOpen.ReadOnly = true;
-            this.dgv_tb_ReqOpen.Visible = false;
-            // 
-            // dgv_tb_ReqClosed
-            // 
-            this.dgv_tb_ReqClosed.HeaderText = "ReqClosed";
-            this.dgv_tb_ReqClosed.Name = "dgv_tb_ReqClosed";
-            this.dgv_tb_ReqClosed.ReadOnly = true;
-            this.dgv_tb_ReqClosed.Visible = false;
-            // 
-            // dgv_tb_Name
-            // 
-            this.dgv_tb_Name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.dgv_tb_Name.HeaderText = "Name";
-            this.dgv_tb_Name.Name = "dgv_tb_Name";
-            this.dgv_tb_Name.ReadOnly = true;
-            // 
-            // dgv_tb_User
-            // 
-            this.dgv_tb_User.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.dgv_tb_User.FillWeight = 75F;
-            this.dgv_tb_User.HeaderText = "User";
-            this.dgv_tb_User.MinimumWidth = 75;
-            this.dgv_tb_User.Name = "dgv_tb_User";
-            this.dgv_tb_User.ReadOnly = true;
-            this.dgv_tb_User.Width = 75;
-            // 
-            // dgv_tb_DocID
-            // 
-            this.dgv_tb_DocID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.dgv_tb_DocID.FillWeight = 50F;
-            this.dgv_tb_DocID.HeaderText = "DocID";
-            this.dgv_tb_DocID.MinimumWidth = 50;
-            this.dgv_tb_DocID.Name = "dgv_tb_DocID";
-            this.dgv_tb_DocID.ReadOnly = true;
-            this.dgv_tb_DocID.Visible = false;
-            this.dgv_tb_DocID.Width = 50;
-            // 
-            // dgv_tb_Position
-            // 
-            this.dgv_tb_Position.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.dgv_tb_Position.HeaderText = "Position";
-            this.dgv_tb_Position.MinimumWidth = 100;
-            this.dgv_tb_Position.Name = "dgv_tb_Position";
-            this.dgv_tb_Position.ReadOnly = true;
-            this.dgv_tb_Position.Visible = false;
+            this.ts_ShowFields.Name = "ts_ShowFields";
+            this.ts_ShowFields.Size = new System.Drawing.Size(180, 22);
+            this.ts_ShowFields.Text = "Show All Fields";
+            this.ts_ShowFields.Click += new System.EventHandler(this.ts_ShowFields_Click);
             // 
             // Main
             // 
@@ -1111,8 +1144,8 @@
         private System.Windows.Forms.ToolStripMenuItem editUserDataToolStripMenuItem;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_tb_OrderID;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_Main_ICID;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_tb_ReqOpen;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_tb_ReqClosed;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_Main_ReqOpen;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_Main_ReqClosed;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_tb_Name;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_tb_User;
         private System.Windows.Forms.DataGridViewImageColumn dgv_Image_Value;
@@ -1131,6 +1164,10 @@
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel4;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel5;
         private System.Windows.Forms.ToolStripStatusLabel ts_Battery;
+        private System.Windows.Forms.ToolStripMenuItem manageToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ts_SetRoot;
+        private System.Windows.Forms.FolderBrowserDialog fbd_SetPath;
+        private System.Windows.Forms.ToolStripMenuItem ts_ShowFields;
     }
 }
 

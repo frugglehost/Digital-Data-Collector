@@ -104,9 +104,17 @@ namespace Data_Collector.Engineering {
         }
 
         private void CheckStatus(object sender, EventArgs e) {
+           
+
+            btn_Save.Enabled = StatusChecker();
+            
+        }
+
+
+        private bool StatusChecker() {
             bool AllGood = false;
 
-            if (cob_Type.SelectedIndex != -1 && 
+            if (cob_Type.SelectedIndex != -1 &&
                 !String.IsNullOrWhiteSpace(tb_Name.Text) &&
                 !String.IsNullOrWhiteSpace(tb_Desc.Text) &&
                 cob_UserRole.SelectedIndex != -1 &&
@@ -114,17 +122,25 @@ namespace Data_Collector.Engineering {
                 AllGood = true;
             }
 
-
-
-
-
-
             btn_Save.Enabled = AllGood;
-
+            return AllGood;
         }
 
         private void btn_Quick_Filter_Click(object sender, EventArgs e) {
             new Engineering.QuickFilter(cob_Type.Text).ShowDialog();
+        }
+
+        private void AssignCollection_FormClosing(object sender, FormClosingEventArgs e) {
+
+            if (!StatusChecker()) {
+
+                e.Cancel = true;
+                MessageBox.Show("Missing Data","Error");
+            }
+
+
+
+
         }
     }
 }

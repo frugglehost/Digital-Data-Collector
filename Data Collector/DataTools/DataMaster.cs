@@ -7,6 +7,8 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
+
 
 //SQlite tools.
 using Microsoft.Data.Sqlite;
@@ -14,11 +16,39 @@ using Microsoft.Data.Sqlite;
 namespace Data_Collector.DataTools {
     internal class DataMaster {
 
+        
+
         private static SqliteConnection CreateConnection() {
 
-            string obtain_value = System.Configuration.ConfigurationManager.AppSettings["DataBaseRemote"];
+            string LocalFolder = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"\Digital Data Collector";
 
-            SqliteConnection connection = new SqliteConnection("Data Source="+ obtain_value + ";") {
+            IniFile MyIni = new IniFile(@LocalFolder + @"\Settings.ini");
+            string obtain_value = MyIni.Read("RootFoder");
+
+
+            if (string.IsNullOrWhiteSpace(obtain_value)) {
+
+
+                // Show the FolderBrowserDialog.
+                System.Windows.Forms.FolderBrowserDialog FolderBrowser = new System.Windows.Forms.FolderBrowserDialog();
+
+                DialogResult result = FolderBrowser.ShowDialog();
+                if (result == DialogResult.OK) {
+                    obtain_value = FolderBrowser.SelectedPath;
+
+
+                    MyIni.Write("RootFoder", obtain_value);
+
+                }
+
+
+            }
+
+
+
+            //string obtain_value = System.Configuration.ConfigurationManager.AppSettings["DataBaseRemote"];
+
+            SqliteConnection connection = new SqliteConnection("Data Source='"+ obtain_value + "\\DataBase.db';") {
                 DefaultTimeout = 5
             };
             try {

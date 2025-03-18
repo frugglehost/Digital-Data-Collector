@@ -15,10 +15,10 @@
     <Deterministic>true</Deterministic>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
-    <PublishUrl>publish\</PublishUrl>
+    <IsWebBootstrapper>true</IsWebBootstrapper>
+    <PublishUrl>C:\Users\jedwo\OneDrive\Desktop\deploy\</PublishUrl>
     <Install>true</Install>
-    <InstallFrom>Disk</InstallFrom>
+    <InstallFrom>Web</InstallFrom>
     <UpdateEnabled>true</UpdateEnabled>
     <UpdateMode>Foreground</UpdateMode>
     <UpdateInterval>7</UpdateInterval>
@@ -26,14 +26,18 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>false</MapFileExtensions>
+    <InstallUrl>https://github.com/frugglehost/Digital-Data-Collector/raw/master/Deploy/</InstallUrl>
+    <UpdateUrl>https://github.com/frugglehost/Digital-Data-Collector/raw/master/Deploy/</UpdateUrl>
     <SupportUrl>https://github.com/frugglehost/Data-Collector/issues</SupportUrl>
     <ProductName>Digital Data Collector</ProductName>
     <PublisherName>JD Products</PublisherName>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
-    <ApplicationRevision>0</ApplicationRevision>
+    <AutorunEnabled>true</AutorunEnabled>
+    <ApplicationRevision>3</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -59,7 +63,16 @@
     <ApplicationIcon>Temp Data Collector.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>false</SignManifests>
+    <SignManifests>true</SignManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>1A5916EBC5A36BDD4A547B18DDB3E0FBD53F63F0</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>Digital Data Collector_TemporaryKey.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Data.Sqlite, Version=9.0.2.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
@@ -110,6 +123,7 @@
     <Compile Include="DataTools\BlankSQlite.cs" />
     <Compile Include="DataTools\CalendarColumn.cs" />
     <Compile Include="DataTools\DataMaster.cs" />
+    <Compile Include="DataTools\IniFile.cs" />
     <Compile Include="Engineering\AssignCollection.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -203,6 +217,7 @@
     <EmbeddedResource Include="Support\EditGroups.resx">
       <DependentUpon>EditGroups.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="Digital Data Collector_TemporaryKey.pfx" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

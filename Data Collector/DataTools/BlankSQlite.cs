@@ -11,8 +11,14 @@ namespace Data_Collector.DataTools {
 
         private static SqliteConnection CreateConnection() {
 
-            string obtain_value = System.Configuration.ConfigurationManager.AppSettings["DataBaseRemote"];
-            SqliteConnection connection = new SqliteConnection("Data Source=" + obtain_value + ";");
+            string LocalFolder = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"\Digital Data Collector";
+
+            IniFile MyIni = new IniFile(@LocalFolder + @"\Settings.ini");
+            string obtain_value = MyIni.Read("RootFoder");
+
+
+            //string obtain_value = System.Configuration.ConfigurationManager.AppSettings["DataBaseRemote"];
+            SqliteConnection connection = new SqliteConnection("Data Source='" + obtain_value + "\\DataBase.db';");
             try {
                 connection.Open();
             } catch (Exception) {

@@ -418,6 +418,7 @@
             this.Name = "AssignCollection";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Assign Collection";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.AssignCollection_FormClosing);
             this.Load += new System.EventHandler(this.AssignCollection_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
