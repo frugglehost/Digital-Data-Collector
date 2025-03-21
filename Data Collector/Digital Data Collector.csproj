@@ -15,10 +15,10 @@
     <Deterministic>true</Deterministic>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
-    <IsWebBootstrapper>true</IsWebBootstrapper>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>C:\Users\jedwo\OneDrive\Desktop\deploy\</PublishUrl>
     <Install>true</Install>
-    <InstallFrom>Web</InstallFrom>
+    <InstallFrom>Disk</InstallFrom>
     <UpdateEnabled>true</UpdateEnabled>
     <UpdateMode>Foreground</UpdateMode>
     <UpdateInterval>7</UpdateInterval>
@@ -26,7 +26,6 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>false</MapFileExtensions>
-    <InstallUrl>https://github.com/frugglehost/Digital-Data-Collector/raw/master/Deploy/</InstallUrl>
     <UpdateUrl>https://github.com/frugglehost/Digital-Data-Collector/raw/master/Deploy/</UpdateUrl>
     <SupportUrl>https://github.com/frugglehost/Data-Collector/issues</SupportUrl>
     <ProductName>Digital Data Collector</ProductName>
@@ -82,8 +81,8 @@
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="PdfiumViewer, Version=2.13.0.0, Culture=neutral, PublicKeyToken=91e4789cfb0609e0, processorArchitecture=MSIL">
-      <HintPath>..\packages\PdfiumViewer.2.13.0.0\lib\net20\PdfiumViewer.dll</HintPath>
+    <Reference Include="PdfiumViewer, Version=2.14.4.0, Culture=neutral, PublicKeyToken=97c6f28bf5a3df6e, processorArchitecture=MSIL">
+      <HintPath>..\packages\PdfiumViewer.Updated.2.14.4\lib\net45\PdfiumViewer.dll</HintPath>
     </Reference>
     <Reference Include="SQLitePCLRaw.batteries_v2, Version=2.1.10.2445, Culture=neutral, PublicKeyToken=8226ea5df37bcae9, processorArchitecture=MSIL">
       <HintPath>..\packages\SQLitePCLRaw.bundle_e_sqlite3.2.1.10\lib\net461\SQLitePCLRaw.batteries_v2.dll</HintPath>
@@ -181,6 +180,12 @@
     <Compile Include="Support\EditGroups.Designer.cs">
       <DependentUpon>EditGroups.cs</DependentUpon>
     </Compile>
+    <Compile Include="Support\KillData.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Support\KillData.Designer.cs">
+      <DependentUpon>KillData.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Engineering\AssignCollection.resx">
       <DependentUpon>AssignCollection.cs</DependentUpon>
     </EmbeddedResource>
@@ -217,6 +222,9 @@
     </Compile>
     <EmbeddedResource Include="Support\EditGroups.resx">
       <DependentUpon>EditGroups.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Support\KillData.resx">
+      <DependentUpon>KillData.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Digital Data Collector_TemporaryKey.pfx" />
     <None Include="packages.config" />

@@ -191,11 +191,19 @@ namespace Data_Collector.Production {
 
             }
 
+            DataTable GetAllOldSN = DataTools.DataMaster.GetUniqueSerial(TempShopOrder);
             foreach (string TempSN in lb_Serials.Items) {
 
+                bool Found = false;
 
+                foreach(DataRow OldSNrows in GetAllOldSN.Rows) {
+                    string Serial = OldSNrows.Field<string>("Serial");
+                    if (Serial== TempSN) {
+                        Found = true;
+                    }
+                }
 
-                DataTools.DataMaster.InsertUniqueSerial(TempShopOrder, cob_PartNumber.Text, TempSN);
+                if (!Found) DataTools.DataMaster.InsertUniqueSerial(TempShopOrder, cob_PartNumber.Text, TempSN);
             }
 
             this.Close();

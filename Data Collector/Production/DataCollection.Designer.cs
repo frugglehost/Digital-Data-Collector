@@ -54,6 +54,7 @@
             this.btn_Acknowledge = new System.Windows.Forms.Button();
             this.tp_DateTime = new System.Windows.Forms.TabPage();
             this.tp_Chemical = new System.Windows.Forms.TabPage();
+            this.pic_ChemExp = new System.Windows.Forms.PictureBox();
             this.label13 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.dtp_ChemExp = new System.Windows.Forms.DateTimePicker();
@@ -63,9 +64,13 @@
             this.tp_Number = new System.Windows.Forms.TabPage();
             this.brn_NumberAdd = new System.Windows.Forms.Button();
             this.dgv_Number = new System.Windows.Forms.DataGridView();
+            this.dgv_Number_Input = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_Number_Mask = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tp_Serial = new System.Windows.Forms.TabPage();
             this.button8 = new System.Windows.Forms.Button();
             this.dgv_Serial = new System.Windows.Forms.DataGridView();
+            this.dgv_Serial_Input = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_Serial_Mask = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tb_ToolID = new System.Windows.Forms.TabPage();
             this.cob_SerialNum = new System.Windows.Forms.ComboBox();
             this.cob_ToolNumber = new System.Windows.Forms.ComboBox();
@@ -74,19 +79,39 @@
             this.tb_Badge = new System.Windows.Forms.TabPage();
             this.btn_BadgeAdd = new System.Windows.Forms.Button();
             this.dgv_Badge = new System.Windows.Forms.DataGridView();
+            this.dgv_Badge_NTID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_Badge_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_Badge_Mask = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tp_Timer = new System.Windows.Forms.TabPage();
             this.btn_Timer = new System.Windows.Forms.Button();
             this.dgv_Timer = new System.Windows.Forms.DataGridView();
             this.dgv_Timer_Action = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.dgv_Timer_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_Timer_Durration = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_Timer_Left = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_Timer_Pause = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.dgv_timer_Start = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_timer_End = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_Timer_Offset = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tp_stopWatch = new System.Windows.Forms.TabPage();
             this.btn_StopwatchAdd = new System.Windows.Forms.Button();
             this.dgv_Stopwatch = new System.Windows.Forms.DataGridView();
             this.dgv_Stopwatch_Action = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.dgv_Stopwatch_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_Stopwatch_Duration = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_Stopwatch_Pause = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.dgv_Stopwatch_Start = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_Stopwatch_Stop = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_StopWatch_Offset = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tp_File = new System.Windows.Forms.TabPage();
             this.btn_FileAdd = new System.Windows.Forms.Button();
             this.dgv_File = new System.Windows.Forms.DataGridView();
+            this.dgv_File_Action = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.dgv_File_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_File_FileName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_File_Path = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_File_SaveTo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_File_Local = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tp_Text = new System.Windows.Forms.TabPage();
             this.tbr_FreeText = new System.Windows.Forms.RichTextBox();
             this.tb_History = new System.Windows.Forms.TextBox();
@@ -100,8 +125,6 @@
             this.tb_Name = new System.Windows.Forms.TextBox();
             this.label16 = new System.Windows.Forms.Label();
             this.fbd_SavePath = new System.Windows.Forms.FolderBrowserDialog();
-            this.dgv_File_Action = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.pic_ChemExp = new System.Windows.Forms.PictureBox();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -125,29 +148,6 @@
             this.dataGridViewTextBoxColumn21 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn22 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn23 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_Number_Input = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_Number_Mask = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_Serial_Input = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_Serial_Mask = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_Badge_NTID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_Badge_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_Badge_Mask = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_Timer_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_Timer_Durration = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_Timer_Left = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_timer_Start = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_timer_End = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_Timer_Offset = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_Stopwatch_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_Stopwatch_Duration = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_Stopwatch_Start = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_Stopwatch_Stop = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_StopWatch_Offset = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_File_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_File_FileName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_File_Path = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_File_SaveTo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_File_Local = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.calendarColumn1 = new CalendarColumn();
             this.dataGridViewComboBoxColumn1 = new CalendarColumn();
             this.dgv_tb_Format = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -155,6 +155,7 @@
             this.tp_Acknowledge.SuspendLayout();
             this.tp_DateTime.SuspendLayout();
             this.tp_Chemical.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pic_ChemExp)).BeginInit();
             this.tp_Number.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Number)).BeginInit();
             this.tp_Serial.SuspendLayout();
@@ -169,7 +170,6 @@
             this.tp_File.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_File)).BeginInit();
             this.tp_Text.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pic_ChemExp)).BeginInit();
             this.SuspendLayout();
             // 
             // dtp_FullTime
@@ -429,6 +429,16 @@
             this.tp_Chemical.Text = "Chemical";
             this.tp_Chemical.UseVisualStyleBackColor = true;
             // 
+            // pic_ChemExp
+            // 
+            this.pic_ChemExp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pic_ChemExp.Location = new System.Drawing.Point(548, 69);
+            this.pic_ChemExp.Name = "pic_ChemExp";
+            this.pic_ChemExp.Size = new System.Drawing.Size(21, 21);
+            this.pic_ChemExp.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pic_ChemExp.TabIndex = 6;
+            this.pic_ChemExp.TabStop = false;
+            // 
             // label13
             // 
             this.label13.AutoSize = true;
@@ -542,6 +552,19 @@
             this.dgv_Number.TabIndex = 3;
             this.dgv_Number.CellLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_Number_CellLeave);
             // 
+            // dgv_Number_Input
+            // 
+            this.dgv_Number_Input.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dgv_Number_Input.HeaderText = "Input";
+            this.dgv_Number_Input.Name = "dgv_Number_Input";
+            // 
+            // dgv_Number_Mask
+            // 
+            this.dgv_Number_Mask.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.dgv_Number_Mask.HeaderText = "Mask";
+            this.dgv_Number_Mask.Name = "dgv_Number_Mask";
+            this.dgv_Number_Mask.Width = 58;
+            // 
             // tp_Serial
             // 
             this.tp_Serial.Controls.Add(this.button8);
@@ -590,6 +613,19 @@
             this.dgv_Serial.RowHeadersVisible = false;
             this.dgv_Serial.Size = new System.Drawing.Size(549, 105);
             this.dgv_Serial.TabIndex = 5;
+            // 
+            // dgv_Serial_Input
+            // 
+            this.dgv_Serial_Input.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dgv_Serial_Input.HeaderText = "Input";
+            this.dgv_Serial_Input.Name = "dgv_Serial_Input";
+            // 
+            // dgv_Serial_Mask
+            // 
+            this.dgv_Serial_Mask.HeaderText = "Mask";
+            this.dgv_Serial_Mask.Name = "dgv_Serial_Mask";
+            this.dgv_Serial_Mask.ReadOnly = true;
+            this.dgv_Serial_Mask.Visible = false;
             // 
             // tb_ToolID
             // 
@@ -703,6 +739,28 @@
             this.dgv_Badge.Size = new System.Drawing.Size(549, 105);
             this.dgv_Badge.TabIndex = 3;
             // 
+            // dgv_Badge_NTID
+            // 
+            this.dgv_Badge_NTID.FillWeight = 200F;
+            this.dgv_Badge_NTID.HeaderText = "NTID";
+            this.dgv_Badge_NTID.MinimumWidth = 75;
+            this.dgv_Badge_NTID.Name = "dgv_Badge_NTID";
+            this.dgv_Badge_NTID.Width = 200;
+            // 
+            // dgv_Badge_Name
+            // 
+            this.dgv_Badge_Name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dgv_Badge_Name.HeaderText = "Name";
+            this.dgv_Badge_Name.Name = "dgv_Badge_Name";
+            this.dgv_Badge_Name.ReadOnly = true;
+            // 
+            // dgv_Badge_Mask
+            // 
+            this.dgv_Badge_Mask.HeaderText = "Mask";
+            this.dgv_Badge_Mask.Name = "dgv_Badge_Mask";
+            this.dgv_Badge_Mask.ReadOnly = true;
+            this.dgv_Badge_Mask.Visible = false;
+            // 
             // tp_Timer
             // 
             this.tp_Timer.Controls.Add(this.btn_Timer);
@@ -769,6 +827,31 @@
             this.dgv_Timer_Action.ReadOnly = true;
             this.dgv_Timer_Action.Width = 75;
             // 
+            // dgv_Timer_Name
+            // 
+            this.dgv_Timer_Name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.dgv_Timer_Name.HeaderText = "Name";
+            this.dgv_Timer_Name.MinimumWidth = 100;
+            this.dgv_Timer_Name.Name = "dgv_Timer_Name";
+            this.dgv_Timer_Name.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // dgv_Timer_Durration
+            // 
+            this.dgv_Timer_Durration.HeaderText = "Duration (mins)";
+            this.dgv_Timer_Durration.MinimumWidth = 100;
+            this.dgv_Timer_Durration.Name = "dgv_Timer_Durration";
+            this.dgv_Timer_Durration.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // dgv_Timer_Left
+            // 
+            this.dgv_Timer_Left.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dgv_Timer_Left.FillWeight = 75F;
+            this.dgv_Timer_Left.HeaderText = "Remaining (mins)";
+            this.dgv_Timer_Left.MinimumWidth = 75;
+            this.dgv_Timer_Left.Name = "dgv_Timer_Left";
+            this.dgv_Timer_Left.ReadOnly = true;
+            this.dgv_Timer_Left.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
             // dgv_Timer_Pause
             // 
             this.dgv_Timer_Pause.FillWeight = 75F;
@@ -776,6 +859,26 @@
             this.dgv_Timer_Pause.Name = "dgv_Timer_Pause";
             this.dgv_Timer_Pause.ReadOnly = true;
             this.dgv_Timer_Pause.Width = 75;
+            // 
+            // dgv_timer_Start
+            // 
+            this.dgv_timer_Start.HeaderText = "Start";
+            this.dgv_timer_Start.Name = "dgv_timer_Start";
+            this.dgv_timer_Start.ReadOnly = true;
+            this.dgv_timer_Start.Visible = false;
+            // 
+            // dgv_timer_End
+            // 
+            this.dgv_timer_End.HeaderText = "End";
+            this.dgv_timer_End.Name = "dgv_timer_End";
+            this.dgv_timer_End.ReadOnly = true;
+            this.dgv_timer_End.Visible = false;
+            // 
+            // dgv_Timer_Offset
+            // 
+            this.dgv_Timer_Offset.HeaderText = "Offset";
+            this.dgv_Timer_Offset.Name = "dgv_Timer_Offset";
+            this.dgv_Timer_Offset.Visible = false;
             // 
             // tp_stopWatch
             // 
@@ -842,6 +945,24 @@
             this.dgv_Stopwatch_Action.ReadOnly = true;
             this.dgv_Stopwatch_Action.Width = 75;
             // 
+            // dgv_Stopwatch_Name
+            // 
+            this.dgv_Stopwatch_Name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dgv_Stopwatch_Name.HeaderText = "Name";
+            this.dgv_Stopwatch_Name.MinimumWidth = 100;
+            this.dgv_Stopwatch_Name.Name = "dgv_Stopwatch_Name";
+            this.dgv_Stopwatch_Name.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            // 
+            // dgv_Stopwatch_Duration
+            // 
+            this.dgv_Stopwatch_Duration.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.dgv_Stopwatch_Duration.FillWeight = 150F;
+            this.dgv_Stopwatch_Duration.HeaderText = "Duration (mm:ss)";
+            this.dgv_Stopwatch_Duration.MinimumWidth = 150;
+            this.dgv_Stopwatch_Duration.Name = "dgv_Stopwatch_Duration";
+            this.dgv_Stopwatch_Duration.ReadOnly = true;
+            this.dgv_Stopwatch_Duration.Width = 150;
+            // 
             // dgv_Stopwatch_Pause
             // 
             this.dgv_Stopwatch_Pause.FillWeight = 75F;
@@ -850,6 +971,21 @@
             this.dgv_Stopwatch_Pause.Name = "dgv_Stopwatch_Pause";
             this.dgv_Stopwatch_Pause.ReadOnly = true;
             this.dgv_Stopwatch_Pause.Width = 75;
+            // 
+            // dgv_Stopwatch_Start
+            // 
+            this.dgv_Stopwatch_Start.HeaderText = "Start";
+            this.dgv_Stopwatch_Start.Name = "dgv_Stopwatch_Start";
+            // 
+            // dgv_Stopwatch_Stop
+            // 
+            this.dgv_Stopwatch_Stop.HeaderText = "Stop";
+            this.dgv_Stopwatch_Stop.Name = "dgv_Stopwatch_Stop";
+            // 
+            // dgv_StopWatch_Offset
+            // 
+            this.dgv_StopWatch_Offset.HeaderText = "Offset";
+            this.dgv_StopWatch_Offset.Name = "dgv_StopWatch_Offset";
             // 
             // tp_File
             // 
@@ -904,6 +1040,56 @@
             this.dgv_File.Size = new System.Drawing.Size(549, 105);
             this.dgv_File.TabIndex = 1;
             this.dgv_File.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_File_CellContentClick);
+            // 
+            // dgv_File_Action
+            // 
+            this.dgv_File_Action.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.dgv_File_Action.FillWeight = 50F;
+            this.dgv_File_Action.HeaderText = "";
+            this.dgv_File_Action.MinimumWidth = 50;
+            this.dgv_File_Action.Name = "dgv_File_Action";
+            this.dgv_File_Action.ReadOnly = true;
+            this.dgv_File_Action.Width = 50;
+            // 
+            // dgv_File_Name
+            // 
+            this.dgv_File_Name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.dgv_File_Name.HeaderText = "Name";
+            this.dgv_File_Name.MinimumWidth = 100;
+            this.dgv_File_Name.Name = "dgv_File_Name";
+            this.dgv_File_Name.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // dgv_File_FileName
+            // 
+            this.dgv_File_FileName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.dgv_File_FileName.HeaderText = "File Name";
+            this.dgv_File_FileName.MinimumWidth = 75;
+            this.dgv_File_FileName.Name = "dgv_File_FileName";
+            this.dgv_File_FileName.ReadOnly = true;
+            this.dgv_File_FileName.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_File_FileName.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.dgv_File_FileName.Width = 75;
+            // 
+            // dgv_File_Path
+            // 
+            this.dgv_File_Path.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dgv_File_Path.FillWeight = 75F;
+            this.dgv_File_Path.HeaderText = "Path";
+            this.dgv_File_Path.MinimumWidth = 75;
+            this.dgv_File_Path.Name = "dgv_File_Path";
+            this.dgv_File_Path.ReadOnly = true;
+            this.dgv_File_Path.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // dgv_File_SaveTo
+            // 
+            this.dgv_File_SaveTo.HeaderText = "SaveFolder";
+            this.dgv_File_SaveTo.Name = "dgv_File_SaveTo";
+            // 
+            // dgv_File_Local
+            // 
+            this.dgv_File_Local.HeaderText = "Local";
+            this.dgv_File_Local.Name = "dgv_File_Local";
+            this.dgv_File_Local.ReadOnly = true;
             // 
             // tp_Text
             // 
@@ -1035,26 +1221,6 @@
             this.label16.TabIndex = 24;
             this.label16.Text = "Name:";
             // 
-            // dgv_File_Action
-            // 
-            this.dgv_File_Action.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.dgv_File_Action.FillWeight = 50F;
-            this.dgv_File_Action.HeaderText = "";
-            this.dgv_File_Action.MinimumWidth = 50;
-            this.dgv_File_Action.Name = "dgv_File_Action";
-            this.dgv_File_Action.ReadOnly = true;
-            this.dgv_File_Action.Width = 50;
-            // 
-            // pic_ChemExp
-            // 
-            this.pic_ChemExp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pic_ChemExp.Location = new System.Drawing.Point(548, 69);
-            this.pic_ChemExp.Name = "pic_ChemExp";
-            this.pic_ChemExp.Size = new System.Drawing.Size(21, 21);
-            this.pic_ChemExp.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pic_ChemExp.TabIndex = 6;
-            this.pic_ChemExp.TabStop = false;
-            // 
             // dataGridViewTextBoxColumn1
             // 
             this.dataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
@@ -1081,7 +1247,6 @@
             this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
             this.dataGridViewTextBoxColumn3.ReadOnly = true;
             this.dataGridViewTextBoxColumn3.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.dataGridViewTextBoxColumn3.Width = 546;
             // 
             // dataGridViewTextBoxColumn4
             // 
@@ -1286,172 +1451,6 @@
             this.dataGridViewTextBoxColumn23.Name = "dataGridViewTextBoxColumn23";
             this.dataGridViewTextBoxColumn23.ReadOnly = true;
             // 
-            // dgv_Number_Input
-            // 
-            this.dgv_Number_Input.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.dgv_Number_Input.HeaderText = "Input";
-            this.dgv_Number_Input.Name = "dgv_Number_Input";
-            // 
-            // dgv_Number_Mask
-            // 
-            this.dgv_Number_Mask.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.dgv_Number_Mask.HeaderText = "Mask";
-            this.dgv_Number_Mask.Name = "dgv_Number_Mask";
-            this.dgv_Number_Mask.Width = 58;
-            // 
-            // dgv_Serial_Input
-            // 
-            this.dgv_Serial_Input.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.dgv_Serial_Input.HeaderText = "Input";
-            this.dgv_Serial_Input.Name = "dgv_Serial_Input";
-            // 
-            // dgv_Serial_Mask
-            // 
-            this.dgv_Serial_Mask.HeaderText = "Mask";
-            this.dgv_Serial_Mask.Name = "dgv_Serial_Mask";
-            this.dgv_Serial_Mask.ReadOnly = true;
-            this.dgv_Serial_Mask.Visible = false;
-            // 
-            // dgv_Badge_NTID
-            // 
-            this.dgv_Badge_NTID.FillWeight = 200F;
-            this.dgv_Badge_NTID.HeaderText = "NTID";
-            this.dgv_Badge_NTID.MinimumWidth = 75;
-            this.dgv_Badge_NTID.Name = "dgv_Badge_NTID";
-            this.dgv_Badge_NTID.Width = 200;
-            // 
-            // dgv_Badge_Name
-            // 
-            this.dgv_Badge_Name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.dgv_Badge_Name.HeaderText = "Name";
-            this.dgv_Badge_Name.Name = "dgv_Badge_Name";
-            this.dgv_Badge_Name.ReadOnly = true;
-            // 
-            // dgv_Badge_Mask
-            // 
-            this.dgv_Badge_Mask.HeaderText = "Mask";
-            this.dgv_Badge_Mask.Name = "dgv_Badge_Mask";
-            this.dgv_Badge_Mask.ReadOnly = true;
-            this.dgv_Badge_Mask.Visible = false;
-            // 
-            // dgv_Timer_Name
-            // 
-            this.dgv_Timer_Name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.dgv_Timer_Name.HeaderText = "Name";
-            this.dgv_Timer_Name.MinimumWidth = 100;
-            this.dgv_Timer_Name.Name = "dgv_Timer_Name";
-            this.dgv_Timer_Name.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // dgv_Timer_Durration
-            // 
-            this.dgv_Timer_Durration.HeaderText = "Duration (mins)";
-            this.dgv_Timer_Durration.MinimumWidth = 100;
-            this.dgv_Timer_Durration.Name = "dgv_Timer_Durration";
-            this.dgv_Timer_Durration.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // dgv_Timer_Left
-            // 
-            this.dgv_Timer_Left.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.dgv_Timer_Left.FillWeight = 75F;
-            this.dgv_Timer_Left.HeaderText = "Remaining (mins)";
-            this.dgv_Timer_Left.MinimumWidth = 75;
-            this.dgv_Timer_Left.Name = "dgv_Timer_Left";
-            this.dgv_Timer_Left.ReadOnly = true;
-            this.dgv_Timer_Left.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // dgv_timer_Start
-            // 
-            this.dgv_timer_Start.HeaderText = "Start";
-            this.dgv_timer_Start.Name = "dgv_timer_Start";
-            this.dgv_timer_Start.ReadOnly = true;
-            this.dgv_timer_Start.Visible = false;
-            // 
-            // dgv_timer_End
-            // 
-            this.dgv_timer_End.HeaderText = "End";
-            this.dgv_timer_End.Name = "dgv_timer_End";
-            this.dgv_timer_End.ReadOnly = true;
-            this.dgv_timer_End.Visible = false;
-            // 
-            // dgv_Timer_Offset
-            // 
-            this.dgv_Timer_Offset.HeaderText = "Offset";
-            this.dgv_Timer_Offset.Name = "dgv_Timer_Offset";
-            this.dgv_Timer_Offset.Visible = false;
-            // 
-            // dgv_Stopwatch_Name
-            // 
-            this.dgv_Stopwatch_Name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.dgv_Stopwatch_Name.HeaderText = "Name";
-            this.dgv_Stopwatch_Name.MinimumWidth = 100;
-            this.dgv_Stopwatch_Name.Name = "dgv_Stopwatch_Name";
-            this.dgv_Stopwatch_Name.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            // 
-            // dgv_Stopwatch_Duration
-            // 
-            this.dgv_Stopwatch_Duration.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.dgv_Stopwatch_Duration.FillWeight = 150F;
-            this.dgv_Stopwatch_Duration.HeaderText = "Duration (mm:ss)";
-            this.dgv_Stopwatch_Duration.MinimumWidth = 150;
-            this.dgv_Stopwatch_Duration.Name = "dgv_Stopwatch_Duration";
-            this.dgv_Stopwatch_Duration.ReadOnly = true;
-            this.dgv_Stopwatch_Duration.Width = 150;
-            // 
-            // dgv_Stopwatch_Start
-            // 
-            this.dgv_Stopwatch_Start.HeaderText = "Start";
-            this.dgv_Stopwatch_Start.Name = "dgv_Stopwatch_Start";
-            // 
-            // dgv_Stopwatch_Stop
-            // 
-            this.dgv_Stopwatch_Stop.HeaderText = "Stop";
-            this.dgv_Stopwatch_Stop.Name = "dgv_Stopwatch_Stop";
-            // 
-            // dgv_StopWatch_Offset
-            // 
-            this.dgv_StopWatch_Offset.HeaderText = "Offset";
-            this.dgv_StopWatch_Offset.Name = "dgv_StopWatch_Offset";
-            // 
-            // dgv_File_Name
-            // 
-            this.dgv_File_Name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.dgv_File_Name.HeaderText = "Name";
-            this.dgv_File_Name.MinimumWidth = 100;
-            this.dgv_File_Name.Name = "dgv_File_Name";
-            this.dgv_File_Name.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // dgv_File_FileName
-            // 
-            this.dgv_File_FileName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.dgv_File_FileName.HeaderText = "File Name";
-            this.dgv_File_FileName.MinimumWidth = 75;
-            this.dgv_File_FileName.Name = "dgv_File_FileName";
-            this.dgv_File_FileName.ReadOnly = true;
-            this.dgv_File_FileName.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgv_File_FileName.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.dgv_File_FileName.Width = 75;
-            // 
-            // dgv_File_Path
-            // 
-            this.dgv_File_Path.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.dgv_File_Path.FillWeight = 75F;
-            this.dgv_File_Path.HeaderText = "Path";
-            this.dgv_File_Path.MinimumWidth = 75;
-            this.dgv_File_Path.Name = "dgv_File_Path";
-            this.dgv_File_Path.ReadOnly = true;
-            this.dgv_File_Path.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // dgv_File_SaveTo
-            // 
-            this.dgv_File_SaveTo.HeaderText = "SaveFolder";
-            this.dgv_File_SaveTo.Name = "dgv_File_SaveTo";
-            // 
-            // dgv_File_Local
-            // 
-            this.dgv_File_Local.HeaderText = "Local";
-            this.dgv_File_Local.Name = "dgv_File_Local";
-            this.dgv_File_Local.ReadOnly = true;
-            // 
             // calendarColumn1
             // 
             this.calendarColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
@@ -1511,6 +1510,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.tab_Control);
             this.Name = "DataCollection";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "DataCollection";
             this.Load += new System.EventHandler(this.DataCollection_Load);
             this.tab_Control.ResumeLayout(false);
@@ -1519,6 +1519,7 @@
             this.tp_DateTime.ResumeLayout(false);
             this.tp_Chemical.ResumeLayout(false);
             this.tp_Chemical.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pic_ChemExp)).EndInit();
             this.tp_Number.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Number)).EndInit();
             this.tp_Serial.ResumeLayout(false);
@@ -1534,7 +1535,6 @@
             this.tp_File.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgv_File)).EndInit();
             this.tp_Text.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pic_ChemExp)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

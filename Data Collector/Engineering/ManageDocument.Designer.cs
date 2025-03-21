@@ -197,6 +197,7 @@
             this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(369, 253);
             this.Name = "ManageDocument";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Manage Documents";
             this.Load += new System.EventHandler(this.ManageDocument_Load);
             this.ResumeLayout(false);

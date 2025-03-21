@@ -12,6 +12,7 @@ using System.Windows.Forms;
 
 //SQlite tools.
 using Microsoft.Data.Sqlite;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Data_Collector.DataTools {
     internal class DataMaster {
@@ -167,6 +168,62 @@ namespace Data_Collector.DataTools {
             return tempTable;
         }
 
+        /*
+        public static DataTable InsertOrderInspPN(Int64? PartID, Int64? DocID, Int64? DocOrder, Int64? ReqOpen = null, Int64? ReqClose = null, Int64? Order = null) {
+
+            DataTable table = new DataTable();
+            using (SqliteConnection connection = CreateConnection()) {
+
+
+
+                string Set = "";
+
+                Set = (PartID != null) ? Set + "[PartID]," : Set;
+                Set = (DocID != null) ? Set + "[DocID]," : Set;
+                Set = (DocOrder != null) ? Set + "[DocOrder]," : Set;
+                Set = (ReqOpen != null) ? Set + "[ReqOpen]," : Set;
+                Set = (ReqClose != null) ? Set + "[ReqClose]," : Set;
+                Set = (Order != null) ? Set + "[Order]," : Set;
+
+
+                Set = Set.Substring(0, Set.Length - 1);
+
+
+                string ValuesConn = "";
+
+                ValuesConn = (PartID != null) ? ValuesConn + "@p_PartID," : ValuesConn;
+                ValuesConn = (DocID != null) ? ValuesConn + "@p_DocID," : ValuesConn;
+                ValuesConn = (DocOrder != null) ? ValuesConn + "@p_DocOrder," : ValuesConn;
+                ValuesConn = (ReqOpen != null) ? ValuesConn + "@p_ReqOpen," : ValuesConn;
+                ValuesConn = (ReqClose != null) ? ValuesConn + "@p_ReqClose," : ValuesConn;
+                ValuesConn = (Order != null) ? ValuesConn + "@p_Order," : ValuesConn;
+
+
+                ValuesConn = ValuesConn.Substring(0, ValuesConn.Length - 1);
+
+                string str = string.Format("INSERT INTO [DocsPN] ({0}) VALUES ({1}); SELECT last_insert_rowid();", Set, ValuesConn);
+
+
+                using (SqliteCommand command = new SqliteCommand(str, connection)) {
+                    command.Connection = connection;
+                    command.Parameters.AddWithValue("@p_PartID", PartID);
+                    command.Parameters.AddWithValue("@p_DocID", DocID);
+                    command.Parameters.AddWithValue("@p_DocOrder", DocOrder);
+                    command.Parameters.AddWithValue("@p_ReqOpen", ReqOpen);
+                    command.Parameters.AddWithValue("@p_ReqClose", ReqClose);
+                    command.Parameters.AddWithValue("@p_Order", Order);
+
+
+
+                    table.Load(command.ExecuteReader());
+
+                }
+            }
+            return table;
+        }
+        */
+
+
         public static DataTable GetOrderInspPN_PartID(Int64 PartID) {
             DataTable tempTable = new DataTable();
             using (SqliteConnection connection = CreateConnection()) {
@@ -175,6 +232,50 @@ namespace Data_Collector.DataTools {
                 SqliteCommand command = new SqliteCommand(str);
 
                 command.Parameters.AddWithValue("@p_PartID", PartID);
+
+                command.Connection = connection;
+                tempTable.Load(command.ExecuteReader());
+
+            }
+            return tempTable;
+        }
+
+        public static DataTable GetOrderInspPN(Int64? RowID = null, Int64? PartID = null, Int64? DataPointID = null, Int64? ReqOpen = null, Int64? ReqClose = null, Int64? Order=null) {
+            DataTable tempTable = new DataTable();
+            using (SqliteConnection connection = CreateConnection()) {
+
+
+
+                string Where = "";
+
+                Where = (RowID != null) ? Where + "[RowID]=@p_RowID AND " : Where;
+                Where = (PartID != null) ? Where + "[PartID]=@p_PartID AND " : Where;
+                Where = (DataPointID != null) ? Where + "[DataPointID]=@p_DataPointID AND " : Where;
+                Where = (ReqOpen != null) ? Where + "[ReqOpen]=@p_ReqOpen AND " : Where;
+                Where = (ReqClose != null) ? Where + "[ReqClose]=@p_ReqClose AND " : Where;
+                Where = (Order != null) ? Where + "[Order]=@p_Order AND " : Where;
+
+                if (Where.Length != 0) {
+                    Where = Where.Substring(0, Where.Length - 4);
+
+                    Where = "WHERE " + Where;
+
+                }
+
+                
+
+                string str = string.Format("SELECT * FROM [OrderInspPN] {0} ORDER BY [Order] ASC;", Where);
+
+
+                SqliteCommand command = new SqliteCommand(str);
+
+                command.Parameters.AddWithValue("@p_RowID", RowID);
+                command.Parameters.AddWithValue("@p_PartID", PartID);
+                command.Parameters.AddWithValue("@p_DataPointID", DataPointID);
+                command.Parameters.AddWithValue("@p_ReqOpen", ReqOpen);
+                command.Parameters.AddWithValue("@p_ReqClose", ReqClose);
+                command.Parameters.AddWithValue("@p_Order", Order);
+
 
                 command.Connection = connection;
                 tempTable.Load(command.ExecuteReader());
@@ -200,15 +301,16 @@ namespace Data_Collector.DataTools {
         }
 
 
-        public static DataTable GetInspCriteria_DataPointID_Bulk(List<Int64> DataPointID) {
+        public static DataTable GetInspCriteria_DataPointID_Bulk(List<Int64?> DataPointID) {
             DataTable tempTable = new DataTable();
             using (SqliteConnection connection = CreateConnection()) {
 
                 string str = "SELECT * FROM [InspCriteria] WHERE [DataPointID]=@p_DataPointID0";
                 
                 for(int i=1; i < DataPointID.Count; i++) {
-
-                    str = str + " OR [DataPointID]=@p_DataPointID" + i;
+                    if (DataPointID[i] != null) {
+                        str = str + " OR [DataPointID]=@p_DataPointID" + i;
+                    }
                 }
 
 
@@ -217,7 +319,9 @@ namespace Data_Collector.DataTools {
                 command.Parameters.AddWithValue("@p_DataPointID0", DataPointID[0]);
 
                 for (int i = 1; i < DataPointID.Count; i++) {
-                    command.Parameters.AddWithValue("@p_DataPointID" + i, DataPointID[i]);
+                    if (DataPointID[i] != null) {
+                        command.Parameters.AddWithValue("@p_DataPointID" + i, DataPointID[i]);
+                    }
                 }
 
                 command.Parameters.AddWithValue("@p_DataPointID", DataPointID);
@@ -423,6 +527,51 @@ namespace Data_Collector.DataTools {
             return tempTable;
         }
 
+
+        public static DataTable GetInspCriteria(Int64? DataPointID = null, string DataPointName = null, string Description = null, string Type = null, Int64? DocID = null, string DocPosition = null, string UserType = null, Int64? Mandatory = null, string Format = null) {
+            DataTable tempTable = new DataTable();
+            using (SqliteConnection connection = CreateConnection()) {
+
+                string Where = "";
+
+                Where = (DataPointID != null) ? Where + "[DataPointID]=@p_DataPointID AND " : Where;
+                Where = (DataPointName != null) ? Where + "[DataPointName]=@p_DataPointName AND " : Where;
+                Where = (Description != null) ? Where + "[Description]=@p_Description AND " : Where;
+                Where = (Type != null) ? Where + "[Type]=@p_Type AND " : Where;
+                Where = (DocID != null) ? Where + "[DocID]=@p_DocID AND " : Where;
+                Where = (DocPosition != null) ? Where + "[DocPosition]=@p_DocPosition AND " : Where;
+                Where = (UserType != null) ? Where + "[UserType]=@p_UserType AND " : Where;
+                Where = (Mandatory != null) ? Where + "[Mandatory]=@p_Mandatory AND " : Where;
+                Where = (Format != null) ? Where + "[Format]=@p_Format AND " : Where;
+
+
+                Where = Where.Substring(0, Where.Length - 4);
+
+                string str = string.Format("SELECT * FROM [InspCriteria] WHERE {0} ORDER BY [DataPointID] ASC;", Where);
+
+
+
+                SqliteCommand command = new SqliteCommand(str);
+
+                command.Parameters.AddWithValue("@p_DataPointID", DataPointID);
+                command.Parameters.AddWithValue("@p_DataPointName", DataPointName);
+                command.Parameters.AddWithValue("@p_Description", Description);
+                command.Parameters.AddWithValue("@p_Type", Type);
+                command.Parameters.AddWithValue("@p_DocID", DocID);
+                command.Parameters.AddWithValue("@p_DocPosition", DocPosition);
+                command.Parameters.AddWithValue("@p_UserType", UserType);
+                command.Parameters.AddWithValue("@p_Mandatory", Mandatory);
+                command.Parameters.AddWithValue("@p_Format", Format);
+
+
+                command.Connection = connection;
+                tempTable.Load(command.ExecuteReader());
+
+            }
+            return tempTable;
+        }
+
+
         /*
         public static DataTable GetUniqueSerial(Int64? RowID = null, string Order = null, Int64? Serial = null) {
             DataTable tempTable = new DataTable();
@@ -580,6 +729,66 @@ namespace Data_Collector.DataTools {
             return table;
         }
 
+
+        public static DataTable InsertInspCriteriaFull(string DataPointName,  string Description, string Type, Int64? DocID, string DocPosition, string UserType, Int64? Mandatory, string Format, Int64? OldICID=null) {
+
+            DataTable table = new DataTable();
+            using (SqliteConnection connection = CreateConnection()) {
+
+
+                string Set = "";
+
+                Set = (DataPointName != null) ? Set + "[DataPointName]," : Set;
+                Set = (Description != null) ? Set + "[Description]," : Set;
+                Set = (Type != null) ? Set + "[Type]," : Set;
+                Set = (DocID != null) ? Set + "[DocID]," : Set;
+                Set = (DocPosition != null) ? Set + "[DocPosition]," : Set;
+                Set = (UserType != null) ? Set + "[UserType]," : Set;
+                Set = (Mandatory != null) ? Set + "[Mandatory]," : Set;
+                Set = (Format != null) ? Set + "[Format]," : Set;
+                Set = (OldICID != null) ? Set + "[OldICID]," : Set;
+
+                Set = Set.Substring(0, Set.Length - 1);
+
+
+                string ValuesConn = "";
+
+                ValuesConn = (DataPointName != null) ? ValuesConn + "@p_DataPointName," : ValuesConn;
+                ValuesConn = (Description != null) ? ValuesConn + "@p_Description," : ValuesConn;
+                ValuesConn = (Type != null) ? ValuesConn + "@p_Type," : ValuesConn;
+                ValuesConn = (DocID != null) ? ValuesConn + "@p_DocID," : ValuesConn;
+                ValuesConn = (DocPosition != null) ? ValuesConn + "@p_DocPosition," : ValuesConn;
+                ValuesConn = (UserType != null) ? ValuesConn + "@p_UserType," : ValuesConn;
+                ValuesConn = (Mandatory != null) ? ValuesConn + "@p_Mandatory," : ValuesConn;
+                ValuesConn = (Format != null) ? ValuesConn + "@p_Format," : ValuesConn;
+                ValuesConn = (OldICID != null) ? ValuesConn + "@p_OldICID," : ValuesConn;
+
+                ValuesConn = ValuesConn.Substring(0, ValuesConn.Length - 1);
+
+                string str = string.Format("INSERT INTO [InspCriteria] ({0}) VALUES ({1}); SELECT last_insert_rowid();", Set, ValuesConn);
+
+
+                using (SqliteCommand command = new SqliteCommand(str, connection)) {
+                    command.Connection = connection;
+                    command.Parameters.AddWithValue("@p_DataPointName", DataPointName);
+                    command.Parameters.AddWithValue("@p_Description", Description);
+                    command.Parameters.AddWithValue("@p_Type", Type);
+                    command.Parameters.AddWithValue("@p_DocID", DocID);
+                    command.Parameters.AddWithValue("@p_DocPosition", DocPosition);
+                    command.Parameters.AddWithValue("@p_UserType", UserType);
+                    command.Parameters.AddWithValue("@p_Mandatory", Mandatory);
+                    command.Parameters.AddWithValue("@p_Format", Format);
+                    command.Parameters.AddWithValue("@p_OldICID", OldICID);
+                    
+
+                    table.Load(command.ExecuteReader());
+
+                }
+            }
+            return table;
+        }
+
+
         public static void UpdateInspCriteria(Int64 RowID, string Type=null, string DataPointName = null,string Description = null, string UserType = null, Int64? Mandatory = null, Int64? DocID = null, string DocPosition = null) {
 
             DataTable table = new DataTable();
@@ -656,15 +865,44 @@ namespace Data_Collector.DataTools {
         }
 
 
-        public static DataTable InsertOrderInspPN(Int64 PartID, Int64 DataPointID, int Order) {
+        public static DataTable InsertOrderInspPN(Int64? PartID = null, Int64? DataPointID = null, Int64? Order = null, Int64? ReqOpen = null, Int64? ReqClose=null) {
 
             DataTable table = new DataTable();
             using (SqliteConnection connection = CreateConnection()) {
-                using (SqliteCommand command = new SqliteCommand("INSERT INTO [OrderInspPN] ([PartID], [DataPointID], [Order]) VALUES (@p_PartID,@p_DataPointID,@p_Order); SELECT last_insert_rowid();", connection)) {
+
+                string Set = "";
+
+                Set = (PartID != null) ? Set + "[PartID]," : Set;
+                Set = (DataPointID != null) ? Set + "[DataPointID]," : Set;
+                Set = (Order != null) ? Set + "[Order]," : Set;
+                Set = (ReqOpen != null) ? Set + "[ReqOpen]," : Set;
+                Set = (ReqClose != null) ? Set + "[ReqClose]," : Set;
+
+                Set = Set.Substring(0, Set.Length - 1);
+
+
+                string ValuesConn = "";
+
+                ValuesConn = (PartID != null) ? ValuesConn + "@p_PartID," : ValuesConn;
+                ValuesConn = (DataPointID != null) ? ValuesConn + "@p_DataPointID," : ValuesConn;
+                ValuesConn = (Order != null) ? ValuesConn + "@p_Order," : ValuesConn;
+                ValuesConn = (ReqOpen != null) ? ValuesConn + "@p_ReqOpen," : ValuesConn;
+                ValuesConn = (ReqClose != null) ? ValuesConn + "@p_ReqClose," : ValuesConn;
+
+
+                ValuesConn = ValuesConn.Substring(0, ValuesConn.Length - 1);
+
+                string str = string.Format("INSERT INTO [OrderInspPN] ({0}) VALUES ({1}); SELECT last_insert_rowid();", Set, ValuesConn);
+
+
+                using (SqliteCommand command = new SqliteCommand(str, connection)) {
                     command.Connection = connection;
                     command.Parameters.AddWithValue("@p_PartID", PartID);
                     command.Parameters.AddWithValue("@p_DataPointID", DataPointID);
                     command.Parameters.AddWithValue("@p_Order", Order);
+                    command.Parameters.AddWithValue("@p_ReqOpen", ReqOpen);
+                    command.Parameters.AddWithValue("@p_ReqClose", ReqClose);
+
                     table.Load(command.ExecuteReader());
 
                 }
@@ -800,6 +1038,42 @@ namespace Data_Collector.DataTools {
                     command.Parameters.AddWithValue("@p_RowID", RowID);
                     command.Parameters.AddWithValue("@p_DocID", DocID);
                     command.Parameters.AddWithValue("@p_DocOrder", DocOrder);
+                    table.Load(command.ExecuteReader());
+
+                }
+            }
+        }
+
+        public static void UpdateRecID(Int64 Rec_ID, string ShopOrderID, Int64? DataPointID,string Value, string Hidden,string Admin) {
+
+            DataTable table = new DataTable();
+            using (SqliteConnection connection = CreateConnection()) {
+
+
+                string Set = "";
+
+                Set = (ShopOrderID != null) ? Set + "[ShopOrderID]=@p_ShopOrderID, " : Set;
+                Set = (DataPointID != null) ? Set + "[DataPointID]=@p_DataPointID, " : Set;
+                Set = (Value != null) ? Set + "[Value]=@p_Value, " : Set;
+                Set = (Hidden != null) ? Set + "[Hidden]=@p_Hidden, " : Set;
+                Set = (Admin != null) ? Set + "[Admin]=@p_Admin, " : Set;
+
+
+                Set = Set.Substring(0, Set.Length - 2);
+
+                string str = string.Format("UPDATE [DataRecords] SET {0} WHERE [Rec_ID]=@p_Rec_ID;", Set);
+
+
+
+                using (SqliteCommand command = new SqliteCommand(str, connection)) {
+                    command.Connection = connection;
+                    command.Parameters.AddWithValue("@p_Rec_ID", Rec_ID);
+                    command.Parameters.AddWithValue("@p_ShopOrderID", ShopOrderID);
+                    command.Parameters.AddWithValue("@p_DataPointID", DataPointID);
+                    command.Parameters.AddWithValue("@p_Value", Value);
+                    command.Parameters.AddWithValue("@p_Hidden", Hidden);
+                    command.Parameters.AddWithValue("@p_Admin", Admin);
+
                     table.Load(command.ExecuteReader());
 
                 }

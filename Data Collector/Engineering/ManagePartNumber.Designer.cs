@@ -33,17 +33,18 @@
             this.tb_PartID = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.dgv_btn_Change = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.dgv_tb_RowID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_tb_DocID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_tb_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_tb_Rev = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_tb_OldDocID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btn_Add = new System.Windows.Forms.Button();
             this.btn_delete = new System.Windows.Forms.Button();
             this.btn_Up = new System.Windows.Forms.Button();
             this.btn_Down = new System.Windows.Forms.Button();
             this.btn_Save = new System.Windows.Forms.Button();
+            this.cb_AllColumns = new System.Windows.Forms.CheckBox();
+            this.dgv_btn_Change = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.dgv_tb_RowID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_Main_DocID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_Main_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_tb_Rev = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_tb_OldDocID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
@@ -141,8 +142,8 @@
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dgv_btn_Change,
             this.dgv_tb_RowID,
-            this.dgv_tb_DocID,
-            this.dgv_tb_Name,
+            this.dgv_Main_DocID,
+            this.dgv_Main_Name,
             this.dgv_tb_Rev,
             this.dgv_tb_OldDocID});
             this.dataGridView1.Location = new System.Drawing.Point(12, 81);
@@ -152,53 +153,6 @@
             this.dataGridView1.Size = new System.Drawing.Size(675, 408);
             this.dataGridView1.TabIndex = 8;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
-            // 
-            // dgv_btn_Change
-            // 
-            this.dgv_btn_Change.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.dgv_btn_Change.FillWeight = 75F;
-            this.dgv_btn_Change.HeaderText = "";
-            this.dgv_btn_Change.Name = "dgv_btn_Change";
-            this.dgv_btn_Change.ReadOnly = true;
-            this.dgv_btn_Change.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_btn_Change.Text = "Edit";
-            this.dgv_btn_Change.Width = 75;
-            // 
-            // dgv_tb_RowID
-            // 
-            this.dgv_tb_RowID.HeaderText = "RowID";
-            this.dgv_tb_RowID.Name = "dgv_tb_RowID";
-            this.dgv_tb_RowID.ReadOnly = true;
-            this.dgv_tb_RowID.Visible = false;
-            // 
-            // dgv_tb_DocID
-            // 
-            this.dgv_tb_DocID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.dgv_tb_DocID.FillWeight = 75F;
-            this.dgv_tb_DocID.HeaderText = "Doc ID";
-            this.dgv_tb_DocID.Name = "dgv_tb_DocID";
-            this.dgv_tb_DocID.ReadOnly = true;
-            this.dgv_tb_DocID.Width = 75;
-            // 
-            // dgv_tb_Name
-            // 
-            this.dgv_tb_Name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.dgv_tb_Name.HeaderText = "Document Name";
-            this.dgv_tb_Name.Name = "dgv_tb_Name";
-            this.dgv_tb_Name.ReadOnly = true;
-            // 
-            // dgv_tb_Rev
-            // 
-            this.dgv_tb_Rev.HeaderText = "Rev";
-            this.dgv_tb_Rev.Name = "dgv_tb_Rev";
-            this.dgv_tb_Rev.ReadOnly = true;
-            // 
-            // dgv_tb_OldDocID
-            // 
-            this.dgv_tb_OldDocID.HeaderText = "OldDoc";
-            this.dgv_tb_OldDocID.Name = "dgv_tb_OldDocID";
-            this.dgv_tb_OldDocID.ReadOnly = true;
-            this.dgv_tb_OldDocID.Visible = false;
             // 
             // btn_Add
             // 
@@ -256,11 +210,72 @@
             this.btn_Save.UseVisualStyleBackColor = true;
             this.btn_Save.Click += new System.EventHandler(this.btn_Save_Click);
             // 
+            // cb_AllColumns
+            // 
+            this.cb_AllColumns.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cb_AllColumns.AutoSize = true;
+            this.cb_AllColumns.Location = new System.Drawing.Point(693, 472);
+            this.cb_AllColumns.Name = "cb_AllColumns";
+            this.cb_AllColumns.Size = new System.Drawing.Size(80, 17);
+            this.cb_AllColumns.TabIndex = 14;
+            this.cb_AllColumns.Text = "All Columns";
+            this.cb_AllColumns.UseVisualStyleBackColor = true;
+            this.cb_AllColumns.CheckedChanged += new System.EventHandler(this.cb_AllColumns_CheckedChanged);
+            // 
+            // dgv_btn_Change
+            // 
+            this.dgv_btn_Change.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.dgv_btn_Change.FillWeight = 75F;
+            this.dgv_btn_Change.HeaderText = "";
+            this.dgv_btn_Change.Name = "dgv_btn_Change";
+            this.dgv_btn_Change.ReadOnly = true;
+            this.dgv_btn_Change.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv_btn_Change.Text = "Edit";
+            this.dgv_btn_Change.Width = 75;
+            // 
+            // dgv_tb_RowID
+            // 
+            this.dgv_tb_RowID.HeaderText = "RowID";
+            this.dgv_tb_RowID.Name = "dgv_tb_RowID";
+            this.dgv_tb_RowID.ReadOnly = true;
+            this.dgv_tb_RowID.Visible = false;
+            // 
+            // dgv_Main_DocID
+            // 
+            this.dgv_Main_DocID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.dgv_Main_DocID.FillWeight = 75F;
+            this.dgv_Main_DocID.HeaderText = "Doc ID";
+            this.dgv_Main_DocID.Name = "dgv_Main_DocID";
+            this.dgv_Main_DocID.ReadOnly = true;
+            this.dgv_Main_DocID.Width = 75;
+            // 
+            // dgv_Main_Name
+            // 
+            this.dgv_Main_Name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dgv_Main_Name.HeaderText = "Document Name";
+            this.dgv_Main_Name.Name = "dgv_Main_Name";
+            this.dgv_Main_Name.ReadOnly = true;
+            // 
+            // dgv_tb_Rev
+            // 
+            this.dgv_tb_Rev.HeaderText = "Rev";
+            this.dgv_tb_Rev.Name = "dgv_tb_Rev";
+            this.dgv_tb_Rev.ReadOnly = true;
+            // 
+            // dgv_tb_OldDocID
+            // 
+            this.dgv_tb_OldDocID.HeaderText = "OldDoc";
+            this.dgv_tb_OldDocID.Name = "dgv_tb_OldDocID";
+            this.dgv_tb_OldDocID.ReadOnly = true;
+            this.dgv_tb_OldDocID.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.dgv_tb_OldDocID.Visible = false;
+            // 
             // ManagePartNumber
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(816, 553);
+            this.Controls.Add(this.cb_AllColumns);
             this.Controls.Add(this.btn_Save);
             this.Controls.Add(this.btn_Down);
             this.Controls.Add(this.btn_Up);
@@ -277,6 +292,7 @@
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "ManagePartNumber";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ManagePartNumber";
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
@@ -305,9 +321,10 @@
         private System.Windows.Forms.Button btn_Save;
         private System.Windows.Forms.DataGridViewButtonColumn dgv_btn_Change;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_tb_RowID;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_tb_DocID;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_tb_Name;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_Main_DocID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_Main_Name;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_tb_Rev;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_tb_OldDocID;
+        private System.Windows.Forms.CheckBox cb_AllColumns;
     }
 }

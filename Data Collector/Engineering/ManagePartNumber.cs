@@ -121,8 +121,16 @@ namespace Data_Collector.Engineering {
                         dataGridView1.Rows.Add("Edit", TempRowID, TempDocID, TempName, Temprev, TempDocID);
 
                     }
-                }
+                } else {
 
+
+                    for (int i = 0; i < dataGridView1.Rows.Count; i++) {
+
+                        dataGridView1.Rows[i].Cells[dgv_tb_RowID.Index].Value = -1;
+
+
+                    }
+                }
                 
 
 
@@ -208,7 +216,7 @@ namespace Data_Collector.Engineering {
                     dataGridView1.Rows[e.RowIndex].Cells[2].Value = results;
                     dataGridView1.Rows[e.RowIndex].Cells[3].Value = UniqueDocument.Rows[0].Field<string>("Name");
                     dataGridView1.Rows[e.RowIndex].Cells[4].Value = UniqueDocument.Rows[0].Field<Int64>("Revison");
-                    dataGridView1.Rows[e.RowIndex].Cells[5].Value = results;
+                    //dataGridView1.Rows[e.RowIndex].Cells[5].Value = results;
                 }
             }
 
@@ -218,31 +226,76 @@ namespace Data_Collector.Engineering {
 
         private void btn_Save_Click(object sender, EventArgs e) {
 
+            bool DocChanges = false;
+
             int RowNumber = 1;
 
+            Int64 FinialPartID = Convert.ToInt64(tb_PartID.Text);
+
             foreach (DataGridViewRow drv in dataGridView1.Rows) {
-                Int64 TempRowID=Convert.ToInt64(drv.Cells[1].Value);
-                Int64 TempDocID = Convert.ToInt64(drv.Cells[2].Value);
-
-
+                Int64 TempRowID=Convert.ToInt64(drv.Cells[dgv_tb_RowID.Index].Value);
+                Int64 TempDocID = Convert.ToInt64(drv.Cells[dgv_Main_DocID.Index].Value);
+                Int64 TempOldDocID = Convert.ToInt64(drv.Cells[dgv_tb_OldDocID.Index].Value);
+                
 
                 if (TempRowID == -1) {
                     //Insert Code
-                    DataTools.DataMaster.InsertDocsPN_NewRow(Convert.ToInt64(tb_PartID.Text), TempDocID, RowNumber);
+                    DataTools.DataMaster.InsertDocsPN_NewRow(FinialPartID, TempDocID, RowNumber);
                 } else {
                     //Update Code
                     DataTools.DataMaster.UpdateDocsPN_RowID(TempRowID, TempDocID, RowNumber);
-
+                    
                 }
 
-
-
-
-
-
+                
+                if (TempDocID != TempOldDocID && TempOldDocID!=0) {
+                    DocChanges = true;
+                }
 
                 RowNumber++;
             }
+
+
+            if (DocChanges) {
+
+                DialogResult LetsInsertNewPosOrder = MessageBox.Show("We detected you updated an existing document. \n Would you like to keep the same data collection points?", "Doc Changed", MessageBoxButtons.YesNo);
+
+
+                if (LetsInsertNewPosOrder == DialogResult.Yes) {
+                    //The End user wants me make my life hard...........
+
+                    foreach (DataGridViewRow drv in dataGridView1.Rows) {
+                        Int64 NewDocID = Convert.ToInt64(drv.Cells[dgv_Main_DocID.Index].Value);
+                        Int64 OldDocID = Convert.ToInt64(drv.Cells[dgv_tb_OldDocID.Index].Value);
+
+                        //Get the inspection Points
+                        DataTable NewICID_Data = DataTools.DataMaster.GetInspCriteria(null, null, null, null, NewDocID);
+
+                        foreach(DataRow ICIDRow in NewICID_Data.Rows) {
+                            Int64 PastICID = ICIDRow.Field<Int64>("OldICID");
+                            Int64 NewICID = ICIDRow.Field<Int64>("DataPointID");
+
+                            DataTable GotOldOderPOS = DataTools.DataMaster.GetOrderInspPN(null, null, PastICID);
+
+                            if (GotOldOderPOS.Rows.Count > 0) {
+                                Int64 ReqOpenOld = GotOldOderPOS.Rows[0].Field<Int64>("ReqOpen");
+                                Int64 ReqCloseOld = GotOldOderPOS.Rows[0].Field<Int64>("ReqClose");
+                                Int64 OrderOld = GotOldOderPOS.Rows[0].Field<Int64>("Order");
+
+                                DataTools.DataMaster.InsertOrderInspPN(FinialPartID, NewICID, OrderOld, ReqOpenOld, ReqCloseOld);
+
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+
+
             this.Close();
 
 
@@ -330,6 +383,14 @@ namespace Data_Collector.Engineering {
                 }
             }
 
+
+
+        }
+
+        private void cb_AllColumns_CheckedChanged(object sender, EventArgs e) {
+
+            dgv_tb_RowID.Visible = cb_AllColumns.Checked;
+            dgv_tb_OldDocID.Visible = cb_AllColumns.Checked;
 
 
         }

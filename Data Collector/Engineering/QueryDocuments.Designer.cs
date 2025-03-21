@@ -184,6 +184,7 @@
             this.MinimizeBox = false;
             this.Name = "QueryDocuments";
             this.ShowIcon = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Query Documents";
             this.Load += new System.EventHandler(this.QueryDocuments_Load);
             this.ResumeLayout(false);

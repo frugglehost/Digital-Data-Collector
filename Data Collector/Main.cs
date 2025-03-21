@@ -25,6 +25,7 @@ using System.IO.Ports;
 using System.Security.Cryptography;
 using Data_Collector.DataTools;
 using Microsoft.VisualBasic;
+using Data_Collector.Support;
 
 namespace Data_Collector {
     public partial class Main : Form {
@@ -182,7 +183,7 @@ namespace Data_Collector {
 
 
                 }
-                timer_Refresh.Enabled = true;
+                
                 btn_Sync.Enabled = true;
 
                 
@@ -190,7 +191,7 @@ namespace Data_Collector {
             } else {
                 tb_ShopOrder.BackColor = SystemColors.Window;
                 tb_ShopOrder.Enabled = true;
-                timer_Refresh.Enabled = false;
+                
                 btn_Sync.Enabled = false;
 
                 btn_Search.Text = "Search";
@@ -335,6 +336,8 @@ namespace Data_Collector {
 
             if (!string.IsNullOrEmpty(tb_PartID.Text)) {
 
+                
+
 
 
                 Int64 intPartID = Convert.ToInt64(tb_PartID.Text);
@@ -369,20 +372,114 @@ namespace Data_Collector {
                 cob_DocList.DisplayMember = "Display";
                 cob_DocList.DataSource = DetailDocList;
 
-                //We now have the documents now we need to get a list of Inspection points.
-                DataTable OrderInspPN = DataTools.DataMaster.GetOrderInspPN_PartID(Convert.ToInt64(tb_PartID.Text));
-                List<Int64> InspectionCriteriaID = new List<Int64>();
+                //Create all Datatabes for input Data
+                DataTable DataForGrid = new DataTable();
+                DataTable DocICinfo = new DataTable();
+                DataTable OrderInspPN = new DataTable();
 
-                foreach (DataRow Row in OrderInspPN.Rows) {
-                    Int64? OrderID = Row.Field<Int64?>("ROWID");
-                    Int64 InpCrID = Row.Field<Int64?>("DataPointID") ?? 0;
-                    Int64? ReqOpen = Row.Field<Int64?>("ReqOpen");
-                    Int64? ReqClos = Row.Field<Int64?>("ReqClose");
 
-                    dgv_Main.Rows.Add(OrderID, InpCrID, ReqOpen, ReqClos);
-                    InspectionCriteriaID.Add(InpCrID);
+
+                foreach (DataGridViewColumn MainColumn in dgv_Main.Columns) {
+                    DataForGrid.Columns.Add(MainColumn.Name);
                 }
 
+
+                //We now have the documents now we need to get a list of Inspection points.
+                foreach (DataRow DocRow in DocumentsList.Rows) {
+                    Int64 DocID = DocRow.Field<Int64>("DocID");
+
+                    DocICinfo = DataTools.DataMaster.GetInspCriteria(null, null, null, null, DocID);
+
+                    foreach(DataRow ICRow in DocICinfo.Rows) {
+                        Int64 DataPointID = ICRow.Field<Int64>("DataPointID");
+                        string DataPointName = ICRow.Field<string>("DataPointName");
+                        string Description = ICRow.Field<string>("DataPointName");
+                        string Type = ICRow.Field<string>("Type");
+                        string DocPosition = ICRow.Field<string>("DocPosition");
+                        string UserType = ICRow.Field<string>("UserType");
+                        Int64 Mandatory = ICRow.Field<Int64>("Mandatory");
+                        string Format = ICRow.Field<string>("Format");
+
+                        DataForGrid.Rows.Add(null,null, DataPointID,null,null, DataPointName, UserType,null, DocID, DocPosition,Convert.ToBoolean(Mandatory));
+                    }
+                }
+
+                // We need to get and order ID
+                OrderInspPN = DataTools.DataMaster.GetOrderInspPN_PartID(intPartID);
+
+                int ForGridRowIndex = 0;
+                foreach (DataRow ForGridRow in DataForGrid.Rows) {
+                    Int64 DataPointID = Convert.ToInt64(ForGridRow.Field<string>(dgv_Main_ICID.Index));
+
+                    foreach (DataRow OrderInspPNRow in OrderInspPN.Rows) {
+                        Int64? RowID = OrderInspPNRow.Field<Int64?>("RowID");
+                        Int64? PartID = OrderInspPNRow.Field<Int64?>("PartID");
+                        Int64? OrderDataPointID = OrderInspPNRow.Field<Int64?>("DataPointID");
+                        Int64? ReqOpen = OrderInspPNRow.Field<Int64?>("ReqOpen");
+                        Int64? ReqClose = OrderInspPNRow.Field<Int64?>("ReqClose");
+                        Int64? Order = OrderInspPNRow.Field<Int64?>("Order");
+
+                        if (DataPointID == OrderDataPointID) {
+                            DataForGrid.Rows[ForGridRowIndex][dgv_Main_OrderID.Index] = RowID;
+                            DataForGrid.Rows[ForGridRowIndex][dgv_Main_ReqOpen.Index] = ReqOpen;
+                            DataForGrid.Rows[ForGridRowIndex][dgv_Main_ReqClosed.Index] = ReqClose;
+                            DataForGrid.Rows[ForGridRowIndex][dgv_Main_OrderPOS.Index] = Order;
+                        }
+                    }
+                    ForGridRowIndex++;
+                }
+
+                //We need to asign an order. 1st is a default list, 2nd Document Order, 3rd Created Order.
+                //Khalid is going to hate me but maybe I'll do something fancy and look at old revs match them to new revs and then keep that order............. but I'm tired. 
+
+                DataView SortedGridData = new DataView(DataForGrid);
+                SortedGridData.Sort = "dgv_Main_OrderPOS, dgv_Main_DocID, dgv_Main_ICID ASC";
+
+                DataForGrid = SortedGridData.ToTable();
+
+
+                foreach (DataRow ForGridRow in DataForGrid.Rows) {
+                    Int64 OrderID = Convert.ToInt64(ForGridRow.Field<string>(dgv_Main_OrderID.Index) ?? "-1");
+                    Int64 OrderPOS = Convert.ToInt64(ForGridRow.Field<string>(dgv_Main_OrderPOS.Index) ?? "-1");
+                    Int64 ICID = Convert.ToInt64(ForGridRow.Field<string>(dgv_Main_ICID.Index) ?? "-1");
+                    Int64 ReqOpen = Convert.ToInt64(ForGridRow.Field<string>(dgv_Main_ReqOpen.Index) ?? "0");
+                    Int64 ReqClose = Convert.ToInt64(ForGridRow.Field<string>(dgv_Main_ReqClosed.Index) ?? "0");
+                    string Name = ForGridRow.Field<string>(dgv_Main_Name.Index).ToString();
+                    string UserType = ForGridRow.Field<string>(dgv_tb_User.Index).ToString();
+                    Int64 DocID = Convert.ToInt64(ForGridRow.Field<string>(dgv_Main_DocID.Index) ?? "-1");
+                    string DocPosition = ForGridRow.Field<string>(dgv_Main_Position.Index).ToString();
+
+                    dgv_Main.Rows.Add();
+
+                    int LastRowIndex = dgv_Main.Rows.Count - 1;
+
+                    dgv_Main.Rows[LastRowIndex].Cells[dgv_Main_OrderID.Index].Value = OrderID;
+                    dgv_Main.Rows[LastRowIndex].Cells[dgv_Main_OrderPOS.Index].Value = OrderPOS;
+                    dgv_Main.Rows[LastRowIndex].Cells[dgv_Main_ICID.Index].Value = ICID;
+                    dgv_Main.Rows[LastRowIndex].Cells[dgv_Main_ReqOpen.Index].Value = ReqOpen;
+                    dgv_Main.Rows[LastRowIndex].Cells[dgv_Main_ReqClosed.Index].Value = ReqClose;
+                    dgv_Main.Rows[LastRowIndex].Cells[dgv_Main_Name.Index].Value = Name;
+                    dgv_Main.Rows[LastRowIndex].Cells[dgv_tb_User.Index].Value = UserType;
+                    dgv_Main.Rows[LastRowIndex].Cells[dgv_Main_DocID.Index].Value = DocID;
+                    dgv_Main.Rows[LastRowIndex].Cells[dgv_Main_Position.Index].Value = DocPosition;
+
+
+
+                }
+
+
+                
+
+                //The order is created we now need Any results and populate the grid. 
+                List<Int64?> InspectionCriteriaID = new List<Int64?>();
+
+                foreach (DataGridViewRow MainRow in dgv_Main.Rows) {
+                    Int64? InpCrID = Convert.ToInt64(dgv_Main.Rows[MainRow.Index].Cells[dgv_Main_ICID.Index].Value ?? 0);
+
+                    //dgv_Main.Rows.Add(OrderID, InpCrID, ReqOpen, ReqClos);
+                    InspectionCriteriaID.Add(InpCrID);
+                }
+                
 
                 if (InspectionCriteriaID.Count > 0) {
                     DataTable Records = DataTools.DataMaster.GetInspCriteria_DataPointID_Bulk(InspectionCriteriaID);
@@ -397,13 +494,13 @@ namespace Data_Collector {
                         //Parse though the Records
                         foreach (DataRow Row in Records.Rows) {
                             if (str_ICID == Row.Field<Int64?>("DataPointID").ToString()) {
-                                DGV_Row.Cells["dgv_tb_Name"].Value = Row.Field<string>("DataPointName");
-                                DGV_Row.Cells["dgv_tb_Name"].ToolTipText = Row.Field<string>("Description");
+                                DGV_Row.Cells["dgv_Main_Name"].Value = Row.Field<string>("DataPointName");
+                                DGV_Row.Cells["dgv_Main_Name"].ToolTipText = Row.Field<string>("Description");
 
                                 DGV_Row.Cells["dgv_tb_User"].Value = Row.Field<string>("UserType");
                                 DGV_Row.Cells["dgv_cb_Mandatory"].Value = Convert.ToBoolean(Row.Field<Int64?>("Mandatory") ?? 0);
-                                DGV_Row.Cells[dgv_tb_DocID.Index].Value = Row.Field<Int64?>("DocID") ?? 0;
-                                DGV_Row.Cells[dgv_tb_Position.Index].Value = Row.Field<string>("DocPosition");
+                                DGV_Row.Cells[dgv_Main_DocID.Index].Value = Row.Field<Int64?>("DocID") ?? 0;
+                                DGV_Row.Cells[dgv_Main_Position.Index].Value = Row.Field<string>("DocPosition");
                             }
                         }
 
@@ -431,7 +528,7 @@ namespace Data_Collector {
 
                 }
 
-
+                
             }
         }
 
@@ -452,9 +549,9 @@ namespace Data_Collector {
             if (this.dgv_Main.SelectedCells.Count > 0) {
 
                 foreach (DataGridViewCell Cells in dgv_Main.SelectedCells) {
-                    dgv_Main.Rows[Cells.RowIndex].Cells[dgv_tb_Position.Index].Value = Position;
-                    dgv_Main.Rows[Cells.RowIndex].Cells[dgv_tb_DocID.Index].Value = cob_DocList.SelectedValue;
-                    dgv_Main.Rows[Cells.RowIndex].Cells[dgv_tb_Position.Index].Style.BackColor = Color.Yellow;
+                    dgv_Main.Rows[Cells.RowIndex].Cells[dgv_Main_Position.Index].Value = Position;
+                    dgv_Main.Rows[Cells.RowIndex].Cells[dgv_Main_DocID.Index].Value = cob_DocList.SelectedValue;
+                    dgv_Main.Rows[Cells.RowIndex].Cells[dgv_Main_Position.Index].Style.BackColor = Color.Yellow;
                     
 
                     if (LastRow < Cells.RowIndex)
@@ -466,10 +563,10 @@ namespace Data_Collector {
                 using (IEnumerator enumerator = this.dgv_Main.SelectedCells.GetEnumerator()) {
                     while (enumerator.MoveNext()) {
                         rowIndex = ((DataGridViewCell)enumerator.Current).RowIndex;
-                        this.dgv_Main.Rows[rowIndex].Cells["dgv_tb_Position"].Value = Position;
-                        this.dgv_Main.Rows[rowIndex].Cells["dgv_tb_Position"].Style.BackColor = Color.Yellow;
-                        this.dgv_Main.Rows[rowIndex].Cells[dgv_tb_DocID.Index].Value = this.cob_DocList.SelectedValue;
-                        this.dgv_Main.Rows[rowIndex].Cells[dgv_tb_DocID.Index].Style.BackColor = Color.Yellow;
+                        this.dgv_Main.Rows[rowIndex].Cells["dgv_Main_Position"].Value = Position;
+                        this.dgv_Main.Rows[rowIndex].Cells["dgv_Main_Position"].Style.BackColor = Color.Yellow;
+                        this.dgv_Main.Rows[rowIndex].Cells[dgv_Main_DocID.Index].Value = this.cob_DocList.SelectedValue;
+                        this.dgv_Main.Rows[rowIndex].Cells[dgv_Main_DocID.Index].Style.BackColor = Color.Yellow;
                         this.dgv_Main.Rows[rowIndex].Cells["dgv_tb_Display"].Value = this.pdf_Document.Document.PageSizes[0];
                         if (rowIndex > num3) {
                             num3 = rowIndex;
@@ -479,7 +576,7 @@ namespace Data_Collector {
                 */
                 this.dgv_Main.ClearSelection();
                 if (this.dgv_Main.Rows.Count > (LastRow + 1)) {
-                    this.dgv_Main.Rows[LastRow + 1].Cells[dgv_tb_Position.Index].Selected = true;
+                    this.dgv_Main.Rows[LastRow + 1].Cells[dgv_Main_Position.Index].Selected = true;
                 }
             }
 
@@ -498,42 +595,46 @@ namespace Data_Collector {
 
             int rowIndex = dgv_Main.CurrentCell.RowIndex;
             int colIndex = dgv_Main.CurrentCell.ColumnIndex;
-            if (dgv_Main.Rows[rowIndex].Cells[dgv_tb_Position.Index].Value != null && colIndex==1) {
+            if (dgv_Main.Rows[rowIndex].Cells[dgv_Main_Position.Index].Value != null) {
 
-                //Read and sepperate the CSV (Page, X, Y)
-                char[] separator = new char[] { ',' };
-                string[] strPosition = dgv_Main.Rows[rowIndex].Cells[dgv_tb_Position.Index].Value.ToString().Split(separator);
+                if (colIndex == 1 || colIndex == 0) {
 
-                
-                try {
-                    Int64 DocumnetID = Convert.ToInt64(dgv_Main.Rows[rowIndex].Cells[dgv_tb_DocID.Index].Value.ToString() ?? "0");
+                    //Read and sepperate the CSV (Page, X, Y)
+                    char[] separator = new char[] { ',' };
+                    string[] strPosition = dgv_Main.Rows[rowIndex].Cells[dgv_Main_Position.Index].Value.ToString().Split(separator);
 
-                    if (Convert.ToInt64(cob_DocList.SelectedValue) != DocumnetID && DocumnetID!=0) {
-                        try {
-                            cob_DocList.SelectedValue = DocumnetID;
-                        }catch{  }
-                    }
-                    
 
-                    int intPageNum = Convert.ToInt32(Math.Floor(Convert.ToDouble(strPosition[0])));
-                    int IntX = Convert.ToInt32(Math.Floor(Convert.ToDouble(strPosition[1])));
-                    int IntY = Convert.ToInt32(Math.Floor(Convert.ToDouble(strPosition[2])));
-                    if (this.pdf_Document.Page != intPageNum) {
-                        double num6 = this.pdf_Document.DisplayRectangle.Height / this.pdf_Document.Document.PageCount;
-                        double width = this.pdf_Document.DisplayRectangle.Width;
-                        float height = this.pdf_Document.Document.PageSizes[intPageNum].Height;
-                        double DoubleY = (num6 * intPageNum) + (((height - IntY) / height) * num6);
-                        int ModedY = Convert.ToInt32(Math.Round(DoubleY, 0)) - 100;
-                        int ModedX = Convert.ToInt32(Math.Round((double)((((float)IntX) / this.pdf_Document.Document.PageSizes[intPageNum].Width) * width), 0)) - 200;
-                        if (ModedY < 0) {
-                            ModedY = 0;
+                    try {
+                        Int64 DocumnetID = Convert.ToInt64(dgv_Main.Rows[rowIndex].Cells[dgv_Main_DocID.Index].Value.ToString() ?? "0");
+
+                        if (Convert.ToInt64(cob_DocList.SelectedValue) != DocumnetID && DocumnetID != 0) {
+                            try {
+                                cob_DocList.SelectedValue = DocumnetID;
+                            } catch { }
                         }
-                        if (ModedX < 0) {
-                            ModedX = 0;
+
+
+                        int intPageNum = Convert.ToInt32(Math.Floor(Convert.ToDouble(strPosition[0])));
+                        int IntX = Convert.ToInt32(Math.Floor(Convert.ToDouble(strPosition[1])));
+                        int IntY = Convert.ToInt32(Math.Floor(Convert.ToDouble(strPosition[2])));
+                        if (this.pdf_Document.Page != intPageNum) {
+                            double num6 = this.pdf_Document.DisplayRectangle.Height / this.pdf_Document.Document.PageCount;
+                            double width = this.pdf_Document.DisplayRectangle.Width;
+                            float height = this.pdf_Document.Document.PageSizes[intPageNum].Height;
+                            double DoubleY = (num6 * intPageNum) + (((height - IntY) / height) * num6);
+                            int ModedY = Convert.ToInt32(Math.Round(DoubleY, 0)) - 100;
+                            int ModedX = Convert.ToInt32(Math.Round((double)((((float)IntX) / this.pdf_Document.Document.PageSizes[intPageNum].Width) * width), 0)) - 200;
+                            if (ModedY < 0) {
+                                ModedY = 0;
+                            }
+                            if (ModedX < 0) {
+                                ModedX = 0;
+                            }
+                            this.pdf_Document.SetDisplayRectLocation(new Point(-ModedX, -ModedY));
                         }
-                        this.pdf_Document.SetDisplayRectLocation(new Point(-ModedX, -ModedY));
+                    } catch (Exception) {
                     }
-                } catch (Exception) {
+
                 }
             }
 
@@ -546,16 +647,16 @@ namespace Data_Collector {
         private void ts_EditPoints_Click(object sender, EventArgs e) {
 
             ts_EditPoints.Checked = !ts_EditPoints.Checked;
-            dgv_Main.Columns[dgv_tb_Position.Index].Visible = ts_EditPoints.Checked;
-            dgv_Main.Columns[dgv_tb_DocID.Index].Visible = ts_EditPoints.Checked;
-            dgv_Main.Columns[dgv_tb_OrderID.Index].Visible = ts_EditPoints.Checked;
+            dgv_Main.Columns[dgv_Main_Position.Index].Visible = ts_EditPoints.Checked;
+            dgv_Main.Columns[dgv_Main_DocID.Index].Visible = ts_EditPoints.Checked;
+            dgv_Main.Columns[dgv_Main_OrderID.Index].Visible = ts_EditPoints.Checked;
 
             
 
 
 
 
-            timer_Refresh.Enabled= !ts_EditPoints.Checked;
+            
 
             if (ts_EditPoints.Checked) {
                 dgv_Main.Width = dgv_Main.Width - 75;
@@ -573,11 +674,11 @@ namespace Data_Collector {
             if (e.RowIndex >= 0) {
 
                 string str_ICID = (dgv_Main.Rows[e.RowIndex].Cells[dgv_Main_ICID.Index].Value ?? "0").ToString();
-                string str_OrderICID = (dgv_Main.Rows[e.RowIndex].Cells[dgv_tb_OrderID.Index].Value ?? "0").ToString();
+                string str_OrderICID = (dgv_Main.Rows[e.RowIndex].Cells[dgv_Main_OrderID.Index].Value ?? "0").ToString();
 
-                string strDocID = (dgv_Main.Rows[e.RowIndex].Cells[dgv_tb_DocID.Index].Value ?? "0").ToString();
+                string strDocID = (dgv_Main.Rows[e.RowIndex].Cells[dgv_Main_DocID.Index].Value ?? "0").ToString();
                 string strUserRole = (dgv_Main.Rows[e.RowIndex].Cells[dgv_tb_User.Index].Value ?? "").ToString();
-                string strPosition = (dgv_Main.Rows[e.RowIndex].Cells[dgv_tb_Position.Index].Value ?? "").ToString();
+                string strPosition = (dgv_Main.Rows[e.RowIndex].Cells[dgv_Main_Position.Index].Value ?? "").ToString();
                 
                 string strPartID=tb_PartID.Text;
 
@@ -596,16 +697,17 @@ namespace Data_Collector {
                     //Check if any "NEW" rows has an OrderID and InspID
 
 
-                    if (str_ICID == "0") {
+                    if (str_ICID == "0" || str_ICID == "-1") {
                         DataTable InspCriteria = DataTools.DataMaster.InsertInspCriteria(Convert.ToInt64(strDocID));
                         str_ICID=InspCriteria.Rows[0].Field<Int64>("last_insert_rowid()").ToString();
                         dgv_Main.Rows[e.RowIndex].Cells[dgv_Main_ICID.Index].Value = str_ICID;
                     }
 
-                    if (str_OrderICID == "0") {
+                    if (str_OrderICID == "0" || str_OrderICID == "-1") {
                         DataTable InspCriteria = DataTools.DataMaster.InsertOrderInspPN(Convert.ToInt64(strPartID), Convert.ToInt64(str_ICID), e.RowIndex);
                         str_OrderICID = InspCriteria.Rows[0].Field<Int64>("last_insert_rowid()").ToString();
-                        dgv_Main.Rows[e.RowIndex].Cells["dgv_tb_OrderID"].Value = str_OrderICID;
+                        dgv_Main.Rows[e.RowIndex].Cells[dgv_Main_OrderID.Index].Value = str_OrderICID;
+                        dgv_Main.Rows[e.RowIndex].Cells[dgv_Main_OrderPOS.Index].Value = RowNumber;
                     }
 
                     
@@ -626,12 +728,12 @@ namespace Data_Collector {
                     DataTable InspCriteriaNew = DataTools.DataMaster.GetInspCriteria_DataPointID(Convert.ToInt64(str_ICID));
                     if (InspCriteriaNew.Rows.Count > 0) {
 
-                        dgv_Main.Rows[e.RowIndex].Cells["dgv_tb_Name"].Value = InspCriteriaNew.Rows[0].Field<string>("DataPointName");
+                        dgv_Main.Rows[e.RowIndex].Cells["dgv_Main_Name"].Value = InspCriteriaNew.Rows[0].Field<string>("DataPointName");
                         dgv_Main.Rows[e.RowIndex].Cells["dgv_tb_User"].Value = InspCriteriaNew.Rows[0].Field<string>("UserType");
                         dgv_Main.Rows[e.RowIndex].Cells["dgv_cb_Mandatory"].Value = Convert.ToBoolean(InspCriteriaNew.Rows[0].Field<Int64>("Mandatory"));
 
-                        dgv_Main.Rows[e.RowIndex].Cells["dgv_tb_Position"].Value = InspCriteriaNew.Rows[0].Field<string>("DocPosition");
-                        dgv_Main.Rows[e.RowIndex].Cells[dgv_tb_DocID.Index].Value = InspCriteriaNew.Rows[0].Field<Int64>("DocID");
+                        dgv_Main.Rows[e.RowIndex].Cells["dgv_Main_Position"].Value = InspCriteriaNew.Rows[0].Field<string>("DocPosition");
+                        dgv_Main.Rows[e.RowIndex].Cells[dgv_Main_DocID.Index].Value = InspCriteriaNew.Rows[0].Field<Int64>("DocID");
 
                     }
 
@@ -770,7 +872,7 @@ namespace Data_Collector {
                 } else {
                     string text1;
                     string text2;
-                    object obj1 = this.dgv_Main.Rows[e.RowIndex].Cells["dgv_tb_Position"].Value;
+                    object obj1 = this.dgv_Main.Rows[e.RowIndex].Cells["dgv_Main_Position"].Value;
                     if (obj1 != null) {
                         text1 = obj1.ToString();
                     } else {
@@ -779,7 +881,7 @@ namespace Data_Collector {
                     }
                     string positionDisp = text1;
                     long result = 0L;
-                    object obj2 = this.dgv_Main.Rows[e.RowIndex].Cells[dgv_tb_DocID.Index].Value;
+                    object obj2 = this.dgv_Main.Rows[e.RowIndex].Cells[dgv_Main_DocID.Index].Value;
                     if (obj2 != null) {
                         text2 = obj2.ToString();
                     } else {
@@ -1007,7 +1109,7 @@ namespace Data_Collector {
 
                 if (!string.IsNullOrWhiteSpace(tb_ShopOrder.Text)) {
 
-                    List<Int64> InspectionCriteriaID = new List<Int64>();
+                    List<Int64?> InspectionCriteriaID = new List<Int64?>();
 
                     foreach (DataGridViewRow RowsMain in dgv_Main.Rows) {
                         string str_ICID = (RowsMain.Cells[dgv_Main_ICID.Index].Value ?? "0").ToString();
@@ -1028,17 +1130,14 @@ namespace Data_Collector {
                             //Parse though the Records
                             foreach (DataRow Row in Records.Rows) {
                                 if (str_ICID == Row.Field<Int64?>("DataPointID").ToString()) {
-                                    DGV_Row.Cells["dgv_tb_Name"].Value = Row.Field<string>("DataPointName");
-                                    DGV_Row.Cells["dgv_tb_Name"].ToolTipText = Row.Field<string>("Description");
+                                    DGV_Row.Cells["dgv_Main_Name"].Value = Row.Field<string>("DataPointName");
+                                    DGV_Row.Cells["dgv_Main_Name"].ToolTipText = Row.Field<string>("Description");
 
                                     DGV_Row.Cells["dgv_tb_User"].Value = Row.Field<string>("UserType");
                                     DGV_Row.Cells["dgv_cb_Mandatory"].Value = Convert.ToBoolean(Row.Field<Int64?>("Mandatory") ?? 0);
-                                    DGV_Row.Cells[dgv_tb_DocID.Index].Value = Row.Field<Int64?>("DocID") ?? 0;
-                                    DGV_Row.Cells[dgv_tb_Position.Index].Value = Row.Field<string>("DocPosition");
-
-
+                                    DGV_Row.Cells[dgv_Main_DocID.Index].Value = Row.Field<Int64?>("DocID") ?? 0;
+                                    DGV_Row.Cells[dgv_Main_Position.Index].Value = Row.Field<string>("DocPosition");
                                 }
-
                             }
 
                             //Parse Though the Values
@@ -1069,10 +1168,6 @@ namespace Data_Collector {
         private void timer_Refresh_Tick(object sender, EventArgs e) {
             timer_Refresh.Enabled=false;
             if (!ts_EditPoints.Checked) {
-
-                
-
-
 
 
                 Thread thread1 = new Thread(new ThreadStart(DoSync));
@@ -1108,11 +1203,26 @@ namespace Data_Collector {
 
                 Int64 OrderNumber = MainRow.Index;
 
-                Int64 OrderICID = Convert.ToInt64(MainRow.Cells[dgv_tb_OrderID.Index].Value ?? 0);
+                Int64 OrderICID = Convert.ToInt64(MainRow.Cells[dgv_Main_OrderID.Index].Value ?? 0);
                 Int64 ICID = Convert.ToInt64(MainRow.Cells[dgv_Main_ICID.Index].Value ?? 0);
+
+                //If the Order ID is -1 we need to make a new order ID
+
+                if (OrderICID == 0 || OrderICID == -1) {
+                    DataTable InspCriteria = DataTools.DataMaster.InsertOrderInspPN(Convert.ToInt64(tb_PartID.Text), ICID, MainRow.Index);
+                    OrderICID = InspCriteria.Rows[0].Field<Int64>("last_insert_rowid()");
+                    dgv_Main.Rows[MainRow.Index].Cells[dgv_Main_OrderID.Index].Value = OrderICID;
+                    dgv_Main.Rows[MainRow.Index].Cells[dgv_Main_OrderPOS.Index].Value = MainRow.Index;
+
+
+
+                }
+
+
+
                 if (ICID != 0 && OrderICID != 0) {
-                    Int64 DocID = Convert.ToInt64(MainRow.Cells[dgv_tb_DocID.Index].Value ?? 0);
-                    string Position = (MainRow.Cells[dgv_tb_Position.Index].Value ?? "").ToString();
+                    Int64 DocID = Convert.ToInt64(MainRow.Cells[dgv_Main_DocID.Index].Value ?? 0);
+                    string Position = (MainRow.Cells[dgv_Main_Position.Index].Value ?? "").ToString();
 
 
                     DataTools.DataMaster.UpdateInspCriteria(ICID, null, null, null, null, null, DocID, Position);
@@ -1153,9 +1263,10 @@ namespace Data_Collector {
 
             ts_ShowFields.Checked = !ts_ShowFields.Checked;
 
-            dgv_Main.Columns[dgv_tb_Position.Index].Visible = ts_ShowFields.Checked;
-            dgv_Main.Columns[dgv_tb_DocID.Index].Visible = ts_ShowFields.Checked;
-            dgv_Main.Columns[dgv_tb_OrderID.Index].Visible = ts_ShowFields.Checked;
+            dgv_Main.Columns[dgv_Main_Position.Index].Visible = ts_ShowFields.Checked;
+            dgv_Main.Columns[dgv_Main_OrderPOS.Index].Visible = ts_ShowFields.Checked;
+            dgv_Main.Columns[dgv_Main_DocID.Index].Visible = ts_ShowFields.Checked;
+            dgv_Main.Columns[dgv_Main_OrderID.Index].Visible = ts_ShowFields.Checked;
             dgv_Main.Columns[dgv_Main_ReqOpen.Index].Visible = ts_ShowFields.Checked;
             dgv_Main.Columns[dgv_Main_ReqClosed.Index].Visible = ts_ShowFields.Checked;
             dgv_Main.Columns[dgv_Main_Closed.Index].Visible = ts_ShowFields.Checked;
@@ -1233,6 +1344,13 @@ namespace Data_Collector {
             }
 
 
+
+        }
+
+        private void ts_KillFields_Click(object sender, EventArgs e) {
+            new Support.KillData().ShowDialog();
+
+            
 
         }
     }

@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Data_Collector.DataTools;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -18,11 +19,9 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 namespace Data_Collector.Production {
 
 
-
-
     public partial class DataCollection : Form {
 
-
+        string LocalFolder = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"\Digital Data Collector";
         public DataCollection(string ICID, string ShopOrder) {
             InitializeComponent();
 
@@ -659,6 +658,10 @@ namespace Data_Collector.Production {
                 }
                 break;
                 case "file": {
+
+                    
+
+
                     foreach (DataGridViewRow row in dgv_File.Rows) {
                         DataTable TempData = new DataTable();
                         TempData.Columns.Add("Name");
@@ -667,6 +670,10 @@ namespace Data_Collector.Production {
                         TempData.Columns.Add("Local");
 
                         TempData.Rows.Add(row.Cells[dgv_File_Name.Index].Value, row.Cells[dgv_File_FileName.Index].Value ?? "", row.Cells[dgv_File_Path.Index].Value ?? "", row.Cells[dgv_File_Local.Index].Value ?? "");
+
+
+
+
 
 
                         UserInput.Rows.Add(str_Type, row.Cells[dgv_File_FileName.Index].Value, tb_MagicInput.Text, JsonConvert.SerializeObject(TempData, Formatting.None));
@@ -1078,23 +1085,60 @@ namespace Data_Collector.Production {
 
 
                 if (ofd_File_Collection.ShowDialog() == DialogResult.OK) {
-
+                    //Path of the file on the local PC
                     string PathLocalPC = ofd_File_Collection.FileName;
-                    string PathToSave = (dgv_File.Rows[int_Row].Cells[dgv_File_SaveTo.Index].Value ?? "").ToString() ;
 
-                    if (string.IsNullOrWhiteSpace(PathToSave)) {
-                        if(fbd_SavePath.ShowDialog() == DialogResult.OK) {
 
-                            PathToSave = fbd_SavePath.SelectedPath;
+                    string RowName = (dgv_File.Rows[int_Row].Cells[dgv_File_Name.Index].Value ?? "").ToString();
+                    string FileName = Path.GetFileNameWithoutExtension(PathLocalPC);
 
-                        } else {
-                            MessageBox.Show("Unable to select a folder.");
-                            return;
-                        }
+
+
+                    if (string.IsNullOrWhiteSpace(RowName)) {
+                        RowName = FileName;
+
+                        dgv_File.Rows[int_Row].Cells[dgv_File_Name.Index].Value = RowName;
                     }
 
-                    string FiletoSave = PathToSave + "\\" + Path.GetFileName(PathLocalPC);
-                    File.Copy(PathLocalPC, FiletoSave,true);
+
+                    Regex illegalInFileName = new Regex(@"[#%&{}\<>*?\\\/$!'"":@+`|=]");
+
+                    
+
+                    //Engineer defined save path
+                    string PathToSave = (dgv_File.Rows[int_Row].Cells[dgv_File_SaveTo.Index].Value ?? "").ToString() ;
+                    
+
+                    IniFile MyIni = new IniFile(@LocalFolder + @"\Settings.ini");
+                    string RootFolder = MyIni.Read("RootFoder");
+
+                    
+
+                    //Go to the default save folder.
+                    if (string.IsNullOrWhiteSpace(PathToSave)) {
+                        RootFolder = RootFolder + "\\Files\\" + illegalInFileName.Replace(tb_ShopOrder.Text, "") + "\\";
+                    } else {
+                        RootFolder = PathToSave+"\\" + illegalInFileName.Replace(tb_ShopOrder.Text, "");
+                    }
+
+                    if (!Directory.Exists(RootFolder)) {
+                        Directory.CreateDirectory(RootFolder);
+                    }
+
+                    int counter = 0;
+
+                    string FiletoSave = RootFolder + illegalInFileName.Replace(RowName, "") + Path.GetExtension(PathLocalPC);
+
+                    while (File.Exists(RootFolder)) {
+                        counter++;
+
+                        FiletoSave = RootFolder + illegalInFileName.Replace(RowName, "") + "_" + counter + Path.GetExtension(PathLocalPC);
+                    }
+
+
+
+
+                    File.Copy(PathLocalPC, FiletoSave, true);
 
 
 

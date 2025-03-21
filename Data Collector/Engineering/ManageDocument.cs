@@ -10,6 +10,7 @@ using System.Windows.Forms;
 
 using System.Linq;
 using System.IO;
+using System.Security.Cryptography;
 
 namespace Data_Collector.Engineering {
     public partial class ManageDocument : Form {
@@ -32,10 +33,17 @@ namespace Data_Collector.Engineering {
             DataTable UniqueDocs = DataTools.DataMaster.GetRevbyUniqueDoc(cob_UniqueDocName.Text);
             Int64 int_Rev = 1;
 
+
             if (UniqueDocs.Rows.Count > 0) {
                 //Lets go! We will add a new incremental Rev.
 
                 int_Rev = UniqueDocs.Rows[0].Field<Int64>("Revison") + 1;
+
+
+                
+
+
+
             } else {
 
                 cob_UniqueDocName.Items.Add(cob_UniqueDocName.Text.Trim());
@@ -44,6 +52,42 @@ namespace Data_Collector.Engineering {
             DataTable UniqueDocID = DataTools.DataMaster.InsertNewUniqueDoc(cob_UniqueDocName.Text.Trim(), int_Rev);
 
             cob_UniqueID_Leave(this, EventArgs.Empty);
+
+
+            //We have a new rev. Lets make the engineer's life a bit easier and create new positions.
+
+            if (int_Rev > 1) {
+
+                Int64 DocID = UniqueDocID.Rows[0].Field<Int64>("last_insert_rowid()");
+
+                Int64 OldDocID = UniqueDocs.Rows[0].Field<Int64>("DocID");
+
+                DataTable AllInpsections = DataTools.DataMaster.GetInspCriteria(null, null, null, null, OldDocID);
+
+                foreach(DataRow InspRows in AllInpsections.Rows) {
+                    Int64 OldDataPointID = InspRows.Field<Int64>("DataPointID");
+                    string DataPointName = InspRows.Field<string>("DataPointName");
+                    string Description = InspRows.Field<string>("Description");
+                    string Type = InspRows.Field<string>("Type");
+                    
+                    string DocPosition = InspRows.Field<string>("DocPosition");
+                    string UserType = InspRows.Field<string>("UserType");
+                    Int64 Mandatory = InspRows.Field<Int64>("Mandatory");
+                    string Format = InspRows.Field<string>("Format");
+
+
+
+                    DataTools.DataMaster.InsertInspCriteriaFull(DataPointName, Description, Type, DocID, DocPosition, UserType, Mandatory, Format, OldDataPointID);
+
+                }
+
+
+
+            }
+
+
+
+
 
 
             //tb_DocID.Text = UniqueDocID.Rows[0].Field<Int64>("last_insert_rowid()").ToString();

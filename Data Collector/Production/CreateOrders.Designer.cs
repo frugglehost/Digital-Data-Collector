@@ -221,6 +221,7 @@
             this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(572, 316);
             this.Name = "CreateOrders";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Create / Modify Orders";
             this.Load += new System.EventHandler(this.CreateOrders_Load);
             this.cxb_Serials.ResumeLayout(false);

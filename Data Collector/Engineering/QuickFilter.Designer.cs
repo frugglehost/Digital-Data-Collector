@@ -24,11 +24,11 @@
         /// </summary>
         private void InitializeComponent() {
             this.dgv_Format = new System.Windows.Forms.DataGridView();
+            this.Default = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.btn_Save = new System.Windows.Forms.Button();
             this.Preview = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.tb_Filter = new System.Windows.Forms.TextBox();
-            this.Default = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Format)).BeginInit();
             this.SuspendLayout();
             // 
@@ -48,6 +48,13 @@
             this.dgv_Format.RowHeadersVisible = false;
             this.dgv_Format.Size = new System.Drawing.Size(740, 340);
             this.dgv_Format.TabIndex = 0;
+            // 
+            // Default
+            // 
+            this.Default.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.Default.HeaderText = "Default";
+            this.Default.Name = "Default";
+            this.Default.Width = 47;
             // 
             // btn_Save
             // 
@@ -89,13 +96,6 @@
             this.tb_Filter.Size = new System.Drawing.Size(700, 20);
             this.tb_Filter.TabIndex = 4;
             // 
-            // Default
-            // 
-            this.Default.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.Default.HeaderText = "Default";
-            this.Default.Name = "Default";
-            this.Default.Width = 47;
-            // 
             // QuickFilter
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -107,6 +107,7 @@
             this.Controls.Add(this.btn_Save);
             this.Controls.Add(this.dgv_Format);
             this.Name = "QuickFilter";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "QuickFilter";
             this.Load += new System.EventHandler(this.QuickFilter_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Format)).EndInit();
