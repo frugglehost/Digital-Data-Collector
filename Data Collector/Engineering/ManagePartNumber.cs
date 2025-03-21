@@ -233,10 +233,10 @@ namespace Data_Collector.Engineering {
             Int64 FinialPartID = Convert.ToInt64(tb_PartID.Text);
 
             foreach (DataGridViewRow drv in dataGridView1.Rows) {
-                Int64 TempRowID=Convert.ToInt64(drv.Cells[dgv_tb_RowID.Index].Value);
+                Int64 TempRowID = Convert.ToInt64(drv.Cells[dgv_tb_RowID.Index].Value);
                 Int64 TempDocID = Convert.ToInt64(drv.Cells[dgv_Main_DocID.Index].Value);
                 Int64 TempOldDocID = Convert.ToInt64(drv.Cells[dgv_tb_OldDocID.Index].Value);
-                
+
 
                 if (TempRowID == -1) {
                     //Insert Code
@@ -244,49 +244,38 @@ namespace Data_Collector.Engineering {
                 } else {
                     //Update Code
                     DataTools.DataMaster.UpdateDocsPN_RowID(TempRowID, TempDocID, RowNumber);
-                    
+
                 }
 
-                
-                if (TempDocID != TempOldDocID && TempOldDocID!=0) {
-                    DocChanges = true;
-                }
+
+
 
                 RowNumber++;
             }
 
 
-            if (DocChanges) {
 
-                DialogResult LetsInsertNewPosOrder = MessageBox.Show("We detected you updated an existing document. \n Would you like to keep the same data collection points?", "Doc Changed", MessageBoxButtons.YesNo);
+            //The End user wants me make my life hard...........
 
+            foreach (DataGridViewRow drv in dataGridView1.Rows) {
+                Int64 NewDocID = Convert.ToInt64(drv.Cells[dgv_Main_DocID.Index].Value);
+                Int64 OldDocID = Convert.ToInt64(drv.Cells[dgv_tb_OldDocID.Index].Value);
 
-                if (LetsInsertNewPosOrder == DialogResult.Yes) {
-                    //The End user wants me make my life hard...........
+                //Get the inspection Points
+                DataTable NewICID_Data = DataTools.DataMaster.GetInspCriteria(null, null, null, null, NewDocID);
 
-                    foreach (DataGridViewRow drv in dataGridView1.Rows) {
-                        Int64 NewDocID = Convert.ToInt64(drv.Cells[dgv_Main_DocID.Index].Value);
-                        Int64 OldDocID = Convert.ToInt64(drv.Cells[dgv_tb_OldDocID.Index].Value);
+                foreach (DataRow ICIDRow in NewICID_Data.Rows) {
+                    Int64 PastICID = ICIDRow.Field<Int64>("OldICID");
+                    Int64 NewICID = ICIDRow.Field<Int64>("DataPointID");
 
-                        //Get the inspection Points
-                        DataTable NewICID_Data = DataTools.DataMaster.GetInspCriteria(null, null, null, null, NewDocID);
+                    DataTable GotOldOderPOS = DataTools.DataMaster.GetOrderInspPN(null, null, PastICID);
 
-                        foreach(DataRow ICIDRow in NewICID_Data.Rows) {
-                            Int64 PastICID = ICIDRow.Field<Int64>("OldICID");
-                            Int64 NewICID = ICIDRow.Field<Int64>("DataPointID");
+                    if (GotOldOderPOS.Rows.Count > 0) {
+                        Int64 ReqOpenOld = GotOldOderPOS.Rows[0].Field<Int64?>("ReqOpen")??0;
+                        Int64 ReqCloseOld = GotOldOderPOS.Rows[0].Field<Int64?>("ReqClose") ?? 0;
+                        Int64 OrderOld = GotOldOderPOS.Rows[0].Field<Int64?>("Order") ?? 0;
 
-                            DataTable GotOldOderPOS = DataTools.DataMaster.GetOrderInspPN(null, null, PastICID);
-
-                            if (GotOldOderPOS.Rows.Count > 0) {
-                                Int64 ReqOpenOld = GotOldOderPOS.Rows[0].Field<Int64>("ReqOpen");
-                                Int64 ReqCloseOld = GotOldOderPOS.Rows[0].Field<Int64>("ReqClose");
-                                Int64 OrderOld = GotOldOderPOS.Rows[0].Field<Int64>("Order");
-
-                                DataTools.DataMaster.InsertOrderInspPN(FinialPartID, NewICID, OrderOld, ReqOpenOld, ReqCloseOld);
-
-                            }
-
-                        }
+                        DataTools.DataMaster.InsertOrderInspPN(FinialPartID, NewICID, OrderOld, ReqOpenOld, ReqCloseOld);
 
                     }
 
@@ -296,10 +285,11 @@ namespace Data_Collector.Engineering {
 
 
 
+
             this.Close();
 
-
         }
+        
 
         private void btn_delete_Click(object sender, EventArgs e) {
 
