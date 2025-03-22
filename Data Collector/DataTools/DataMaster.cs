@@ -61,12 +61,16 @@ namespace Data_Collector.DataTools {
 
         public static DataTable GetAllPN() {
             DataTable tempTable = new DataTable();
-            using (SqliteConnection connection = CreateConnection()) {
-                using (SqliteCommand command = new SqliteCommand("SELECT DISTINCT [PartNumber] FROM [UniquePN] ORDER BY [PartNumber] ASC;", connection)) {
-                    command.Connection = connection;
-                    tempTable.Load(command.ExecuteReader());
+            try {
+
+                using (SqliteConnection connection = CreateConnection()) {
+                    using (SqliteCommand command = new SqliteCommand("SELECT DISTINCT [PartNumber] FROM [UniquePN] ORDER BY [PartNumber] ASC;", connection)) {
+                        command.Connection = connection;
+                        tempTable.Load(command.ExecuteReader());
+                    }
                 }
-            }
+            } catch { }
+
             return tempTable;
         }
         public static DataTable GetShopOrder_All() {
@@ -122,17 +126,19 @@ namespace Data_Collector.DataTools {
 
         public static DataTable GetUserGroup_UserID(string UserNTID) {
             DataTable tempTable = new DataTable();
-            using (SqliteConnection connection = CreateConnection()) {
+            try {
+                using (SqliteConnection connection = CreateConnection()) {
 
-                string str = "SELECT * FROM [UserGroup] WHERE [UserTID]=@p_UserNTID ORDER BY [UserType] DESC;";
-                SqliteCommand command = new SqliteCommand(str);
+                    string str = "SELECT * FROM [UserGroup] WHERE [UserTID]=@p_UserNTID ORDER BY [UserType] DESC;";
+                    SqliteCommand command = new SqliteCommand(str);
 
-                command.Parameters.AddWithValue("@p_UserNTID", UserNTID);
+                    command.Parameters.AddWithValue("@p_UserNTID", UserNTID);
 
-                command.Connection = connection;
-                tempTable.Load(command.ExecuteReader());
+                    command.Connection = connection;
+                    tempTable.Load(command.ExecuteReader());
 
-            }
+                }
+            } catch { }
             return tempTable;
         }
 
@@ -639,16 +645,18 @@ namespace Data_Collector.DataTools {
         public static DataTable InsertUserGroup(string NTID, string UserType, Int64 Active) {
 
             DataTable table = new DataTable();
-            using (SqliteConnection connection = CreateConnection()) {
-                using (SqliteCommand command = new SqliteCommand("INSERT INTO [UserGroup] ([UserTID],[UserType],[Active]) VALUES (@p_NTID,@p_UserType,@p_Active); SELECT last_insert_rowid();", connection)) {
-                    command.Connection = connection;
-                    command.Parameters.AddWithValue("@p_NTID", NTID);
-                    command.Parameters.AddWithValue("@p_UserType", UserType);
-                    command.Parameters.AddWithValue("@p_Active", Active);
-                    table.Load(command.ExecuteReader());
+            try {
+                using (SqliteConnection connection = CreateConnection()) {
+                    using (SqliteCommand command = new SqliteCommand("INSERT INTO [UserGroup] ([UserTID],[UserType],[Active]) VALUES (@p_NTID,@p_UserType,@p_Active); SELECT last_insert_rowid();", connection)) {
+                        command.Connection = connection;
+                        command.Parameters.AddWithValue("@p_NTID", NTID);
+                        command.Parameters.AddWithValue("@p_UserType", UserType);
+                        command.Parameters.AddWithValue("@p_Active", Active);
+                        table.Load(command.ExecuteReader());
 
+                    }
                 }
-            }
+            } catch { }
             return table;
         }
 
@@ -941,22 +949,24 @@ namespace Data_Collector.DataTools {
 
         public static void UpsertClockingLog(string GUID, string ShopOrder, string UserID, string Start, string Stop) {
             DataTable table1 = new DataTable();
-            using (SqliteConnection connection = CreateConnection()) {
-                using (SqliteCommand command = new SqliteCommand("INSERT INTO ClockingLog ([GUID],[ShopOrder],[UserID],[Start],[Stop])" +
-                    "VALUES(@p_GUID,@p_ShopOrder,@p_UserID,@p_Start,@p_Stop)" +
-                    "ON CONFLICT([GUID]) " +
-                    "DO "+
-                    "UPDATE SET [Stop] = @p_Stop " +
-                    "WHERE [GUID]=@p_GUID;", connection)) {
-                    command.Connection = connection;
-                    command.Parameters.AddWithValue("@p_GUID", GUID);
-                    command.Parameters.AddWithValue("@p_ShopOrder", ShopOrder);
-                    command.Parameters.AddWithValue("@p_UserID", UserID);
-                    command.Parameters.AddWithValue("@p_Start", Start);
-                    command.Parameters.AddWithValue("@p_Stop", Stop);
-                    command.ExecuteNonQuery();
+            try {
+                using (SqliteConnection connection = CreateConnection()) {
+                    using (SqliteCommand command = new SqliteCommand("INSERT INTO ClockingLog ([GUID],[ShopOrder],[UserID],[Start],[Stop])" +
+                        "VALUES(@p_GUID,@p_ShopOrder,@p_UserID,@p_Start,@p_Stop)" +
+                        "ON CONFLICT([GUID]) " +
+                        "DO " +
+                        "UPDATE SET [Stop] = @p_Stop " +
+                        "WHERE [GUID]=@p_GUID;", connection)) {
+                        command.Connection = connection;
+                        command.Parameters.AddWithValue("@p_GUID", GUID);
+                        command.Parameters.AddWithValue("@p_ShopOrder", ShopOrder);
+                        command.Parameters.AddWithValue("@p_UserID", UserID);
+                        command.Parameters.AddWithValue("@p_Start", Start);
+                        command.Parameters.AddWithValue("@p_Stop", Stop);
+                        command.ExecuteNonQuery();
+                    }
                 }
-            }
+            } catch { }
         }
 
 

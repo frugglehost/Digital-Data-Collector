@@ -45,6 +45,7 @@ CREATE TABLE BarDecode (
 )
 STRICT;
 
+
 CREATE TABLE ClockingLog (
     GUID      TEXT PRIMARY KEY,
     ShopOrder TEXT NOT NULL,
@@ -53,6 +54,7 @@ CREATE TABLE ClockingLog (
     Stop      TEXT NOT NULL
 )
 STRICT;
+
 
 CREATE TABLE DataRecords (
     Rec_ID         INTEGER PRIMARY KEY,
@@ -65,6 +67,7 @@ CREATE TABLE DataRecords (
 )
 STRICT;
 
+
 CREATE TABLE DocsPN (
     ID       INTEGER PRIMARY KEY,
     PartID   INTEGER NOT NULL,
@@ -72,6 +75,7 @@ CREATE TABLE DocsPN (
     DocOrder INTEGER NOT NULL
 )
 STRICT;
+
 
 CREATE TABLE InspCriteria (
     DataPointID   INTEGER PRIMARY KEY,
@@ -82,9 +86,11 @@ CREATE TABLE InspCriteria (
     DocPosition   TEXT,
     UserType      TEXT,
     Mandatory     INTEGER DEFAULT (1),
-    Format        TEXT
+    Format        TEXT,
+    OldICID       INTEGER
 )
 STRICT;
+
 
 CREATE TABLE OrderInspPN (
     RowID       INTEGER PRIMARY KEY,
@@ -96,6 +102,7 @@ CREATE TABLE OrderInspPN (
 )
 STRICT;
 
+
 CREATE TABLE ShopOrder (
     ShopOrder TEXT    PRIMARY KEY
                       NOT NULL
@@ -106,6 +113,7 @@ CREATE TABLE ShopOrder (
 WITHOUT ROWID,
 STRICT;
 
+
 CREATE TABLE UniqueDocs (
     DocID   INTEGER PRIMARY KEY,
     Name    TEXT    NOT NULL,
@@ -115,12 +123,14 @@ CREATE TABLE UniqueDocs (
 )
 STRICT;
 
+
 CREATE TABLE UniquePN (
     PartID     INTEGER PRIMARY KEY,
     PartNumber TEXT    NOT NULL,
     Revision   INTEGER NOT NULL
 )
 STRICT;
+
 
 CREATE TABLE UniqueSerial (
     RowID      INTEGER PRIMARY KEY,
@@ -129,6 +139,7 @@ CREATE TABLE UniqueSerial (
     Serial     TEXT
 )
 STRICT;
+
 
 CREATE TABLE UserGroup (
     UserTID  TEXT    NOT NULL
@@ -148,8 +159,6 @@ CREATE TABLE UserInfo (
 )
 WITHOUT ROWID,
 STRICT;
-
-
 
 ", connection)) {
                     command.Connection = connection;

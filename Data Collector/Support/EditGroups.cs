@@ -20,6 +20,8 @@ namespace Data_Collector.Support {
 
             DataTable CurrentUserData = DataTools.DataMaster.GetUserGroup_UserID(CurrentNTID);
 
+            bool FailedUpdate = false;
+
             for (int i = 0; i < list_Groups.Items.Count; i++) {
                 string Name=list_Groups.Items[i].ToString();
                 bool CheckTrue = list_Groups.GetItemChecked(i);
@@ -33,15 +35,23 @@ namespace Data_Collector.Support {
 
                 if (!foundold) {
                     //Do an Insert
-                    DataTools.DataMaster.InsertUserGroup(CurrentNTID, Name, Convert.ToInt64(CheckTrue));
+
+                    if(DataTools.DataMaster.InsertUserGroup(CurrentNTID, Name, Convert.ToInt64(CheckTrue)).Rows.Count ==0) {
+                        
+                        FailedUpdate = true;
+                    }
+                    
                 } else {
                     //Do an Update
-                    DataTools.DataMaster.UpdateUserGroup_UserTID_UserType(CurrentNTID, Name, Convert.ToInt64(CheckTrue));
+                    if (DataTools.DataMaster.UpdateUserGroup_UserTID_UserType(CurrentNTID, Name, Convert.ToInt64(CheckTrue)).Rows.Count == 0) {
+                        FailedUpdate = true;
+                    }
                 }
 
 
 
             }
+            if (FailedUpdate) MessageBox.Show("Unable to insert the user's Info");
 
 
             list_Groups.Enabled = !list_Groups.Enabled;
