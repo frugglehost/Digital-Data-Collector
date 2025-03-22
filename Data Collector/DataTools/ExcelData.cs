@@ -57,7 +57,7 @@ namespace Data_Collector.DataTools
                     Type = GotDetailsIC.Rows[0].Field<string>("Type");
                 }
 
-                DataTable GotRecords = DataTools.DataMaster.GetDataRecords(null, null, Convert.ToInt64(ICID));
+                DataTable GotRecords = DataTools.DataMaster.GetDataRecords(null, ShopOrder, Convert.ToInt64(ICID));
 
                 //Populate a missing data row.
                 if (GotRecords.Rows.Count == 0) {
@@ -66,72 +66,79 @@ namespace Data_Collector.DataTools
 
                 int RowsCounter = 0;
                 foreach (DataRow ValueRow in GotRecords.Rows) {
-                    RecordID = ValueRow.Field<Int64>("Rec_ID");
-                    RecDateTime = ValueRow.Field<string>("DateTime UTC");
-                    User_ID = ValueRow.Field<string>("User_ID");
-                    Value = "";
+
+                    string Hidden= ValueRow.Field<string>("Hidden");
+
+                    if (string.IsNullOrWhiteSpace(Hidden)) {
 
 
-                    //Lets look at the data a bit and if it is one of the specail formats below lets format it better
-                    DataTable Values = JsonConvert.DeserializeObject<DataTable>(ValueRow.Field<string>("Value"));
 
-                    if (Values.Rows.Count > 0) {
-
-                        //Depending on the type lets format the value so it is human readable. 
-                        switch (Values.Rows[0].Field<string>("Type").ToLower()) {
-
-                            case "acknowledge":
-                            case "chemical":{
-
-                                Value = Values.Rows[0].Field<string>("Value");
+                        RecordID = ValueRow.Field<Int64>("Rec_ID");
+                        RecDateTime = ValueRow.Field<string>("DateTime UTC");
+                        User_ID = ValueRow.Field<string>("User_ID");
+                        Value = "";
 
 
-                                table.Rows.Add(ICID, Name, UserType, Type, RecordID, RecDateTime, User_ID, Value);
-                            }
-                            break;
+                        //Lets look at the data a bit and if it is one of the specail formats below lets format it better
+                        DataTable Values = JsonConvert.DeserializeObject<DataTable>(ValueRow.Field<string>("Value"));
 
-                            case "stop watch":
-                            case "timer": {
+                        if (Values.Rows.Count > 0) {
 
-                                foreach (DataRow ValueRows in Values.Rows) {
-                                    DataTable ExtraData = JsonConvert.DeserializeObject<DataTable>(ValueRows.Field<string>("Extra"));
+                            //Depending on the type lets format the value so it is human readable. 
+                            switch (Values.Rows[0].Field<string>("Type").ToLower()) {
 
+                                case "acknowledge":
+                                case "chemical": {
 
-                                    Value = Value + ExtraData.Rows[0].Field<string>("Name")+" "+ ValueRows.Field<string>("Value") + System.Environment.NewLine;
-                                }
+                                    Value = Values.Rows[0].Field<string>("Value");
 
-
-                                Value = Value.TrimEnd('\n').TrimEnd('\r').TrimEnd('\n');
-
-                                if (RowsCounter == 0) {
 
                                     table.Rows.Add(ICID, Name, UserType, Type, RecordID, RecDateTime, User_ID, Value);
                                 }
-                            }
-                            break;
+                                break;
+
+                                case "stop watch":
+                                case "timer": {
+
+                                    foreach (DataRow ValueRows in Values.Rows) {
+                                        DataTable ExtraData = JsonConvert.DeserializeObject<DataTable>(ValueRows.Field<string>("Extra"));
 
 
-                            default: {
+                                        Value = Value + ExtraData.Rows[0].Field<string>("Name") + " " + ValueRows.Field<string>("Value") + System.Environment.NewLine;
+                                    }
 
-                                
-                                foreach (DataRow ValueRows in Values.Rows) {
-                                    Value = Value+ ValueRows.Field<string>("Value") + System.Environment.NewLine;
+
+                                    Value = Value.TrimEnd('\n').TrimEnd('\r').TrimEnd('\n');
+
+                                    if (RowsCounter == 0) {
+
+                                        table.Rows.Add(ICID, Name, UserType, Type, RecordID, RecDateTime, User_ID, Value);
+                                    }
                                 }
+                                break;
 
 
-                                Value = Value.TrimEnd('\n').TrimEnd('\r').TrimEnd('\n');
-                                table.Rows.Add(ICID, Name, UserType, Type, RecordID, RecDateTime, User_ID, Value);
+                                default: {
+
+
+                                    foreach (DataRow ValueRows in Values.Rows) {
+                                        Value = Value + ValueRows.Field<string>("Value") + System.Environment.NewLine;
+                                    }
+
+
+                                    Value = Value.TrimEnd('\n').TrimEnd('\r').TrimEnd('\n');
+                                    table.Rows.Add(ICID, Name, UserType, Type, RecordID, RecDateTime, User_ID, Value);
+                                }
+                                break;
                             }
-                            break;
+
+
+                            RowsCounter++;
+
                         }
 
 
-                        RowsCounter++;
-
                     }
-                    
-
-
 
                 }
             }

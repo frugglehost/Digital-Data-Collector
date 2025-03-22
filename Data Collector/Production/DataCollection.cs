@@ -716,7 +716,7 @@ namespace Data_Collector.Production {
 
             } else {
                 System.Diagnostics.Process.Start("https://www.youtube.com/watch?v=vJV7TUF9Gxw");
-                MessageBox.Show("You are one trickey person. \nI knew that you would try and use the timer.\n\nPlease watch the video for help.", "Help", MessageBoxButtons.OK,MessageBoxIcon.Error);
+                MessageBox.Show("You are one trickey person. \nI knew that you would try and use the timer/chem tabs.\n\nPlease watch the video for help.", "Help", MessageBoxButtons.OK,MessageBoxIcon.Error);
             }
         }
 

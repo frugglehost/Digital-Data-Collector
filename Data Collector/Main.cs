@@ -28,7 +28,10 @@ using Microsoft.VisualBasic;
 using Data_Collector.Support;
 using DocumentFormat.OpenXml.VariantTypes;
 using System.Windows.Interop;
+using DocumentFormat.OpenXml.Bibliography;
+using System.Deployment.Application;
 //using DocumentFormat.OpenXml.Spreadsheet;
+
 
 namespace Data_Collector {
     public partial class Main : Form {
@@ -1078,7 +1081,15 @@ namespace Data_Collector {
         }
 
         private void Main_Load(object sender, EventArgs e) {
-            ss_Version.Text = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+
+#if DEBUG
+
+#else
+            try {
+                //Very odd when running from VS...
+                ss_Version.Text = ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString();
+            } catch { }
+#endif
             ss_User.Text = Environment.UserName;
 
             SetThreadExecutionState(EXECUTION_STATE.ES_DISPLAY_REQUIRED | EXECUTION_STATE.ES_CONTINUOUS);
@@ -1420,7 +1431,7 @@ namespace Data_Collector {
 
                     if(RowMandatory && !RowClosed) {
                         Allowed = false;
-                        Reason = Reason + "Inspection ID \"" + ICID + "\" is not closed.\n";
+                        Reason = Reason + "Inspection ID \"" + ICID + "\" is not closed and required.\n";
                     }
                 }
                 if (Allowed) {
@@ -1428,6 +1439,8 @@ namespace Data_Collector {
                     DataTools.DataMaster.UpdateShopOrder_ShopOrder(tb_ShopOrder.Text, null, null, "Closed");
                     tb_ShopOrder.Text = "Closed";
                     btn_Compleat.Enabled = false;
+                } else {
+                    MessageBox.Show("Failed to close the Shop Order due to:\n\n" + Reason, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
 
 
