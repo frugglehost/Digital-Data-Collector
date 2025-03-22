@@ -22,14 +22,14 @@ namespace Data_Collector.Production {
     public partial class DataCollection : Form {
 
         string LocalFolder = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"\Digital Data Collector";
-        public DataCollection(string ICID, string ShopOrder) {
+        public DataCollection(string ICID, string ShopOrder, string Status) {
             InitializeComponent();
 
             dtp_FullTime.Value = DateTime.Now;
 
             tb_ICID.Text = ICID;
             tb_ShopOrder.Text = ShopOrder;
-
+            tb_Status.Text = Status;
 
         }
 
@@ -460,6 +460,19 @@ namespace Data_Collector.Production {
 
             //Make it live baby 
             tb_MagicInput.Focus();
+
+            //Make the form read only
+            if (tb_Status.Text != "Open") {
+                tb_MagicInput.ReadOnly = true;
+                btn_RecordTab.Enabled = false;
+
+                btn_FileAdd.Enabled = false;
+                btn_BadgeAdd.Enabled = false;
+                btn_StopwatchAdd.Enabled = false;
+                btn_Timer.Enabled = false;
+            }
+
+
         }
 
         private void tab_Control_SelectedIndexChanged(object sender, EventArgs e) {
@@ -555,147 +568,156 @@ namespace Data_Collector.Production {
 
         private void btn_RecordTab_Click(object sender, EventArgs e) {
 
-            //Get current tab Name
-            string str_TabName = tab_Control.SelectedTab.Text.ToLower();
+            if (tb_Status.Text == "Open") {
+                //Get current tab Name
+                string str_TabName = tab_Control.SelectedTab.Text.ToLower();
 
-            //Gather Data that is static on the form.
-            string str_ICID = tb_ICID.Text;
-            string str_ShopOrder = tb_ShopOrder.Text;
-            string str_Type = tb_Type.Text;
-            string str_NTID = Environment.UserName;
+                //Gather Data that is static on the form.
+                string str_ICID = tb_ICID.Text;
+                string str_ShopOrder = tb_ShopOrder.Text;
+                string str_Type = tb_Type.Text;
+                string str_NTID = Environment.UserName;
 
 
-            //Generate string for dynamic inputs.
-            string str_Value = "";
-            string str_GeneralUserInput = "";
-            DataTable UserInput = new DataTable();
-            UserInput.Columns.Add("Type");
-            UserInput.Columns.Add("Value");
-            UserInput.Columns.Add("UserInput");
-            UserInput.Columns.Add("Extra");
+                //Generate string for dynamic inputs.
+                string str_Value = "";
+                string str_GeneralUserInput = "";
+                DataTable UserInput = new DataTable();
+                UserInput.Columns.Add("Type");
+                UserInput.Columns.Add("Value");
+                UserInput.Columns.Add("UserInput");
+                UserInput.Columns.Add("Extra");
 
-            switch (tb_Type.Text.Trim().ToLower()) {
+                switch (tb_Type.Text.Trim().ToLower()) {
 
-                case "acknowledge": {
-                    UserInput.Rows.Add(str_Type, tb_iAcknowledge.Text, tb_MagicInput.Text);
-                }
-                break;
-                case "badge": {
-                    foreach (DataGridViewRow row in dgv_Badge.Rows) {
-                        UserInput.Rows.Add(str_Type, row.Cells[dgv_Badge_NTID.Index].Value, tb_MagicInput.Text);
+                    case "acknowledge": {
+                        UserInput.Rows.Add(str_Type, tb_iAcknowledge.Text, tb_MagicInput.Text);
                     }
-                }
-                break;
-                case "date/time": {
-                    UserInput.Rows.Add(str_Type, dtp_FullTime.Value.ToString("yyyy-MM-dd HH:mm"), tb_MagicInput.Text);
-                }
-                break;
-                case "date": {
-                    UserInput.Rows.Add(str_Type, dtp_FullTime.Value.ToString("yyyy-MM-dd"), tb_MagicInput.Text);
-                }
-                break;
-                case "chemical": {
-                    DataTable Chemicals = new DataTable();
-                    Chemicals.Columns.Add("PN");
-                    Chemicals.Columns.Add("LOT");
-                    Chemicals.Columns.Add("Exp");
-
-                    Chemicals.Rows.Add(tb_chemPN.Text, tb_ChemLot.Text, dtp_ChemExp.Value.ToString("yyyy-MM-dd"));
-
-                    UserInput.Rows.Add(str_Type, JsonConvert.SerializeObject(Chemicals, Formatting.None), tb_MagicInput.Text);
-
-                }
-                break;
-                case "number": {
-                    foreach (DataGridViewRow row in dgv_Number.Rows) {
-                        UserInput.Rows.Add(str_Type, row.Cells[dgv_Number_Input.Index].Value, tb_MagicInput.Text);
+                    break;
+                    case "badge": {
+                        foreach (DataGridViewRow row in dgv_Badge.Rows) {
+                            UserInput.Rows.Add(str_Type, row.Cells[dgv_Badge_NTID.Index].Value, tb_MagicInput.Text);
+                        }
                     }
-                }
-                break;
-                case "serial number": {
-                    foreach (DataGridViewRow row in dgv_Serial.Rows) {
-                        UserInput.Rows.Add(str_Type, row.Cells[dgv_Number_Input.Index].Value, tb_MagicInput.Text);
+                    break;
+                    case "date/time": {
+                        UserInput.Rows.Add(str_Type, dtp_FullTime.Value.ToString("yyyy-MM-dd HH:mm"), tb_MagicInput.Text);
                     }
-                }
-                break;
-                case "tool id": {
-                    UserInput.Rows.Add(str_Type, cob_ToolNumber.Text + " - " + cob_SerialNum.Text, tb_MagicInput.Text);
-                }
-                break;
-                case "text": {
-                    UserInput.Rows.Add(str_Type, tbr_FreeText.Text, tb_MagicInput.Text);
-                }
-                break;
-                case "timer": {
-                    foreach (DataGridViewRow row in dgv_Timer.Rows) {
-                        DataTable TempData = new DataTable();
-                        TempData.Columns.Add("Name");
-                        TempData.Columns.Add("Duration");
-                        TempData.Columns.Add("Start");
-                        TempData.Columns.Add("End");
-                        TempData.Columns.Add("Offset");
-
-                        TempData.Rows.Add(row.Cells[dgv_Timer_Name.Index].Value, row.Cells[dgv_Timer_Durration.Index].Value, row.Cells[dgv_timer_Start.Index].Value ?? "", row.Cells[dgv_timer_End.Index].Value ?? "", row.Cells[dgv_Timer_Offset.Index].Value ?? "");
-
-                        UserInput.Rows.Add(str_Type, row.Cells[dgv_Timer_Left.Index].Value, tb_MagicInput.Text, JsonConvert.SerializeObject(TempData, Formatting.None));
+                    break;
+                    case "date": {
+                        UserInput.Rows.Add(str_Type, dtp_FullTime.Value.ToString("yyyy-MM-dd"), tb_MagicInput.Text);
                     }
-                }
-                break;
-                case "stop watch": {
-                    foreach (DataGridViewRow row in dgv_Stopwatch.Rows) {
+                    break;
+                    case "chemical": {
+                        DataTable Chemicals = new DataTable();
+                        Chemicals.Columns.Add("PN");
+                        Chemicals.Columns.Add("LOT");
+                        Chemicals.Columns.Add("Exp");
 
-                        DataTable TempData = new DataTable();
-                        TempData.Columns.Add("Name");
-                        TempData.Columns.Add("Start");
-                        TempData.Columns.Add("End");
-                        TempData.Columns.Add("Offset");
+                        Chemicals.Rows.Add(tb_chemPN.Text, tb_ChemLot.Text, dtp_ChemExp.Value.ToString("yyyy-MM-dd"));
 
-                        TempData.Rows.Add(row.Cells[dgv_Stopwatch_Name.Index].Value, row.Cells[dgv_Stopwatch_Start.Index].Value ?? "", row.Cells[dgv_Stopwatch_Stop.Index].Value ?? "", row.Cells[dgv_StopWatch_Offset.Index].Value ?? "");
+                        UserInput.Rows.Add(str_Type, JsonConvert.SerializeObject(Chemicals, Formatting.None), tb_MagicInput.Text);
 
-
-                        UserInput.Rows.Add(str_Type, row.Cells[dgv_Stopwatch_Duration.Index].Value, tb_MagicInput.Text, JsonConvert.SerializeObject(TempData, Formatting.None));
                     }
-                }
-                break;
-                case "file": {
-
-                    
-
-
-                    foreach (DataGridViewRow row in dgv_File.Rows) {
-                        DataTable TempData = new DataTable();
-                        TempData.Columns.Add("Name");
-                        TempData.Columns.Add("FileName");
-                        TempData.Columns.Add("Path");
-                        TempData.Columns.Add("Local");
-
-                        TempData.Rows.Add(row.Cells[dgv_File_Name.Index].Value, row.Cells[dgv_File_FileName.Index].Value ?? "", row.Cells[dgv_File_Path.Index].Value ?? "", row.Cells[dgv_File_Local.Index].Value ?? "");
-
-
-
-
-
-
-                        UserInput.Rows.Add(str_Type, row.Cells[dgv_File_FileName.Index].Value, tb_MagicInput.Text, JsonConvert.SerializeObject(TempData, Formatting.None));
+                    break;
+                    case "number": {
+                        foreach (DataGridViewRow row in dgv_Number.Rows) {
+                            UserInput.Rows.Add(str_Type, row.Cells[dgv_Number_Input.Index].Value, tb_MagicInput.Text);
+                        }
                     }
+                    break;
+                    case "serial number": {
+                        foreach (DataGridViewRow row in dgv_Serial.Rows) {
+                            UserInput.Rows.Add(str_Type, row.Cells[dgv_Number_Input.Index].Value, tb_MagicInput.Text);
+                        }
+                    }
+                    break;
+                    case "tool id": {
+                        UserInput.Rows.Add(str_Type, cob_ToolNumber.Text + " - " + cob_SerialNum.Text, tb_MagicInput.Text);
+                    }
+                    break;
+                    case "text": {
+                        UserInput.Rows.Add(str_Type, tbr_FreeText.Text, tb_MagicInput.Text);
+                    }
+                    break;
+                    case "timer": {
+                        foreach (DataGridViewRow row in dgv_Timer.Rows) {
+                            DataTable TempData = new DataTable();
+                            TempData.Columns.Add("Name");
+                            TempData.Columns.Add("Duration");
+                            TempData.Columns.Add("Start");
+                            TempData.Columns.Add("End");
+                            TempData.Columns.Add("Offset");
+
+                            TempData.Rows.Add(row.Cells[dgv_Timer_Name.Index].Value, row.Cells[dgv_Timer_Durration.Index].Value, row.Cells[dgv_timer_Start.Index].Value ?? "", row.Cells[dgv_timer_End.Index].Value ?? "", row.Cells[dgv_Timer_Offset.Index].Value ?? "");
+
+                            UserInput.Rows.Add(str_Type, row.Cells[dgv_Timer_Left.Index].Value, tb_MagicInput.Text, JsonConvert.SerializeObject(TempData, Formatting.None));
+                        }
+                    }
+                    break;
+                    case "stop watch": {
+                        foreach (DataGridViewRow row in dgv_Stopwatch.Rows) {
+
+                            DataTable TempData = new DataTable();
+                            TempData.Columns.Add("Name");
+                            TempData.Columns.Add("Start");
+                            TempData.Columns.Add("End");
+                            TempData.Columns.Add("Offset");
+
+                            TempData.Rows.Add(row.Cells[dgv_Stopwatch_Name.Index].Value, row.Cells[dgv_Stopwatch_Start.Index].Value ?? "", row.Cells[dgv_Stopwatch_Stop.Index].Value ?? "", row.Cells[dgv_StopWatch_Offset.Index].Value ?? "");
+
+
+                            UserInput.Rows.Add(str_Type, row.Cells[dgv_Stopwatch_Duration.Index].Value, tb_MagicInput.Text, JsonConvert.SerializeObject(TempData, Formatting.None));
+                        }
+                    }
+                    break;
+                    case "file": {
+
+
+
+
+                        foreach (DataGridViewRow row in dgv_File.Rows) {
+                            DataTable TempData = new DataTable();
+                            TempData.Columns.Add("Name");
+                            TempData.Columns.Add("FileName");
+                            TempData.Columns.Add("Path");
+                            TempData.Columns.Add("Local");
+
+                            TempData.Rows.Add(row.Cells[dgv_File_Name.Index].Value, row.Cells[dgv_File_FileName.Index].Value ?? "", row.Cells[dgv_File_Path.Index].Value ?? "", row.Cells[dgv_File_Local.Index].Value ?? "");
+
+
+
+
+
+
+                            UserInput.Rows.Add(str_Type, row.Cells[dgv_File_FileName.Index].Value, tb_MagicInput.Text, JsonConvert.SerializeObject(TempData, Formatting.None));
+                        }
+                    }
+                    break;
+
+
+
+
                 }
-                break;
+
+                //Loop through the collections and format it for DB upload.
+
+                str_Value = JsonConvert.SerializeObject(UserInput, Formatting.None);
 
 
 
+                if (DataTools.DataMaster.InsertDataRecords(str_ShopOrder, Convert.ToInt64(str_ICID), str_Value, str_NTID, DateTime.UtcNow.ToString()).Rows.Count > 0) {
 
+                    LoadHistory(Convert.ToInt64(str_ICID));
+                } else {
+                    MessageBox.Show("No network access. Please Wait and try again", "Network Problem");
+                }
+
+
+            } else {
+                System.Diagnostics.Process.Start("https://www.youtube.com/watch?v=vJV7TUF9Gxw");
+                MessageBox.Show("You are one trickey person. \nI knew that you would try and use the timer.\n\nPlease watch the video for help.", "Help", MessageBoxButtons.OK,MessageBoxIcon.Error);
             }
-
-            //Loop through the collections and format it for DB upload.
-
-            str_Value = JsonConvert.SerializeObject(UserInput, Formatting.None);
-
-            DataTools.DataMaster.InsertDataRecords(str_ShopOrder, Convert.ToInt64(str_ICID), str_Value, str_NTID, DateTime.UtcNow.ToString());
-
-            LoadHistory(Convert.ToInt64(str_ICID));
-
-
-
         }
 
         private void btn_BadgeAdd_Click(object sender, EventArgs e) {
@@ -1162,5 +1184,6 @@ namespace Data_Collector.Production {
 
 
         }
+
     }
 }

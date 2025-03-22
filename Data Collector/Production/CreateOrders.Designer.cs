@@ -41,6 +41,8 @@
             this.label6 = new System.Windows.Forms.Label();
             this.cxb_Serials = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.ts_RemoveSelected = new System.Windows.Forms.ToolStripMenuItem();
+            this.cob_Status = new System.Windows.Forms.ComboBox();
+            this.label7 = new System.Windows.Forms.Label();
             this.cxb_Serials.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -196,11 +198,34 @@
             this.ts_RemoveSelected.Text = "Remove Selected";
             this.ts_RemoveSelected.Click += new System.EventHandler(this.ts_RemoveSelected_Click);
             // 
+            // cob_Status
+            // 
+            this.cob_Status.FormattingEnabled = true;
+            this.cob_Status.Items.AddRange(new object[] {
+            "Open",
+            "Closed",
+            "Cancled"});
+            this.cob_Status.Location = new System.Drawing.Point(468, 12);
+            this.cob_Status.Name = "cob_Status";
+            this.cob_Status.Size = new System.Drawing.Size(76, 21);
+            this.cob_Status.TabIndex = 19;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(422, 15);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(40, 13);
+            this.label7.TabIndex = 20;
+            this.label7.Text = "Status:";
+            // 
             // CreateOrders
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(556, 277);
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.cob_Status);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.tb_Qty);
             this.Controls.Add(this.cob_ShopOrders);
@@ -249,5 +274,7 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.ContextMenuStrip cxb_Serials;
         private System.Windows.Forms.ToolStripMenuItem ts_RemoveSelected;
+        private System.Windows.Forms.ComboBox cob_Status;
+        private System.Windows.Forms.Label label7;
     }
 }

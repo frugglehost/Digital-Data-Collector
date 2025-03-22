@@ -107,7 +107,7 @@ namespace Data_Collector.DataTools {
             return tempTable;
         }
 
-        public static DataTable GetRevbyPN(string PartNumber) {
+        public static DataTable GetUniquePN_PN(string PartNumber) {
             DataTable tempTable = new DataTable();
             using (SqliteConnection connection = CreateConnection()) {
 
@@ -281,6 +281,49 @@ namespace Data_Collector.DataTools {
                 command.Parameters.AddWithValue("@p_ReqOpen", ReqOpen);
                 command.Parameters.AddWithValue("@p_ReqClose", ReqClose);
                 command.Parameters.AddWithValue("@p_Order", Order);
+
+
+                command.Connection = connection;
+                tempTable.Load(command.ExecuteReader());
+
+            }
+            return tempTable;
+        }
+
+
+        public static DataTable GetClockingLog(string GUID = null, string ShopOrder = null, string UserID = null, string Start = null, string Stop = null) {
+            DataTable tempTable = new DataTable();
+            using (SqliteConnection connection = CreateConnection()) {
+
+
+
+                string Where = "";
+
+                Where = (GUID != null) ? Where + "[GUID]=@p_GUID AND " : Where;
+                Where = (ShopOrder != null) ? Where + "[ShopOrder]=@p_ShopOrder AND " : Where;
+                Where = (UserID != null) ? Where + "[UserID]=@p_UserID AND " : Where;
+                Where = (Start != null) ? Where + "[Start]=@p_Start AND " : Where;
+                Where = (Stop != null) ? Where + "[Stop]=@p_Stop AND " : Where;
+
+                if (Where.Length != 0) {
+                    Where = Where.Substring(0, Where.Length - 4);
+
+                    Where = "WHERE " + Where;
+
+                }
+
+
+
+                string str = string.Format("SELECT * FROM [ClockingLog] {0};", Where);
+
+
+                SqliteCommand command = new SqliteCommand(str);
+
+                command.Parameters.AddWithValue("@p_GUID", GUID);
+                command.Parameters.AddWithValue("@p_ShopOrder", ShopOrder);
+                command.Parameters.AddWithValue("@p_UserID", UserID);
+                command.Parameters.AddWithValue("@p_Start", Start);
+                command.Parameters.AddWithValue("@p_Stop", Stop);
 
 
                 command.Connection = connection;
@@ -626,15 +669,16 @@ namespace Data_Collector.DataTools {
             return table;
         }
 
-        public static DataTable InsertShopOrder(string ShopOrder, Int64 PartID,  Int64 Qty) {
+        public static DataTable InsertShopOrder(string ShopOrder, Int64 PartID,  Int64 Qty, string Status) {
 
             DataTable table = new DataTable();
             using (SqliteConnection connection = CreateConnection()) {
-                using (SqliteCommand command = new SqliteCommand("INSERT INTO [ShopOrder] ([ShopOrder],[PartID],[Qty]) VALUES (@p_ShopOrder,@p_PartID,@p_Qty); SELECT last_insert_rowid();", connection)) {
+                using (SqliteCommand command = new SqliteCommand("INSERT INTO [ShopOrder] ([ShopOrder],[PartID],[Qty],[Status]) VALUES (@p_ShopOrder,@p_PartID,@p_Qty,p_Status); SELECT last_insert_rowid();", connection)) {
                     command.Connection = connection;
                     command.Parameters.AddWithValue("@p_ShopOrder", ShopOrder);
                     command.Parameters.AddWithValue("@p_PartID", PartID);
                     command.Parameters.AddWithValue("@p_Qty", Qty);
+                    command.Parameters.AddWithValue("@p_Status", Status);
                     table.Load(command.ExecuteReader());
 
                 }
@@ -664,7 +708,7 @@ namespace Data_Collector.DataTools {
 
             DataTable table = new DataTable();
             using (SqliteConnection connection = CreateConnection()) {
-                using (SqliteCommand command = new SqliteCommand("UPDATE [UserGroup] SET [Active]=@p_Active WHERE [UserTID]=@p_NTID AND [UserType]=@p_UserType;", connection)) {
+                using (SqliteCommand command = new SqliteCommand("UPDATE [UserGroup] SET [Active]=@p_Active WHERE [UserTID]=@p_NTID AND [UserType]=@p_UserType; SELECT last_insert_rowid();", connection)) {
                     command.Connection = connection;
                     command.Parameters.AddWithValue("@p_NTID", NTID);
                     command.Parameters.AddWithValue("@p_UserType", UserType);
@@ -676,15 +720,16 @@ namespace Data_Collector.DataTools {
             return table;
         }
 
-        public static DataTable UpdateShopOrder_ShopOrder(string ShopOrder, Int64 PartID, Int64 Qty) {
+        public static DataTable UpdateShopOrder_ShopOrder(string ShopOrder, Int64 PartID, Int64 Qty,string Status) {
 
             DataTable table = new DataTable();
             using (SqliteConnection connection = CreateConnection()) {
-                using (SqliteCommand command = new SqliteCommand("UPDATE [ShopOrder] SET [PartID]=@p_PartID, [Qty]=@p_Qty WHERE [ShopOrder]=@p_ShopOrder;", connection)) {
+                using (SqliteCommand command = new SqliteCommand("UPDATE [ShopOrder] SET [PartID]=@p_PartID, [Qty]=@p_Qty, [Status]=@p_Status WHERE [ShopOrder]=@p_ShopOrder;", connection)) {
                     command.Connection = connection;
                     command.Parameters.AddWithValue("@p_ShopOrder", ShopOrder);
                     command.Parameters.AddWithValue("@p_PartID", PartID);
                     command.Parameters.AddWithValue("@p_Qty", Qty);
+                    command.Parameters.AddWithValue("@p_Status", Status);
                     table.Load(command.ExecuteReader());
 
                 }
@@ -837,7 +882,7 @@ namespace Data_Collector.DataTools {
             }
         }
 
-        public static void UpdateOrderInspPN(Int64 RowID, Int64? PartID = null, Int64? DataPointID = null, Int64? ReqOpen = null, Int64 ?ReqClose = null, Int64? Order=null) {
+        public static void UpdateOrderInspPN(Int64 RowID, Int64? PartID = null, Int64? DataPointID = null, Int64? ReqOpen = null, Int64 ?ReqClose = null, Int64? Order=null, Int64? Visible = null) {
 
             DataTable table = new DataTable();
             using (SqliteConnection connection = CreateConnection()) {
@@ -850,7 +895,7 @@ namespace Data_Collector.DataTools {
                 Set = (ReqOpen != null) ? Set + "[ReqOpen]=@p_ReqOpen, " : Set;
                 Set = (ReqClose != null) ? Set + "[ReqClose]=@p_ReqClose, " : Set;
                 Set = (Order != null) ? Set + "[Order]=@p_Order, " : Set;
-
+                Set = (Visible != null) ? Set + "[Visible]=@p_Visible, " : Set;
 
                 Set = Set.Substring(0, Set.Length - 2);
 
@@ -866,6 +911,8 @@ namespace Data_Collector.DataTools {
                     command.Parameters.AddWithValue("@p_ReqOpen", ReqOpen);
                     command.Parameters.AddWithValue("@p_ReqClose", ReqClose);
                     command.Parameters.AddWithValue("@p_Order", Order);
+                    command.Parameters.AddWithValue("@p_Visible", Visible);
+
                     table.Load(command.ExecuteReader());
 
                 }
@@ -873,7 +920,7 @@ namespace Data_Collector.DataTools {
         }
 
 
-        public static DataTable InsertOrderInspPN(Int64? PartID = null, Int64? DataPointID = null, Int64? Order = null, Int64? ReqOpen = null, Int64? ReqClose=null) {
+        public static DataTable InsertOrderInspPN(Int64? PartID = null, Int64? DataPointID = null, Int64? Order = null, Int64? ReqOpen = null, Int64? ReqClose=null, Int64? Visible=null) {
 
             DataTable table = new DataTable();
             using (SqliteConnection connection = CreateConnection()) {
@@ -885,6 +932,7 @@ namespace Data_Collector.DataTools {
                 Set = (Order != null) ? Set + "[Order]," : Set;
                 Set = (ReqOpen != null) ? Set + "[ReqOpen]," : Set;
                 Set = (ReqClose != null) ? Set + "[ReqClose]," : Set;
+                Set = (Visible != null) ? Set + "[Visible]," : Set;
 
                 Set = Set.Substring(0, Set.Length - 1);
 
@@ -896,6 +944,7 @@ namespace Data_Collector.DataTools {
                 ValuesConn = (Order != null) ? ValuesConn + "@p_Order," : ValuesConn;
                 ValuesConn = (ReqOpen != null) ? ValuesConn + "@p_ReqOpen," : ValuesConn;
                 ValuesConn = (ReqClose != null) ? ValuesConn + "@p_ReqClose," : ValuesConn;
+                ValuesConn = (Visible != null) ? ValuesConn + "@p_Visible," : ValuesConn;
 
 
                 ValuesConn = ValuesConn.Substring(0, ValuesConn.Length - 1);
@@ -910,6 +959,7 @@ namespace Data_Collector.DataTools {
                     command.Parameters.AddWithValue("@p_Order", Order);
                     command.Parameters.AddWithValue("@p_ReqOpen", ReqOpen);
                     command.Parameters.AddWithValue("@p_ReqClose", ReqClose);
+                    command.Parameters.AddWithValue("@p_Visible", Visible);
 
                     table.Load(command.ExecuteReader());
 
@@ -931,20 +981,25 @@ namespace Data_Collector.DataTools {
             }
         }
 
-        public static void InsertDataRecords(string ShopOrderID, Int64 DataPointID, string Value, string User_ID, string DateTimes) {
+        public static DataTable InsertDataRecords(string ShopOrderID, Int64 DataPointID, string Value, string User_ID, string DateTimes) {
             DataTable table1 = new DataTable();
-            using (SqliteConnection connection = CreateConnection()) {
-                using (SqliteCommand command = new SqliteCommand("INSERT INTO [DataRecords] ([ShopOrderID], [DataPointID], [Value], [User_ID], [DateTime UTC]) VALUES " +
-                    "(@p_ShopOrderID,@p_DataPointID,@p_Value,@p_User_ID,@p_DateTimes); SELECT last_insert_rowid();", connection)) {
-                    command.Connection = connection;
-                    command.Parameters.AddWithValue("@p_ShopOrderID", ShopOrderID);
-                    command.Parameters.AddWithValue("@p_DataPointID", DataPointID);
-                    command.Parameters.AddWithValue("@p_Value", Value);
-                    command.Parameters.AddWithValue("@p_User_ID", User_ID);
-                    command.Parameters.AddWithValue("@p_DateTimes", DateTimes);
-                    command.ExecuteNonQuery();
+            try {
+                using (SqliteConnection connection = CreateConnection()) {
+                    using (SqliteCommand command = new SqliteCommand("INSERT INTO [DataRecords] ([ShopOrderID], [DataPointID], [Value], [User_ID], [DateTime UTC]) VALUES " +
+                        "(@p_ShopOrderID,@p_DataPointID,@p_Value,@p_User_ID,@p_DateTimes); SELECT last_insert_rowid();", connection)) {
+                        command.Connection = connection;
+                        command.Parameters.AddWithValue("@p_ShopOrderID", ShopOrderID);
+                        command.Parameters.AddWithValue("@p_DataPointID", DataPointID);
+                        command.Parameters.AddWithValue("@p_Value", Value);
+                        command.Parameters.AddWithValue("@p_User_ID", User_ID);
+                        command.Parameters.AddWithValue("@p_DateTimes", DateTimes);
+
+                        table1.Load(command.ExecuteReader());
+                    }
                 }
-            }
+            } catch { }
+            return table1;
+
         }
 
         public static void UpsertClockingLog(string GUID, string ShopOrder, string UserID, string Start, string Stop) {

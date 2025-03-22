@@ -8,6 +8,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
 
 namespace Data_Collector.Engineering {
     public partial class ManagePartNumber : Form {
@@ -157,7 +158,7 @@ namespace Data_Collector.Engineering {
             tb_PartID.Text = "";
 
             //Update the rev drop down list.
-            DataTable UniquePNs = DataTools.DataMaster.GetRevbyPN(cob_PartNumber.Text);
+            DataTable UniquePNs = DataTools.DataMaster.GetUniquePN_PN(cob_PartNumber.Text);
 
             foreach (DataRow row in UniquePNs.Rows) {
 
@@ -173,12 +174,15 @@ namespace Data_Collector.Engineering {
 
             if (!string.IsNullOrWhiteSpace(cob_PartNumber.Text)) {
 
-                DataTable UniquePN = DataTools.DataMaster.GetRevbyPN(cob_PartNumber.Text);
+                DataTable UniquePN = DataTools.DataMaster.GetUniquePN_PN(cob_PartNumber.Text);
                 Int64 int_Rev = 1;
+                Int64 OldPartID = 0;
+                Int64 NewPartID = 0;
+
 
                 if (UniquePN.Rows.Count > 0) {
                     //Lets go! We will add a new incremental Rev.
-
+                    OldPartID = UniquePN.Rows[0].Field<Int64>("PartID");
                     int_Rev = UniquePN.Rows[0].Field<Int64>("Revision") + 1;
 
                 } else {
@@ -188,9 +192,43 @@ namespace Data_Collector.Engineering {
 
                 DataTable UniqueDocID = DataTools.DataMaster.InsertNewUniquePN(cob_PartNumber.Text.Trim(), int_Rev);
 
+                if (UniqueDocID.Rows.Count > 0) {
+                    //We Added a Row lets do something. 
+                    NewPartID = UniqueDocID.Rows[0].Field<Int64>("last_insert_rowid()");
+                }
 
+                //We created a new Rev Lets copy the OrderInspection Points and docs to the new rev if it is incremental.
+                if (OldPartID != 0) {
+                    //The End user wants me make my life hard...........
+                    DataTable GotOldOderPOS = DataTools.DataMaster.GetOrderInspPN(null, OldPartID);
+                    foreach (DataRow OldOrderRows in GotOldOderPOS.Rows) {
+                        Int64 OldDataPointID = OldOrderRows.Field<Int64?>("DataPointID") ?? 0;
+                        Int64 ReqOpenOld = OldOrderRows.Field<Int64?>("ReqOpen") ?? 0;
+                        Int64 ReqCloseOld = OldOrderRows.Field<Int64?>("ReqClose") ?? 0;
+                        Int64 OrderOld = OldOrderRows.Field<Int64?>("Order") ?? 0;
+                        Int64 Visible = OldOrderRows.Field<Int64?>("Visible") ?? 0;
+
+                        DataTools.DataMaster.InsertOrderInspPN(NewPartID, OldDataPointID, OrderOld, ReqOpenOld, ReqCloseOld, Visible);
+                    }
+
+                    DataTable GotOldDocOrder = DataTools.DataMaster.GetDocsPN_PartID(OldPartID);
+
+                    foreach (DataRow OldDocRows in GotOldDocOrder.Rows) {
+                        Int64 PartID = OldDocRows.Field<Int64?>("PartID") ?? 0;
+                        Int64 DocID = OldDocRows.Field<Int64?>("DocID") ?? 0;
+                        Int64 DocOrder = OldDocRows.Field<Int64?>("DocOrder") ?? 0;
+
+                        DataTools.DataMaster.InsertDocsPN_NewRow(NewPartID, DocID, DocOrder);
+                    }
+
+
+
+
+                }
+
+
+                //Refresh All Rows
                 GetAllRevs();
-
             }
         }
 
@@ -230,7 +268,7 @@ namespace Data_Collector.Engineering {
 
             int RowNumber = 1;
 
-            Int64 FinialPartID = Convert.ToInt64(tb_PartID.Text);
+            Int64 PartID = Convert.ToInt64(tb_PartID.Text);
 
             foreach (DataGridViewRow drv in dataGridView1.Rows) {
                 Int64 TempRowID = Convert.ToInt64(drv.Cells[dgv_tb_RowID.Index].Value);
@@ -240,7 +278,7 @@ namespace Data_Collector.Engineering {
 
                 if (TempRowID == -1) {
                     //Insert Code
-                    DataTools.DataMaster.InsertDocsPN_NewRow(FinialPartID, TempDocID, RowNumber);
+                    DataTools.DataMaster.InsertDocsPN_NewRow(PartID, TempDocID, RowNumber);
                 } else {
                     //Update Code
                     DataTools.DataMaster.UpdateDocsPN_RowID(TempRowID, TempDocID, RowNumber);
@@ -255,38 +293,46 @@ namespace Data_Collector.Engineering {
 
 
 
-            //The End user wants me make my life hard...........
-
+            //Lets see if we need to update any OrderIDs with new Doc numbers.
             foreach (DataGridViewRow drv in dataGridView1.Rows) {
                 Int64 NewDocID = Convert.ToInt64(drv.Cells[dgv_Main_DocID.Index].Value);
                 Int64 OldDocID = Convert.ToInt64(drv.Cells[dgv_tb_OldDocID.Index].Value);
+                Int64 RowID = Convert.ToInt64(drv.Cells[dgv_tb_RowID.Index].Value);
 
-                //Get the inspection Points
-                DataTable NewICID_Data = DataTools.DataMaster.GetInspCriteria(null, null, null, null, NewDocID);
+                if (NewDocID != OldDocID) {
+                    //Get the inspection Points
+                    DataTable ICID_Data = DataTools.DataMaster.GetInspCriteria(null, null, null, null, NewDocID);
 
-                foreach (DataRow ICIDRow in NewICID_Data.Rows) {
-                    Int64 PastICID = ICIDRow.Field<Int64>("OldICID");
-                    Int64 NewICID = ICIDRow.Field<Int64>("DataPointID");
+                    foreach (DataRow ICIDRow in ICID_Data.Rows) {
+                        Int64 NewICID = ICIDRow.Field<Int64>("DataPointID");
+                        Int64? OldICID = ICIDRow.Field<Int64?>("OldICID");
+                        if (OldICID != null) {
+                            DataTable GotOldOderPOS = DataTools.DataMaster.GetOrderInspPN(null, PartID, OldICID);
 
-                    DataTable GotOldOderPOS = DataTools.DataMaster.GetOrderInspPN(null, null, PastICID);
+                            if (GotOldOderPOS.Rows.Count > 0) {
+                                Int64 OderPOSID = GotOldOderPOS.Rows[0].Field<Int64?>("RowID") ?? 0;
+                                Int64 OldDataPointID = GotOldOderPOS.Rows[0].Field<Int64?>("DataPointID") ?? 0;
+                                Int64 ReqOpenOld = GotOldOderPOS.Rows[0].Field<Int64?>("ReqOpen") ?? 0;
+                                Int64 ReqCloseOld = GotOldOderPOS.Rows[0].Field<Int64?>("ReqClose") ?? 0;
+                                Int64 OrderOld = GotOldOderPOS.Rows[0].Field<Int64?>("Order") ?? 0;
+                                Int64 Visible = GotOldOderPOS.Rows[0].Field<Int64?>("Visible") ?? 0;
 
-                    if (GotOldOderPOS.Rows.Count > 0) {
-                        Int64 ReqOpenOld = GotOldOderPOS.Rows[0].Field<Int64?>("ReqOpen")??0;
-                        Int64 ReqCloseOld = GotOldOderPOS.Rows[0].Field<Int64?>("ReqClose") ?? 0;
-                        Int64 OrderOld = GotOldOderPOS.Rows[0].Field<Int64?>("Order") ?? 0;
-
-                        DataTools.DataMaster.InsertOrderInspPN(FinialPartID, NewICID, OrderOld, ReqOpenOld, ReqCloseOld);
+                                DataTools.DataMaster.UpdateOrderInspPN(OderPOSID, PartID, NewICID, ReqOpenOld, ReqCloseOld, OrderOld, Visible);
+                            }
+                        }
 
                     }
-
                 }
-
             }
 
 
 
 
+
+
+
             this.Close();
+
 
         }
         

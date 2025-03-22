@@ -151,6 +151,8 @@
             this.calendarColumn1 = new CalendarColumn();
             this.dataGridViewComboBoxColumn1 = new CalendarColumn();
             this.dgv_tb_Format = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tb_Status = new System.Windows.Forms.TextBox();
+            this.label17 = new System.Windows.Forms.Label();
             this.tab_Control.SuspendLayout();
             this.tp_Acknowledge.SuspendLayout();
             this.tp_DateTime.SuspendLayout();
@@ -182,7 +184,7 @@
             this.dtp_FullTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dtp_FullTime.Location = new System.Drawing.Point(124, 41);
             this.dtp_FullTime.Name = "dtp_FullTime";
-            this.dtp_FullTime.Size = new System.Drawing.Size(345, 26);
+            this.dtp_FullTime.Size = new System.Drawing.Size(368, 26);
             this.dtp_FullTime.TabIndex = 5;
             // 
             // label1
@@ -202,7 +204,7 @@
             this.textBox1.Location = new System.Drawing.Point(458, 18);
             this.textBox1.Name = "textBox1";
             this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(255, 20);
+            this.textBox1.Size = new System.Drawing.Size(278, 20);
             this.textBox1.TabIndex = 0;
             this.textBox1.TabStop = false;
             // 
@@ -303,7 +305,7 @@
             this.tb_ShopOrder.Location = new System.Drawing.Point(458, 70);
             this.tb_ShopOrder.Name = "tb_ShopOrder";
             this.tb_ShopOrder.ReadOnly = true;
-            this.tb_ShopOrder.Size = new System.Drawing.Size(255, 20);
+            this.tb_ShopOrder.Size = new System.Drawing.Size(118, 20);
             this.tb_ShopOrder.TabIndex = 0;
             this.tb_ShopOrder.TabStop = false;
             // 
@@ -314,7 +316,7 @@
             this.tb_UserType.Location = new System.Drawing.Point(458, 96);
             this.tb_UserType.Name = "tb_UserType";
             this.tb_UserType.ReadOnly = true;
-            this.tb_UserType.Size = new System.Drawing.Size(255, 20);
+            this.tb_UserType.Size = new System.Drawing.Size(278, 20);
             this.tb_UserType.TabIndex = 0;
             this.tb_UserType.TabStop = false;
             // 
@@ -325,7 +327,7 @@
             this.tb_Type.Location = new System.Drawing.Point(458, 122);
             this.tb_Type.Name = "tb_Type";
             this.tb_Type.ReadOnly = true;
-            this.tb_Type.Size = new System.Drawing.Size(255, 20);
+            this.tb_Type.Size = new System.Drawing.Size(278, 20);
             this.tb_Type.TabIndex = 0;
             this.tb_Type.TabStop = false;
             // 
@@ -336,7 +338,7 @@
             this.tb_Format.Location = new System.Drawing.Point(458, 148);
             this.tb_Format.Name = "tb_Format";
             this.tb_Format.ReadOnly = true;
-            this.tb_Format.Size = new System.Drawing.Size(255, 20);
+            this.tb_Format.Size = new System.Drawing.Size(278, 20);
             this.tb_Format.TabIndex = 0;
             this.tb_Format.TabStop = false;
             // 
@@ -359,7 +361,7 @@
             this.tab_Control.Location = new System.Drawing.Point(12, 233);
             this.tab_Control.Name = "tab_Control";
             this.tab_Control.SelectedIndex = 0;
-            this.tab_Control.Size = new System.Drawing.Size(624, 143);
+            this.tab_Control.Size = new System.Drawing.Size(647, 143);
             this.tab_Control.TabIndex = 3;
             this.tab_Control.TabStop = false;
             this.tab_Control.SelectedIndexChanged += new System.EventHandler(this.tab_Control_SelectedIndexChanged);
@@ -371,7 +373,7 @@
             this.tp_Acknowledge.Location = new System.Drawing.Point(4, 22);
             this.tp_Acknowledge.Name = "tp_Acknowledge";
             this.tp_Acknowledge.Padding = new System.Windows.Forms.Padding(3);
-            this.tp_Acknowledge.Size = new System.Drawing.Size(616, 117);
+            this.tp_Acknowledge.Size = new System.Drawing.Size(639, 117);
             this.tp_Acknowledge.TabIndex = 10;
             this.tp_Acknowledge.Text = "Acknowledge";
             this.tp_Acknowledge.UseVisualStyleBackColor = true;
@@ -380,10 +382,10 @@
             // 
             this.tb_iAcknowledge.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tb_iAcknowledge.Location = new System.Drawing.Point(6, 91);
+            this.tb_iAcknowledge.Location = new System.Drawing.Point(35, 91);
             this.tb_iAcknowledge.Name = "tb_iAcknowledge";
             this.tb_iAcknowledge.ReadOnly = true;
-            this.tb_iAcknowledge.Size = new System.Drawing.Size(604, 20);
+            this.tb_iAcknowledge.Size = new System.Drawing.Size(571, 20);
             this.tb_iAcknowledge.TabIndex = 0;
             this.tb_iAcknowledge.TabStop = false;
             // 
@@ -393,9 +395,9 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btn_Acknowledge.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_Acknowledge.Location = new System.Drawing.Point(170, 15);
+            this.btn_Acknowledge.Location = new System.Drawing.Point(179, 15);
             this.btn_Acknowledge.Name = "btn_Acknowledge";
-            this.btn_Acknowledge.Size = new System.Drawing.Size(282, 63);
+            this.btn_Acknowledge.Size = new System.Drawing.Size(287, 63);
             this.btn_Acknowledge.TabIndex = 4;
             this.btn_Acknowledge.Text = "I Acknowledge";
             this.btn_Acknowledge.UseVisualStyleBackColor = true;
@@ -407,7 +409,7 @@
             this.tp_DateTime.Location = new System.Drawing.Point(4, 22);
             this.tp_DateTime.Name = "tp_DateTime";
             this.tp_DateTime.Padding = new System.Windows.Forms.Padding(3);
-            this.tp_DateTime.Size = new System.Drawing.Size(616, 117);
+            this.tp_DateTime.Size = new System.Drawing.Size(639, 117);
             this.tp_DateTime.TabIndex = 0;
             this.tp_DateTime.Text = "Date/Time";
             this.tp_DateTime.UseVisualStyleBackColor = true;
@@ -424,7 +426,7 @@
             this.tp_Chemical.Location = new System.Drawing.Point(4, 22);
             this.tp_Chemical.Name = "tp_Chemical";
             this.tp_Chemical.Padding = new System.Windows.Forms.Padding(3);
-            this.tp_Chemical.Size = new System.Drawing.Size(616, 117);
+            this.tp_Chemical.Size = new System.Drawing.Size(639, 117);
             this.tp_Chemical.TabIndex = 1;
             this.tp_Chemical.Text = "Chemical";
             this.tp_Chemical.UseVisualStyleBackColor = true;
@@ -432,7 +434,7 @@
             // pic_ChemExp
             // 
             this.pic_ChemExp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pic_ChemExp.Location = new System.Drawing.Point(548, 69);
+            this.pic_ChemExp.Location = new System.Drawing.Point(571, 69);
             this.pic_ChemExp.Name = "pic_ChemExp";
             this.pic_ChemExp.Size = new System.Drawing.Size(21, 21);
             this.pic_ChemExp.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -467,7 +469,7 @@
             this.dtp_ChemExp.Location = new System.Drawing.Point(98, 69);
             this.dtp_ChemExp.MinDate = new System.DateTime(2002, 2, 1, 0, 0, 0, 0);
             this.dtp_ChemExp.Name = "dtp_ChemExp";
-            this.dtp_ChemExp.Size = new System.Drawing.Size(444, 22);
+            this.dtp_ChemExp.Size = new System.Drawing.Size(467, 22);
             this.dtp_ChemExp.TabIndex = 8;
             this.dtp_ChemExp.ValueChanged += new System.EventHandler(this.dtp_ChemExp_ValueChanged);
             // 
@@ -478,7 +480,7 @@
             this.tb_ChemLot.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tb_ChemLot.Location = new System.Drawing.Point(98, 43);
             this.tb_ChemLot.Name = "tb_ChemLot";
-            this.tb_ChemLot.Size = new System.Drawing.Size(471, 22);
+            this.tb_ChemLot.Size = new System.Drawing.Size(494, 22);
             this.tb_ChemLot.TabIndex = 7;
             // 
             // tb_chemPN
@@ -488,7 +490,7 @@
             this.tb_chemPN.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tb_chemPN.Location = new System.Drawing.Point(97, 17);
             this.tb_chemPN.Name = "tb_chemPN";
-            this.tb_chemPN.Size = new System.Drawing.Size(472, 22);
+            this.tb_chemPN.Size = new System.Drawing.Size(495, 22);
             this.tb_chemPN.TabIndex = 6;
             // 
             // label11
@@ -508,7 +510,7 @@
             this.tp_Number.Location = new System.Drawing.Point(4, 22);
             this.tp_Number.Name = "tp_Number";
             this.tp_Number.Padding = new System.Windows.Forms.Padding(3);
-            this.tp_Number.Size = new System.Drawing.Size(616, 117);
+            this.tp_Number.Size = new System.Drawing.Size(639, 117);
             this.tp_Number.TabIndex = 2;
             this.tp_Number.Text = "Number";
             this.tp_Number.UseVisualStyleBackColor = true;
@@ -548,7 +550,7 @@
             this.dgv_Number.Location = new System.Drawing.Point(61, 6);
             this.dgv_Number.Name = "dgv_Number";
             this.dgv_Number.RowHeadersVisible = false;
-            this.dgv_Number.Size = new System.Drawing.Size(549, 105);
+            this.dgv_Number.Size = new System.Drawing.Size(572, 105);
             this.dgv_Number.TabIndex = 3;
             this.dgv_Number.CellLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_Number_CellLeave);
             // 
@@ -1121,7 +1123,7 @@
             this.tb_History.Multiline = true;
             this.tb_History.Name = "tb_History";
             this.tb_History.ReadOnly = true;
-            this.tb_History.Size = new System.Drawing.Size(701, 92);
+            this.tb_History.Size = new System.Drawing.Size(724, 92);
             this.tb_History.TabIndex = 0;
             this.tb_History.TabStop = false;
             this.tb_History.WordWrap = false;
@@ -1142,7 +1144,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btn_Save.Location = new System.Drawing.Point(12, 493);
             this.btn_Save.Name = "btn_Save";
-            this.btn_Save.Size = new System.Drawing.Size(697, 85);
+            this.btn_Save.Size = new System.Drawing.Size(720, 85);
             this.btn_Save.TabIndex = 19;
             this.btn_Save.Text = "Close";
             this.btn_Save.UseVisualStyleBackColor = true;
@@ -1151,7 +1153,7 @@
             // btn_Reset
             // 
             this.btn_Reset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_Reset.Location = new System.Drawing.Point(642, 174);
+            this.btn_Reset.Location = new System.Drawing.Point(665, 174);
             this.btn_Reset.Name = "btn_Reset";
             this.btn_Reset.Size = new System.Drawing.Size(71, 23);
             this.btn_Reset.TabIndex = 2;
@@ -1163,7 +1165,7 @@
             // 
             this.btn_RecordTab.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_RecordTab.Location = new System.Drawing.Point(642, 233);
+            this.btn_RecordTab.Location = new System.Drawing.Point(665, 233);
             this.btn_RecordTab.Name = "btn_RecordTab";
             this.btn_RecordTab.Size = new System.Drawing.Size(71, 139);
             this.btn_RecordTab.TabIndex = 18;
@@ -1178,7 +1180,7 @@
             this.tb_MagicInput.Location = new System.Drawing.Point(81, 174);
             this.tb_MagicInput.Multiline = true;
             this.tb_MagicInput.Name = "tb_MagicInput";
-            this.tb_MagicInput.Size = new System.Drawing.Size(551, 53);
+            this.tb_MagicInput.Size = new System.Drawing.Size(574, 53);
             this.tb_MagicInput.TabIndex = 0;
             this.tb_MagicInput.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tb_MagicInput_KeyDown);
             // 
@@ -1208,7 +1210,7 @@
             this.tb_Name.Location = new System.Drawing.Point(458, 44);
             this.tb_Name.Name = "tb_Name";
             this.tb_Name.ReadOnly = true;
-            this.tb_Name.Size = new System.Drawing.Size(255, 20);
+            this.tb_Name.Size = new System.Drawing.Size(278, 20);
             this.tb_Name.TabIndex = 0;
             this.tb_Name.TabStop = false;
             // 
@@ -1479,11 +1481,33 @@
             this.dgv_tb_Format.ReadOnly = true;
             this.dgv_tb_Format.Width = 150;
             // 
+            // tb_Status
+            // 
+            this.tb_Status.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.tb_Status.Location = new System.Drawing.Point(628, 70);
+            this.tb_Status.Name = "tb_Status";
+            this.tb_Status.ReadOnly = true;
+            this.tb_Status.Size = new System.Drawing.Size(108, 20);
+            this.tb_Status.TabIndex = 25;
+            this.tb_Status.TabStop = false;
+            // 
+            // label17
+            // 
+            this.label17.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(582, 73);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(40, 13);
+            this.label17.TabIndex = 26;
+            this.label17.Text = "Status:";
+            // 
             // DataCollection
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(725, 590);
+            this.ClientSize = new System.Drawing.Size(748, 590);
+            this.Controls.Add(this.tb_Status);
+            this.Controls.Add(this.label17);
             this.Controls.Add(this.tb_Name);
             this.Controls.Add(this.label16);
             this.Controls.Add(this.label10);
@@ -1662,5 +1686,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_File_SaveTo;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_File_Local;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn23;
+        private System.Windows.Forms.TextBox tb_Status;
+        private System.Windows.Forms.Label label17;
     }
 }

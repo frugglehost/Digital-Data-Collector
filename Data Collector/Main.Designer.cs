@@ -54,6 +54,9 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.pdf_Document = new PdfiumViewer.PdfRenderer();
             this.dgv_Main = new System.Windows.Forms.DataGridView();
+            this.dgv_Image_Value = new System.Windows.Forms.DataGridViewImageColumn();
+            this.dgv_cb_Mandatory = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.dgv_Main_Closed = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.btn_SaveAll = new System.Windows.Forms.Button();
             this.btn_Down = new System.Windows.Forms.Button();
             this.btn_Up = new System.Windows.Forms.Button();
@@ -108,6 +111,8 @@
             this.ts_SetRoot = new System.Windows.Forms.ToolStripMenuItem();
             this.timer_Refresh = new System.Windows.Forms.Timer(this.components);
             this.fbd_SetPath = new System.Windows.Forms.FolderBrowserDialog();
+            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.btn_Compleat = new System.Windows.Forms.Button();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -116,18 +121,18 @@
             this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_Main_OrderID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_Main_OrderPOS = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_Main_ICID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_Main_ReqOpen = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_Main_ReqClosed = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_Main_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_tb_User = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_Image_Value = new System.Windows.Forms.DataGridViewImageColumn();
+            this.dgv_Main_UserType = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_Main_DocID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_Main_Position = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_cb_Mandatory = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.dgv_Main_Closed = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.tb_Status = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -137,6 +142,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Main)).BeginInit();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
+            this.splitContainer2.Panel1.SuspendLayout();
+            this.splitContainer2.Panel2.SuspendLayout();
+            this.splitContainer2.SuspendLayout();
             this.SuspendLayout();
             // 
             // fileToolStripMenuItem
@@ -351,7 +360,7 @@
             this.tabControl1.Location = new System.Drawing.Point(12, 53);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1022, 518);
+            this.tabControl1.Size = new System.Drawing.Size(1193, 518);
             this.tabControl1.TabIndex = 12;
             // 
             // tabPage1
@@ -360,7 +369,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1014, 492);
+            this.tabPage1.Size = new System.Drawing.Size(1185, 492);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Work Instructions";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -377,6 +386,7 @@
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.splitContainer2);
             this.splitContainer1.Panel2.Controls.Add(this.dgv_Main);
             this.splitContainer1.Panel2.Controls.Add(this.btn_SaveAll);
             this.splitContainer1.Panel2.Controls.Add(this.btn_Down);
@@ -384,10 +394,9 @@
             this.splitContainer1.Panel2.Controls.Add(this.button2);
             this.splitContainer1.Panel2.Controls.Add(this.btn_Add);
             this.splitContainer1.Panel2.Controls.Add(this.btn_Sync);
-            this.splitContainer1.Panel2.Controls.Add(this.btn_Export);
             this.splitContainer1.Panel2.Controls.Add(this.cob_DocList);
-            this.splitContainer1.Size = new System.Drawing.Size(1008, 486);
-            this.splitContainer1.SplitterDistance = 662;
+            this.splitContainer1.Size = new System.Drawing.Size(1179, 486);
+            this.splitContainer1.SplitterDistance = 774;
             this.splitContainer1.TabIndex = 0;
             // 
             // pdf_Document
@@ -400,7 +409,7 @@
             this.pdf_Document.Name = "pdf_Document";
             this.pdf_Document.Page = 0;
             this.pdf_Document.Rotation = PdfiumViewer.PdfRotation.Rotate0;
-            this.pdf_Document.Size = new System.Drawing.Size(656, 480);
+            this.pdf_Document.Size = new System.Drawing.Size(768, 480);
             this.pdf_Document.TabIndex = 0;
             this.pdf_Document.TabStop = false;
             this.pdf_Document.Text = "pdfRenderer1";
@@ -423,7 +432,7 @@
             this.dgv_Main_ReqOpen,
             this.dgv_Main_ReqClosed,
             this.dgv_Main_Name,
-            this.dgv_tb_User,
+            this.dgv_Main_UserType,
             this.dgv_Image_Value,
             this.dgv_Main_DocID,
             this.dgv_Main_Position,
@@ -433,15 +442,41 @@
             this.dgv_Main.Name = "dgv_Main";
             this.dgv_Main.ReadOnly = true;
             this.dgv_Main.RowHeadersVisible = false;
-            this.dgv_Main.Size = new System.Drawing.Size(336, 395);
+            this.dgv_Main.Size = new System.Drawing.Size(395, 382);
             this.dgv_Main.TabIndex = 0;
             this.dgv_Main.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_Main_CellClick);
             this.dgv_Main.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_Main_CellDoubleClick);
             // 
+            // dgv_Image_Value
+            // 
+            this.dgv_Image_Value.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.dgv_Image_Value.FillWeight = 75F;
+            this.dgv_Image_Value.HeaderText = "Value";
+            this.dgv_Image_Value.MinimumWidth = 75;
+            this.dgv_Image_Value.Name = "dgv_Image_Value";
+            this.dgv_Image_Value.ReadOnly = true;
+            this.dgv_Image_Value.Width = 75;
+            // 
+            // dgv_cb_Mandatory
+            // 
+            this.dgv_cb_Mandatory.HeaderText = "Mandatory";
+            this.dgv_cb_Mandatory.Name = "dgv_cb_Mandatory";
+            this.dgv_cb_Mandatory.ReadOnly = true;
+            this.dgv_cb_Mandatory.Visible = false;
+            // 
+            // dgv_Main_Closed
+            // 
+            this.dgv_Main_Closed.HeaderText = "Closed";
+            this.dgv_Main_Closed.Name = "dgv_Main_Closed";
+            this.dgv_Main_Closed.ReadOnly = true;
+            this.dgv_Main_Closed.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_Main_Closed.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.dgv_Main_Closed.Visible = false;
+            // 
             // btn_SaveAll
             // 
             this.btn_SaveAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_SaveAll.Location = new System.Drawing.Point(264, 376);
+            this.btn_SaveAll.Location = new System.Drawing.Point(323, 363);
             this.btn_SaveAll.Name = "btn_SaveAll";
             this.btn_SaveAll.Size = new System.Drawing.Size(75, 49);
             this.btn_SaveAll.TabIndex = 8;
@@ -452,7 +487,7 @@
             // btn_Down
             // 
             this.btn_Down.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_Down.Location = new System.Drawing.Point(264, 183);
+            this.btn_Down.Location = new System.Drawing.Point(323, 183);
             this.btn_Down.Name = "btn_Down";
             this.btn_Down.Size = new System.Drawing.Size(75, 23);
             this.btn_Down.TabIndex = 7;
@@ -463,7 +498,7 @@
             // btn_Up
             // 
             this.btn_Up.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_Up.Location = new System.Drawing.Point(264, 154);
+            this.btn_Up.Location = new System.Drawing.Point(323, 154);
             this.btn_Up.Name = "btn_Up";
             this.btn_Up.Size = new System.Drawing.Size(75, 23);
             this.btn_Up.TabIndex = 6;
@@ -474,7 +509,7 @@
             // button2
             // 
             this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button2.Location = new System.Drawing.Point(264, 59);
+            this.button2.Location = new System.Drawing.Point(323, 59);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 5;
@@ -484,7 +519,7 @@
             // btn_Add
             // 
             this.btn_Add.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_Add.Location = new System.Drawing.Point(264, 30);
+            this.btn_Add.Location = new System.Drawing.Point(323, 30);
             this.btn_Add.Name = "btn_Add";
             this.btn_Add.Size = new System.Drawing.Size(75, 23);
             this.btn_Add.TabIndex = 4;
@@ -497,9 +532,9 @@
             this.btn_Sync.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btn_Sync.Enabled = false;
-            this.btn_Sync.Location = new System.Drawing.Point(3, 431);
+            this.btn_Sync.Location = new System.Drawing.Point(3, 418);
             this.btn_Sync.Name = "btn_Sync";
-            this.btn_Sync.Size = new System.Drawing.Size(336, 23);
+            this.btn_Sync.Size = new System.Drawing.Size(395, 23);
             this.btn_Sync.TabIndex = 3;
             this.btn_Sync.Text = "Refresh Sync";
             this.btn_Sync.UseVisualStyleBackColor = true;
@@ -507,15 +542,17 @@
             // 
             // btn_Export
             // 
-            this.btn_Export.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            this.btn_Export.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btn_Export.Enabled = false;
-            this.btn_Export.Location = new System.Drawing.Point(3, 460);
+            this.btn_Export.Location = new System.Drawing.Point(4, 2);
             this.btn_Export.Name = "btn_Export";
-            this.btn_Export.Size = new System.Drawing.Size(336, 23);
+            this.btn_Export.Size = new System.Drawing.Size(191, 31);
             this.btn_Export.TabIndex = 2;
             this.btn_Export.Text = "Export Data";
             this.btn_Export.UseVisualStyleBackColor = true;
+            this.btn_Export.Click += new System.EventHandler(this.btn_Export_Click);
             // 
             // cob_DocList
             // 
@@ -525,7 +562,7 @@
             this.cob_DocList.FormattingEnabled = true;
             this.cob_DocList.Location = new System.Drawing.Point(3, 3);
             this.cob_DocList.Name = "cob_DocList";
-            this.cob_DocList.Size = new System.Drawing.Size(336, 21);
+            this.cob_DocList.Size = new System.Drawing.Size(395, 21);
             this.cob_DocList.TabIndex = 1;
             this.cob_DocList.SelectedIndexChanged += new System.EventHandler(this.cob_DocList_SelectedIndexChanged);
             // 
@@ -572,7 +609,7 @@
             this.ts_Battery});
             this.statusStrip1.Location = new System.Drawing.Point(0, 574);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(1046, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(1217, 22);
             this.statusStrip1.TabIndex = 13;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -708,7 +745,7 @@
             this.manageToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1046, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1217, 24);
             this.menuStrip1.TabIndex = 14;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -873,8 +910,38 @@
             // 
             // fbd_SetPath
             // 
-            this.fbd_SetPath.RootFolder = System.Environment.SpecialFolder.MyComputer;
             this.fbd_SetPath.ShowNewFolderButton = false;
+            // 
+            // splitContainer2
+            // 
+            this.splitContainer2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.splitContainer2.Location = new System.Drawing.Point(3, 447);
+            this.splitContainer2.Name = "splitContainer2";
+            // 
+            // splitContainer2.Panel1
+            // 
+            this.splitContainer2.Panel1.Controls.Add(this.btn_Export);
+            // 
+            // splitContainer2.Panel2
+            // 
+            this.splitContainer2.Panel2.Controls.Add(this.btn_Compleat);
+            this.splitContainer2.Size = new System.Drawing.Size(395, 36);
+            this.splitContainer2.SplitterDistance = 198;
+            this.splitContainer2.TabIndex = 9;
+            // 
+            // btn_Compleat
+            // 
+            this.btn_Compleat.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_Compleat.Enabled = false;
+            this.btn_Compleat.Location = new System.Drawing.Point(3, 3);
+            this.btn_Compleat.Name = "btn_Compleat";
+            this.btn_Compleat.Size = new System.Drawing.Size(187, 30);
+            this.btn_Compleat.TabIndex = 0;
+            this.btn_Compleat.Text = "Compleated";
+            this.btn_Compleat.UseVisualStyleBackColor = true;
             // 
             // dataGridViewTextBoxColumn1
             // 
@@ -901,10 +968,14 @@
             // 
             // dataGridViewTextBoxColumn3
             // 
+            this.dataGridViewTextBoxColumn3.FillWeight = 50F;
             this.dataGridViewTextBoxColumn3.HeaderText = "ReqOpen";
+            this.dataGridViewTextBoxColumn3.MinimumWidth = 50;
             this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
             this.dataGridViewTextBoxColumn3.ReadOnly = true;
+            this.dataGridViewTextBoxColumn3.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.dataGridViewTextBoxColumn3.Visible = false;
+            this.dataGridViewTextBoxColumn3.Width = 50;
             // 
             // dataGridViewTextBoxColumn4
             // 
@@ -921,6 +992,7 @@
             this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
             this.dataGridViewTextBoxColumn5.ReadOnly = true;
             this.dataGridViewTextBoxColumn5.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.dataGridViewTextBoxColumn5.Visible = false;
             // 
             // dataGridViewTextBoxColumn6
             // 
@@ -941,17 +1013,28 @@
             this.dataGridViewTextBoxColumn7.MinimumWidth = 50;
             this.dataGridViewTextBoxColumn7.Name = "dataGridViewTextBoxColumn7";
             this.dataGridViewTextBoxColumn7.ReadOnly = true;
+            this.dataGridViewTextBoxColumn7.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.dataGridViewTextBoxColumn7.Visible = false;
             this.dataGridViewTextBoxColumn7.Width = 50;
             // 
             // dataGridViewTextBoxColumn8
             // 
             this.dataGridViewTextBoxColumn8.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.dataGridViewTextBoxColumn8.FillWeight = 50F;
             this.dataGridViewTextBoxColumn8.HeaderText = "Position";
             this.dataGridViewTextBoxColumn8.MinimumWidth = 100;
             this.dataGridViewTextBoxColumn8.Name = "dataGridViewTextBoxColumn8";
             this.dataGridViewTextBoxColumn8.ReadOnly = true;
             this.dataGridViewTextBoxColumn8.Visible = false;
+            // 
+            // dataGridViewTextBoxColumn9
+            // 
+            this.dataGridViewTextBoxColumn9.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.dataGridViewTextBoxColumn9.HeaderText = "Position";
+            this.dataGridViewTextBoxColumn9.MinimumWidth = 100;
+            this.dataGridViewTextBoxColumn9.Name = "dataGridViewTextBoxColumn9";
+            this.dataGridViewTextBoxColumn9.ReadOnly = true;
+            this.dataGridViewTextBoxColumn9.Visible = false;
             // 
             // dgv_Main_OrderID
             // 
@@ -1005,26 +1088,16 @@
             this.dgv_Main_Name.ReadOnly = true;
             this.dgv_Main_Name.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
-            // dgv_tb_User
+            // dgv_Main_UserType
             // 
-            this.dgv_tb_User.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.dgv_tb_User.FillWeight = 75F;
-            this.dgv_tb_User.HeaderText = "User";
-            this.dgv_tb_User.MinimumWidth = 75;
-            this.dgv_tb_User.Name = "dgv_tb_User";
-            this.dgv_tb_User.ReadOnly = true;
-            this.dgv_tb_User.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.dgv_tb_User.Width = 75;
-            // 
-            // dgv_Image_Value
-            // 
-            this.dgv_Image_Value.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.dgv_Image_Value.FillWeight = 75F;
-            this.dgv_Image_Value.HeaderText = "Value";
-            this.dgv_Image_Value.MinimumWidth = 75;
-            this.dgv_Image_Value.Name = "dgv_Image_Value";
-            this.dgv_Image_Value.ReadOnly = true;
-            this.dgv_Image_Value.Width = 75;
+            this.dgv_Main_UserType.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.dgv_Main_UserType.FillWeight = 75F;
+            this.dgv_Main_UserType.HeaderText = "User";
+            this.dgv_Main_UserType.MinimumWidth = 75;
+            this.dgv_Main_UserType.Name = "dgv_Main_UserType";
+            this.dgv_Main_UserType.ReadOnly = true;
+            this.dgv_Main_UserType.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.dgv_Main_UserType.Width = 75;
             // 
             // dgv_Main_DocID
             // 
@@ -1046,27 +1119,30 @@
             this.dgv_Main_Position.ReadOnly = true;
             this.dgv_Main_Position.Visible = false;
             // 
-            // dgv_cb_Mandatory
+            // tb_Status
             // 
-            this.dgv_cb_Mandatory.HeaderText = "Mandatory";
-            this.dgv_cb_Mandatory.Name = "dgv_cb_Mandatory";
-            this.dgv_cb_Mandatory.ReadOnly = true;
-            this.dgv_cb_Mandatory.Visible = false;
+            this.tb_Status.Location = new System.Drawing.Point(973, 27);
+            this.tb_Status.Name = "tb_Status";
+            this.tb_Status.ReadOnly = true;
+            this.tb_Status.Size = new System.Drawing.Size(100, 20);
+            this.tb_Status.TabIndex = 15;
             // 
-            // dgv_Main_Closed
+            // label6
             // 
-            this.dgv_Main_Closed.HeaderText = "Closed";
-            this.dgv_Main_Closed.Name = "dgv_Main_Closed";
-            this.dgv_Main_Closed.ReadOnly = true;
-            this.dgv_Main_Closed.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgv_Main_Closed.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.dgv_Main_Closed.Visible = false;
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(927, 30);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(40, 13);
+            this.label6.TabIndex = 16;
+            this.label6.Text = "Status:";
             // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1046, 596);
+            this.ClientSize = new System.Drawing.Size(1217, 596);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.tb_Status);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.tabControl1);
@@ -1100,6 +1176,10 @@
             this.statusStrip1.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            this.splitContainer2.Panel1.ResumeLayout(false);
+            this.splitContainer2.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
+            this.splitContainer2.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1203,12 +1283,17 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_Main_ReqOpen;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_Main_ReqClosed;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_Main_Name;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_tb_User;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_Main_UserType;
         private System.Windows.Forms.DataGridViewImageColumn dgv_Image_Value;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_Main_DocID;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_Main_Position;
         private System.Windows.Forms.DataGridViewCheckBoxColumn dgv_cb_Mandatory;
         private System.Windows.Forms.DataGridViewCheckBoxColumn dgv_Main_Closed;
+        private System.Windows.Forms.SplitContainer splitContainer2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn9;
+        private System.Windows.Forms.Button btn_Compleat;
+        private System.Windows.Forms.TextBox tb_Status;
+        private System.Windows.Forms.Label label6;
     }
 }
 

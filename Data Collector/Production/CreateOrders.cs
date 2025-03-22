@@ -35,7 +35,7 @@ namespace Data_Collector.Production {
             //Great Time to go and change the Rev.
             cob_Rev.Items.Clear();
 
-            DataTable PartRevs = DataTools.DataMaster.GetRevbyPN(cob_PartNumber.Text);
+            DataTable PartRevs = DataTools.DataMaster.GetUniquePN_PN(cob_PartNumber.Text);
 
             foreach (DataRow Row in PartRevs.Rows) {
 
@@ -150,6 +150,8 @@ namespace Data_Collector.Production {
                 int_DocumnetID= ShopOrderInfo.Rows[0].Field<Int64>("PartID");
                 tb_Qty.Text = ShopOrderInfo.Rows[0].Field<Int64>("Qty").ToString();
 
+                cob_Status.Text = ShopOrderInfo.Rows[0].Field<string>("Status");
+
                 DataTable DocumnetID = DataTools.DataMaster.GetUniquePN_PartID(int_DocumnetID);
 
                 DataTable SerilNumbers = DataTools.DataMaster.GetUniqueSerial_Order(str_OrderNumber);
@@ -177,17 +179,18 @@ namespace Data_Collector.Production {
             string TempShopOrder = cob_ShopOrders.Text;
             Int64 tempPartID=Convert.ToInt64(tb_PartID.Text);
             Int64 tempQty = Convert.ToInt64(tb_Qty.Text);
+            string Status = cob_Status.Text;
 
             //Check if the Order exists. 
             if (DataTools.DataMaster.GetShopOrder_ShopOrder(cob_ShopOrders.Text).Rows.Count > 0) {
 
                 //We have a hit lets Update
-                DataTools.DataMaster.UpdateShopOrder_ShopOrder(TempShopOrder, tempPartID, tempQty);
+                DataTools.DataMaster.UpdateShopOrder_ShopOrder(TempShopOrder, tempPartID, tempQty, Status);
 
             } else {
                 //No Hit do a insert.
 
-                DataTools.DataMaster.InsertShopOrder(TempShopOrder, tempPartID, tempQty);
+                DataTools.DataMaster.InsertShopOrder(TempShopOrder, tempPartID, tempQty, Status);
 
             }
 

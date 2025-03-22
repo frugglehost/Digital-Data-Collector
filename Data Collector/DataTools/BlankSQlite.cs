@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Data_Collector.DataTools {
     internal class BlankSQlite {
@@ -16,6 +17,24 @@ namespace Data_Collector.DataTools {
             IniFile MyIni = new IniFile(@LocalFolder + @"\Settings.ini");
             string obtain_value = MyIni.Read("RootFoder");
 
+
+            if (string.IsNullOrWhiteSpace(obtain_value)) {
+
+
+                // Show the FolderBrowserDialog.
+                System.Windows.Forms.FolderBrowserDialog FolderBrowser = new System.Windows.Forms.FolderBrowserDialog();
+
+                DialogResult result = FolderBrowser.ShowDialog();
+                if (result == DialogResult.OK) {
+                    obtain_value = FolderBrowser.SelectedPath;
+
+
+                    MyIni.Write("RootFoder", obtain_value);
+
+                }
+
+
+            }
 
             //string obtain_value = System.Configuration.ConfigurationManager.AppSettings["DataBaseRemote"];
             SqliteConnection connection = new SqliteConnection("Data Source='" + obtain_value + "\\DataBase.db';");
@@ -98,7 +117,8 @@ CREATE TABLE OrderInspPN (
     DataPointID INTEGER,
     ReqOpen     INTEGER,
     ReqClose    INTEGER,
-    [Order]     INTEGER
+    [Order]     INTEGER,
+    Visible     INTEGER DEFAULT (1) 
 )
 STRICT;
 
@@ -108,7 +128,8 @@ CREATE TABLE ShopOrder (
                       NOT NULL
                       COLLATE NOCASE,
     PartID    INT     NOT NULL,
-    Qty       INTEGER DEFAULT (1) 
+    Qty       INTEGER DEFAULT (1),
+    Status    TEXT    DEFAULT Open
 )
 WITHOUT ROWID,
 STRICT;

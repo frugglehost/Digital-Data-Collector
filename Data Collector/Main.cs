@@ -26,6 +26,7 @@ using System.Security.Cryptography;
 using Data_Collector.DataTools;
 using Microsoft.VisualBasic;
 using Data_Collector.Support;
+//using DocumentFormat.OpenXml.Spreadsheet;
 
 namespace Data_Collector {
     public partial class Main : Form {
@@ -101,9 +102,12 @@ namespace Data_Collector {
             cob_Serials.Items.Clear();
             tb_PartID.Text = "";
 
+            btn_Export.Enabled = false;
+            btn_Compleat.Enabled = false;
 
 
-            
+
+
 
             if (btn_Search.Text == "Search") {
 
@@ -146,6 +150,8 @@ namespace Data_Collector {
 
                         btn_Search.Text = "Done";
 
+                        tb_Status.Text= ShopOrderData.Rows[0].Field<string>("Status");
+
 
                         //We made it! We have a single row no duplices or any missing. 
                         Int64 TempPartID = ShopOrderData.Rows[0].Field<Int64>("PartID");
@@ -185,8 +191,10 @@ namespace Data_Collector {
                 }
                 
                 btn_Sync.Enabled = true;
+                btn_Export.Enabled = true;
+                btn_Compleat.Enabled = true;
 
-                
+
 
             } else {
                 tb_ShopOrder.BackColor = SystemColors.Window;
@@ -227,7 +235,7 @@ namespace Data_Collector {
             //Great Time to go and change the Rev.
             cob_Rev.Items.Clear();
 
-            DataTable PartRevs = DataTools.DataMaster.GetRevbyPN(cob_PartNumber.Text);
+            DataTable PartRevs = DataTools.DataMaster.GetUniquePN_PN(cob_PartNumber.Text);
 
             foreach (DataRow Row in PartRevs.Rows) {
 
@@ -445,7 +453,7 @@ namespace Data_Collector {
                     Int64 ReqOpen = Convert.ToInt64(ForGridRow.Field<string>(dgv_Main_ReqOpen.Index) ?? "0");
                     Int64 ReqClose = Convert.ToInt64(ForGridRow.Field<string>(dgv_Main_ReqClosed.Index) ?? "0");
                     string Name = ForGridRow.Field<string>(dgv_Main_Name.Index).ToString();
-                    string UserType = ForGridRow.Field<string>(dgv_tb_User.Index).ToString();
+                    string UserType = ForGridRow.Field<string>(dgv_Main_UserType.Index).ToString();
                     Int64 DocID = Convert.ToInt64(ForGridRow.Field<string>(dgv_Main_DocID.Index) ?? "-1");
                     string DocPosition = ForGridRow.Field<string>(dgv_Main_Position.Index).ToString();
 
@@ -459,7 +467,7 @@ namespace Data_Collector {
                     dgv_Main.Rows[LastRowIndex].Cells[dgv_Main_ReqOpen.Index].Value = ReqOpen;
                     dgv_Main.Rows[LastRowIndex].Cells[dgv_Main_ReqClosed.Index].Value = ReqClose;
                     dgv_Main.Rows[LastRowIndex].Cells[dgv_Main_Name.Index].Value = Name;
-                    dgv_Main.Rows[LastRowIndex].Cells[dgv_tb_User.Index].Value = UserType;
+                    dgv_Main.Rows[LastRowIndex].Cells[dgv_Main_UserType.Index].Value = UserType;
                     dgv_Main.Rows[LastRowIndex].Cells[dgv_Main_DocID.Index].Value = DocID;
                     dgv_Main.Rows[LastRowIndex].Cells[dgv_Main_Position.Index].Value = DocPosition;
 
@@ -497,7 +505,7 @@ namespace Data_Collector {
                                 DGV_Row.Cells["dgv_Main_Name"].Value = Row.Field<string>("DataPointName");
                                 DGV_Row.Cells["dgv_Main_Name"].ToolTipText = Row.Field<string>("Description");
 
-                                DGV_Row.Cells["dgv_tb_User"].Value = Row.Field<string>("UserType");
+                                DGV_Row.Cells["dgv_Main_UserType"].Value = Row.Field<string>("UserType");
                                 DGV_Row.Cells["dgv_cb_Mandatory"].Value = Convert.ToBoolean(Row.Field<Int64?>("Mandatory") ?? 0);
                                 DGV_Row.Cells[dgv_Main_DocID.Index].Value = Row.Field<Int64?>("DocID") ?? 0;
                                 DGV_Row.Cells[dgv_Main_Position.Index].Value = Row.Field<string>("DocPosition");
@@ -535,12 +543,13 @@ namespace Data_Collector {
         private void pdf_Document_Click(object sender, EventArgs e) {
 
             MouseEventArgs args = (MouseEventArgs)e;
-            PdfPoint point = this.pdf_Document.PointToPdf(args.Location);
+            PdfPoint point = pdf_Document.PointToPdf(args.Location);
+
             //DocID, Page, X, Y
             string Position = String.Format("{0},{1},{2}", point.Page.ToString(), point.Location.X, point.Location.Y);
 
 
-            Rectangle displayRectangle = this.pdf_Document.DisplayRectangle;
+            Rectangle displayRectangle = pdf_Document.DisplayRectangle;
 
 
 
@@ -558,22 +567,6 @@ namespace Data_Collector {
                         LastRow = Cells.RowIndex;
                 }
 
-
-                /*
-                using (IEnumerator enumerator = this.dgv_Main.SelectedCells.GetEnumerator()) {
-                    while (enumerator.MoveNext()) {
-                        rowIndex = ((DataGridViewCell)enumerator.Current).RowIndex;
-                        this.dgv_Main.Rows[rowIndex].Cells["dgv_Main_Position"].Value = Position;
-                        this.dgv_Main.Rows[rowIndex].Cells["dgv_Main_Position"].Style.BackColor = Color.Yellow;
-                        this.dgv_Main.Rows[rowIndex].Cells[dgv_Main_DocID.Index].Value = this.cob_DocList.SelectedValue;
-                        this.dgv_Main.Rows[rowIndex].Cells[dgv_Main_DocID.Index].Style.BackColor = Color.Yellow;
-                        this.dgv_Main.Rows[rowIndex].Cells["dgv_tb_Display"].Value = this.pdf_Document.Document.PageSizes[0];
-                        if (rowIndex > num3) {
-                            num3 = rowIndex;
-                        }
-                    }
-                }
-                */
                 this.dgv_Main.ClearSelection();
                 if (this.dgv_Main.Rows.Count > (LastRow + 1)) {
                     this.dgv_Main.Rows[LastRow + 1].Cells[dgv_Main_Position.Index].Selected = true;
@@ -617,20 +610,21 @@ namespace Data_Collector {
                         int intPageNum = Convert.ToInt32(Math.Floor(Convert.ToDouble(strPosition[0])));
                         int IntX = Convert.ToInt32(Math.Floor(Convert.ToDouble(strPosition[1])));
                         int IntY = Convert.ToInt32(Math.Floor(Convert.ToDouble(strPosition[2])));
-                        if (this.pdf_Document.Page != intPageNum) {
-                            double num6 = this.pdf_Document.DisplayRectangle.Height / this.pdf_Document.Document.PageCount;
-                            double width = this.pdf_Document.DisplayRectangle.Width;
-                            float height = this.pdf_Document.Document.PageSizes[intPageNum].Height;
+                        if (pdf_Document.Page != intPageNum) {
+                            double num6 = pdf_Document.DisplayRectangle.Height / pdf_Document.Document.PageCount;
+                            double width = pdf_Document.DisplayRectangle.Width;
+                            float height = pdf_Document.Document.PageSizes[intPageNum].Height;
                             double DoubleY = (num6 * intPageNum) + (((height - IntY) / height) * num6);
                             int ModedY = Convert.ToInt32(Math.Round(DoubleY, 0)) - 100;
-                            int ModedX = Convert.ToInt32(Math.Round((double)((((float)IntX) / this.pdf_Document.Document.PageSizes[intPageNum].Width) * width), 0)) - 200;
+                            int ModedX = Convert.ToInt32(Math.Round((double)((((float)IntX) / pdf_Document.Document.PageSizes[intPageNum].Width) * width), 0)) - 200;
                             if (ModedY < 0) {
                                 ModedY = 0;
                             }
                             if (ModedX < 0) {
                                 ModedX = 0;
                             }
-                            this.pdf_Document.SetDisplayRectLocation(new Point(-ModedX, -ModedY));
+                            pdf_Document.SetDisplayRectLocation(new Point(-ModedX, -ModedY));
+
                         }
                     } catch (Exception) {
                     }
@@ -677,7 +671,7 @@ namespace Data_Collector {
                 string str_OrderICID = (dgv_Main.Rows[e.RowIndex].Cells[dgv_Main_OrderID.Index].Value ?? "0").ToString();
 
                 string strDocID = (dgv_Main.Rows[e.RowIndex].Cells[dgv_Main_DocID.Index].Value ?? "0").ToString();
-                string strUserRole = (dgv_Main.Rows[e.RowIndex].Cells[dgv_tb_User.Index].Value ?? "").ToString();
+                string strUserRole = (dgv_Main.Rows[e.RowIndex].Cells[dgv_Main_UserType.Index].Value ?? "").ToString();
                 string strPosition = (dgv_Main.Rows[e.RowIndex].Cells[dgv_Main_Position.Index].Value ?? "").ToString();
                 
                 string strPartID=tb_PartID.Text;
@@ -699,7 +693,7 @@ namespace Data_Collector {
 
                     if (str_ICID == "0" || str_ICID == "-1") {
                         DataTable InspCriteria = DataTools.DataMaster.InsertInspCriteria(Convert.ToInt64(strDocID));
-                        str_ICID=InspCriteria.Rows[0].Field<Int64>("last_insert_rowid()").ToString();
+                        str_ICID = InspCriteria.Rows[0].Field<Int64>("last_insert_rowid()").ToString();
                         dgv_Main.Rows[e.RowIndex].Cells[dgv_Main_ICID.Index].Value = str_ICID;
                     }
 
@@ -710,7 +704,7 @@ namespace Data_Collector {
                         dgv_Main.Rows[e.RowIndex].Cells[dgv_Main_OrderPOS.Index].Value = RowNumber;
                     }
 
-                    
+
 
 
                     Engineering.AssignCollection EditInspectionPoint = new Engineering.AssignCollection(strPartID, str_ICID, strDocID, strPosition, RowNumber, str_OrderICID);
@@ -729,7 +723,7 @@ namespace Data_Collector {
                     if (InspCriteriaNew.Rows.Count > 0) {
 
                         dgv_Main.Rows[e.RowIndex].Cells["dgv_Main_Name"].Value = InspCriteriaNew.Rows[0].Field<string>("DataPointName");
-                        dgv_Main.Rows[e.RowIndex].Cells["dgv_tb_User"].Value = InspCriteriaNew.Rows[0].Field<string>("UserType");
+                        dgv_Main.Rows[e.RowIndex].Cells["dgv_Main_UserType"].Value = InspCriteriaNew.Rows[0].Field<string>("UserType");
                         dgv_Main.Rows[e.RowIndex].Cells["dgv_cb_Mandatory"].Value = Convert.ToBoolean(InspCriteriaNew.Rows[0].Field<Int64>("Mandatory"));
 
                         dgv_Main.Rows[e.RowIndex].Cells["dgv_Main_Position"].Value = InspCriteriaNew.Rows[0].Field<string>("DocPosition");
@@ -741,28 +735,30 @@ namespace Data_Collector {
 
                 } else {
                     //We are in Operator Mode.
+                    string statusSO = tb_Status.Text;
+
 
                     //Get groups that the operator is assigned too. 
-                    DataTable UserRoles= DataTools.DataMaster.GetUserGroup_UserID(Environment.UserName);
+                    DataTable UserRoles = DataTools.DataMaster.GetUserGroup_UserID(Environment.UserName);
                     bool AllowedType = false;
                     bool AllowedOpen = false;
                     bool AllowedClosed = false;
 
                     string BlockedReason = "";
 
-                    
+
                     foreach (DataRow Row in UserRoles.Rows) {
                         //Check if the user is apart of the group and "active" (1= true)
-                        if(Row.Field<string>("UserType")== strUserRole && Convert.ToBoolean(Row.Field<Int64>("Active"))) {
+                        if (Row.Field<string>("UserType") == strUserRole && Convert.ToBoolean(Row.Field<Int64>("Active"))) {
                             AllowedType = true;
                         }
                     }
 
                     if (!AllowedType) {
-                        BlockedReason = BlockedReason + "The user " + Environment.UserName + " is not apart of the \"" + strUserRole + "\" Group\n";
+                        BlockedReason = BlockedReason + "The user \"" + Environment.UserName + "\" is not apart of the \"" + strUserRole + "\" Group\n";
                     }
 
-                    int ReqOpen = Convert.ToInt32(dgv_Main.Rows[e.RowIndex].Cells[dgv_Main_ReqOpen.Index].Value??0);
+                    int ReqOpen = Convert.ToInt32(dgv_Main.Rows[e.RowIndex].Cells[dgv_Main_ReqOpen.Index].Value ?? 0);
                     int ReqClose = Convert.ToInt32(dgv_Main.Rows[e.RowIndex].Cells[dgv_Main_ReqClosed.Index].Value ?? 0);
 
                     int? ReqOpenRow = null;
@@ -805,32 +801,48 @@ namespace Data_Collector {
                     }
 
 
+                    
+                    bool GateKeeper = false;
 
-
-
-
+                    //This a read only override. Let them in.
+                    if (tb_Status.Text != "Open") {
+                        AllowedType = true;
+                        AllowedOpen = true;
+                        AllowedClosed = true;
+                    }
 
                     if (!AllowedType || !AllowedOpen || !AllowedClosed) {
                         //End user not allowed 
 
-                        MessageBox.Show("You are not permitted for the reason below:\n\n"+BlockedReason, "Not Permited");
+                        DialogResult Message = MessageBox.Show("You are not permitted for the reason below:\n\n" + BlockedReason + "\n\nDo you want to Read Only?", "Not Permited",MessageBoxButtons.YesNo,MessageBoxIcon.Hand);
+
+                        if (Message == DialogResult.Yes) {
+                            statusSO = "Read Only";
+                            GateKeeper = true;
+                        }
 
 
                     } else {
+                        GateKeeper = true;
+                    }
+
+
+
+                    if (GateKeeper) { 
                         str_ICID = dgv_Main.Rows[e.RowIndex].Cells[dgv_Main_ICID.Index].Value.ToString();
-                        string str_ShopOrder=tb_ShopOrder.Text;
+                        string str_ShopOrder = tb_ShopOrder.Text;
 
 
 
 
                         //They are allowed in enable the flood gates!
-                        new Production.DataCollection(str_ICID, str_ShopOrder).ShowDialog();
+                        new Production.DataCollection(str_ICID, str_ShopOrder, statusSO).ShowDialog();
 
                         UpdateMainValue(e.RowIndex, Convert.ToInt64(str_ICID));
 
                     }
-
                 }
+                
 
 
 
@@ -1133,7 +1145,7 @@ namespace Data_Collector {
                                     DGV_Row.Cells["dgv_Main_Name"].Value = Row.Field<string>("DataPointName");
                                     DGV_Row.Cells["dgv_Main_Name"].ToolTipText = Row.Field<string>("Description");
 
-                                    DGV_Row.Cells["dgv_tb_User"].Value = Row.Field<string>("UserType");
+                                    DGV_Row.Cells["dgv_Main_UserType"].Value = Row.Field<string>("UserType");
                                     DGV_Row.Cells["dgv_cb_Mandatory"].Value = Convert.ToBoolean(Row.Field<Int64?>("Mandatory") ?? 0);
                                     DGV_Row.Cells[dgv_Main_DocID.Index].Value = Row.Field<Int64?>("DocID") ?? 0;
                                     DGV_Row.Cells[dgv_Main_Position.Index].Value = Row.Field<string>("DocPosition");
@@ -1246,6 +1258,11 @@ namespace Data_Collector {
 
             string folderName="";
 
+
+            IniFile MyIni = new IniFile(@LocalFolder + @"\Settings.ini");
+            string obtain_value = MyIni.Read("RootFoder");
+            fbd_SetPath.SelectedPath = obtain_value;
+
             // Show the FolderBrowserDialog.
             DialogResult result = fbd_SetPath.ShowDialog();
             if (result == DialogResult.OK) {
@@ -1351,6 +1368,16 @@ namespace Data_Collector {
             new Support.KillData().ShowDialog();
 
             
+
+        }
+
+        private void btn_Export_Click(object sender, EventArgs e) {
+
+
+            DataTools.ExcelData.CreateFinialOutput(dgv_Main,tb_ShopOrder.Text,cob_PartNumber.Text,cob_Rev.Text);
+            
+
+
 
         }
     }
