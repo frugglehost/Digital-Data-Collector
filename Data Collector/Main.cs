@@ -27,6 +27,7 @@ using Data_Collector.DataTools;
 using Microsoft.VisualBasic;
 using Data_Collector.Support;
 using DocumentFormat.OpenXml.VariantTypes;
+using System.Windows.Interop;
 //using DocumentFormat.OpenXml.Spreadsheet;
 
 namespace Data_Collector {
@@ -331,10 +332,16 @@ namespace Data_Collector {
             var TempDocID = cob_DocList.SelectedValue;
 
             if (TempDocID!=null) {
+                string Filepath = LocalFolder + @"\OfflinePDF\" + TempDocID + ".pdf";
 
-                pdf_Document.Document?.Dispose();
-                pdf_Document.Load(PdfDocument.Load(LocalFolder + @"\OfflinePDF\" + TempDocID + ".pdf"));
+                if (File.Exists(Filepath)) {
+                    pdf_Document.Document?.Dispose();
+                    pdf_Document.Load(PdfDocument.Load(Filepath));
+                } else {
 
+                    MessageBox.Show("The file is missing.\n\n" + Filepath);
+
+                }
             }
 
 
@@ -375,8 +382,17 @@ namespace Data_Collector {
                         DetailDocList.Rows.Add(TempDisplay, TempValue);
 
                         try {
+
+
                             File.Copy(@TempDocuDetails.Rows[0].Field<string>("Path"), LocalFolder + @"\OfflinePDF\" + TempValue + ".pdf", true);
-                        } catch { }
+
+
+
+                        } catch (Exception emsg) {
+                            MessageBox.Show(emsg.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            
+
+                        }
                     }
                 }
 
