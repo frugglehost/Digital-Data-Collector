@@ -64,7 +64,7 @@ namespace Data_Collector.DataTools
                     table.Rows.Add(ICID, Name, UserType, Type, RecordID, RecDateTime, User_ID, Value);
                 }
 
-
+                int RowsCounter = 0;
                 foreach (DataRow ValueRow in GotRecords.Rows) {
                     RecordID = ValueRow.Field<Int64>("Rec_ID");
                     RecDateTime = ValueRow.Field<string>("DateTime UTC");
@@ -86,11 +86,12 @@ namespace Data_Collector.DataTools
                                 Value = Values.Rows[0].Field<string>("Value");
 
 
-
+                                table.Rows.Add(ICID, Name, UserType, Type, RecordID, RecDateTime, User_ID, Value);
                             }
                             break;
 
-                            case "stop watch": {
+                            case "stop watch":
+                            case "timer": {
 
                                 foreach (DataRow ValueRows in Values.Rows) {
                                     DataTable ExtraData = JsonConvert.DeserializeObject<DataTable>(ValueRows.Field<string>("Extra"));
@@ -102,6 +103,10 @@ namespace Data_Collector.DataTools
 
                                 Value = Value.TrimEnd('\n').TrimEnd('\r').TrimEnd('\n');
 
+                                if (RowsCounter == 0) {
+
+                                    table.Rows.Add(ICID, Name, UserType, Type, RecordID, RecDateTime, User_ID, Value);
+                                }
                             }
                             break;
 
@@ -115,16 +120,16 @@ namespace Data_Collector.DataTools
 
 
                                 Value = Value.TrimEnd('\n').TrimEnd('\r').TrimEnd('\n');
-
+                                table.Rows.Add(ICID, Name, UserType, Type, RecordID, RecDateTime, User_ID, Value);
                             }
                             break;
                         }
 
-                        
 
+                        RowsCounter++;
 
                     }
-                    table.Rows.Add(ICID, Name, UserType, Type, RecordID, RecDateTime, User_ID, Value);
+                    
 
 
 

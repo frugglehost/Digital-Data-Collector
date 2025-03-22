@@ -113,6 +113,8 @@
             this.fbd_SetPath = new System.Windows.Forms.FolderBrowserDialog();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.btn_Compleat = new System.Windows.Forms.Button();
+            this.tb_Status = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -131,8 +133,6 @@
             this.dgv_Main_UserType = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_Main_DocID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_Main_Position = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.tb_Status = new System.Windows.Forms.TextBox();
-            this.label6 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -571,7 +571,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(1014, 492);
+            this.tabPage2.Size = new System.Drawing.Size(1185, 492);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Part List";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -580,7 +580,7 @@
             // 
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(1014, 492);
+            this.tabPage3.Size = new System.Drawing.Size(1185, 492);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Shop Items";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -589,7 +589,7 @@
             // 
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Size = new System.Drawing.Size(1014, 492);
+            this.tabPage4.Size = new System.Drawing.Size(1185, 492);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Tools";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -942,6 +942,24 @@
             this.btn_Compleat.TabIndex = 0;
             this.btn_Compleat.Text = "Compleated";
             this.btn_Compleat.UseVisualStyleBackColor = true;
+            this.btn_Compleat.Click += new System.EventHandler(this.btn_Compleat_Click);
+            // 
+            // tb_Status
+            // 
+            this.tb_Status.Location = new System.Drawing.Point(973, 27);
+            this.tb_Status.Name = "tb_Status";
+            this.tb_Status.ReadOnly = true;
+            this.tb_Status.Size = new System.Drawing.Size(100, 20);
+            this.tb_Status.TabIndex = 15;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(927, 30);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(40, 13);
+            this.label6.TabIndex = 16;
+            this.label6.Text = "Status:";
             // 
             // dataGridViewTextBoxColumn1
             // 
@@ -1118,23 +1136,6 @@
             this.dgv_Main_Position.Name = "dgv_Main_Position";
             this.dgv_Main_Position.ReadOnly = true;
             this.dgv_Main_Position.Visible = false;
-            // 
-            // tb_Status
-            // 
-            this.tb_Status.Location = new System.Drawing.Point(973, 27);
-            this.tb_Status.Name = "tb_Status";
-            this.tb_Status.ReadOnly = true;
-            this.tb_Status.Size = new System.Drawing.Size(100, 20);
-            this.tb_Status.TabIndex = 15;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(927, 30);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(40, 13);
-            this.label6.TabIndex = 16;
-            this.label6.Text = "Status:";
             // 
             // Main
             // 

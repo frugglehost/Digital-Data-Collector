@@ -26,6 +26,7 @@ using System.Security.Cryptography;
 using Data_Collector.DataTools;
 using Microsoft.VisualBasic;
 using Data_Collector.Support;
+using DocumentFormat.OpenXml.VariantTypes;
 //using DocumentFormat.OpenXml.Spreadsheet;
 
 namespace Data_Collector {
@@ -192,7 +193,10 @@ namespace Data_Collector {
                 
                 btn_Sync.Enabled = true;
                 btn_Export.Enabled = true;
-                btn_Compleat.Enabled = true;
+
+                if (tb_Status.Text == "Open") {
+                    btn_Compleat.Enabled = true;
+                }
 
 
 
@@ -1376,6 +1380,42 @@ namespace Data_Collector {
 
             DataTools.ExcelData.CreateFinialOutput(dgv_Main,tb_ShopOrder.Text,cob_PartNumber.Text,cob_Rev.Text);
             
+
+
+
+        }
+
+        private void btn_Compleat_Click(object sender, EventArgs e) {
+
+            DialogResult WanttoSave = MessageBox.Show("You are about to stats the shop order as \"Closed\".\n\nThis can not be undone without support assistance.\nDo you want to Continue?", "Warnning", MessageBoxButtons.YesNo);
+
+            if (WanttoSave == DialogResult.Yes) {
+                //We have the green light lets check that all Mandatiry items are closed. 
+                bool Allowed = true;
+
+                string Reason = "";
+
+                foreach (DataGridViewRow MainRow in dgv_Main.Rows) {
+
+                    int ICID= Convert.ToInt32(MainRow.Cells[dgv_Main_ICID.Index].Value ?? 0);
+
+                    bool RowMandatory = Convert.ToBoolean(MainRow.Cells[dgv_cb_Mandatory.Index].Value ?? true);
+                    bool RowClosed = Convert.ToBoolean(MainRow.Cells[dgv_Main_Closed.Index].Value ?? false);
+
+                    if(RowMandatory && !RowClosed) {
+                        Allowed = false;
+                        Reason = Reason + "Inspection ID \"" + ICID + "\" is not closed.\n";
+                    }
+                }
+                if (Allowed) {
+
+                    DataTools.DataMaster.UpdateShopOrder_ShopOrder(tb_ShopOrder.Text, null, null, "Closed");
+                    tb_ShopOrder.Text = "Closed";
+                    btn_Compleat.Enabled = false;
+                }
+
+
+            }
 
 
 

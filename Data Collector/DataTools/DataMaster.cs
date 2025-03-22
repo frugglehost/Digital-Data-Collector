@@ -8,6 +8,8 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using DocumentFormat.OpenXml.Presentation;
+
 
 
 //SQlite tools.
@@ -720,11 +722,28 @@ namespace Data_Collector.DataTools {
             return table;
         }
 
-        public static DataTable UpdateShopOrder_ShopOrder(string ShopOrder, Int64 PartID, Int64 Qty,string Status) {
+        public static DataTable UpdateShopOrder_ShopOrder(string ShopOrder, Int64? PartID=null, Int64? Qty=null,string Status=null) {
 
             DataTable table = new DataTable();
             using (SqliteConnection connection = CreateConnection()) {
-                using (SqliteCommand command = new SqliteCommand("UPDATE [ShopOrder] SET [PartID]=@p_PartID, [Qty]=@p_Qty, [Status]=@p_Status WHERE [ShopOrder]=@p_ShopOrder;", connection)) {
+
+                string Set = "";
+
+                Set = (ShopOrder != null) ? Set + "[ShopOrder]=@p_ShopOrder," : Set;
+                Set = (PartID != null) ? Set + "[PartID]=@p_PartID," : Set;
+                Set = (Qty != null) ? Set + "[Qty]=@p_Qty," : Set;
+                Set = (Status != null) ? Set + "[Status]=@p_Status," : Set;
+
+
+                Set = Set.Substring(0, Set.Length - 1);
+
+                string str = string.Format("UPDATE [ShopOrder] SET {0} WHERE [ShopOrder]=@p_ShopOrder; SELECT last_insert_rowid();", Set);
+
+
+
+
+
+                using (SqliteCommand command = new SqliteCommand(str, connection)) {
                     command.Connection = connection;
                     command.Parameters.AddWithValue("@p_ShopOrder", ShopOrder);
                     command.Parameters.AddWithValue("@p_PartID", PartID);
