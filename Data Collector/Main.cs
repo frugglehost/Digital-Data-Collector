@@ -1437,7 +1437,7 @@ namespace Data_Collector {
                 if (Allowed) {
 
                     DataTools.DataMaster.UpdateShopOrder_ShopOrder(tb_ShopOrder.Text, null, null, "Closed");
-                    tb_ShopOrder.Text = "Closed";
+                    tb_Status.Text = "Closed";
                     btn_Compleat.Enabled = false;
                 } else {
                     MessageBox.Show("Failed to close the Shop Order due to:\n\n" + Reason, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
