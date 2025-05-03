@@ -34,13 +34,6 @@
             // 
             this.list_Groups.Enabled = false;
             this.list_Groups.FormattingEnabled = true;
-            this.list_Groups.Items.AddRange(new object[] {
-            "MFG",
-            "QC",
-            "Supervisor",
-            "ME",
-            "QE",
-            "Support"});
             this.list_Groups.Location = new System.Drawing.Point(12, 38);
             this.list_Groups.Name = "list_Groups";
             this.list_Groups.Size = new System.Drawing.Size(215, 154);
@@ -101,6 +94,7 @@
             this.Name = "EditGroups";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Edit Groups";
+            this.Load += new System.EventHandler(this.EditGroups_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

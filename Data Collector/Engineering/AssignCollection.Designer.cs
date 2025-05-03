@@ -202,13 +202,6 @@
             // 
             this.cob_UserRole.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cob_UserRole.FormattingEnabled = true;
-            this.cob_UserRole.Items.AddRange(new object[] {
-            "MFG",
-            "QC",
-            "Supervisor",
-            "ME",
-            "QE",
-            "Support"});
             this.cob_UserRole.Location = new System.Drawing.Point(117, 295);
             this.cob_UserRole.Name = "cob_UserRole";
             this.cob_UserRole.Size = new System.Drawing.Size(255, 21);

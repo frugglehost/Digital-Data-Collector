@@ -1110,7 +1110,6 @@ namespace Data_Collector {
                                 ts_Engineer.Enabled = true;
                             }
                             break;
-
                             case "supervisor": {
 
                                 ts_Supervisor.Enabled = true;
@@ -1414,7 +1413,7 @@ namespace Data_Collector {
 
         private void btn_Compleat_Click(object sender, EventArgs e) {
 
-            DialogResult WanttoSave = MessageBox.Show("You are about to stats the shop order as \"Closed\".\n\nThis can not be undone without support assistance.\nDo you want to Continue?", "Warnning", MessageBoxButtons.YesNo);
+            DialogResult WanttoSave = MessageBox.Show("You are about to status the shop order as \"Closed\".\n\nThis can not be undone without support assistance.\nDo you want to Continue?", "Warnning", MessageBoxButtons.YesNo);
 
             if (WanttoSave == DialogResult.Yes) {
                 //We have the green light lets check that all Mandatiry items are closed. 
@@ -1448,6 +1447,14 @@ namespace Data_Collector {
 
 
 
+        }
+
+        private void button1_Click(object sender, EventArgs e) {
+            new Quality.NewNCR("23032504").ShowDialog();
+        }
+
+        private void ts_CreateTableQC_Click(object sender, EventArgs e) {
+            DataTools.BlankSQlite.CreateDB_QC();
         }
     }
 }

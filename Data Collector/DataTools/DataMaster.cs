@@ -23,6 +23,7 @@ namespace Data_Collector.DataTools {
 
         private static SqliteConnection CreateConnection() {
 
+            /*
             string LocalFolder = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"\Digital Data Collector";
 
             IniFile MyIni = new IniFile(@LocalFolder + @"\Settings.ini");
@@ -46,12 +47,16 @@ namespace Data_Collector.DataTools {
 
 
             }
+            */
+
+            string obtain_value = System.Configuration.ConfigurationManager.AppSettings["DefaultRootFoder"];
+
+            if (string.IsNullOrWhiteSpace(obtain_value)) {
+                obtain_value = AppContext.BaseDirectory;
+            }
 
 
-
-            //string obtain_value = System.Configuration.ConfigurationManager.AppSettings["DataBaseRemote"];
-
-            SqliteConnection connection = new SqliteConnection("Data Source='"+ obtain_value + "\\DataBase.db';") {
+            SqliteConnection connection = new SqliteConnection("Data Source='"+ obtain_value + "DataBase\\ProductionData.db';") {
                 DefaultTimeout = 5
             };
             try {
@@ -283,6 +288,47 @@ namespace Data_Collector.DataTools {
                 command.Parameters.AddWithValue("@p_ReqOpen", ReqOpen);
                 command.Parameters.AddWithValue("@p_ReqClose", ReqClose);
                 command.Parameters.AddWithValue("@p_Order", Order);
+
+
+                command.Connection = connection;
+                tempTable.Load(command.ExecuteReader());
+
+            }
+            return tempTable;
+        }
+
+
+        public static DataTable GetUniqueGroups(string GroupID = null, string Desription = null, string Active = null) {
+            DataTable tempTable = new DataTable();
+            using (SqliteConnection connection = CreateConnection()) {
+
+
+
+                string Where = "";
+
+                Where = (GroupID != null) ? Where + "[GroupID]=@p_GroupID AND " : Where;
+                Where = (Desription != null) ? Where + "[Desription]=@p_Desription AND " : Where;
+                Where = (Active != null) ? Where + "[Active]=@p_Active AND " : Where;
+
+
+                if (Where.Length != 0) {
+                    Where = Where.Substring(0, Where.Length - 4);
+
+                    Where = "WHERE " + Where;
+
+                }
+
+
+
+                string str = string.Format("SELECT * FROM [UniqueGroups] {0} ORDER BY [GroupID] ASC;", Where);
+
+
+                SqliteCommand command = new SqliteCommand(str);
+
+                command.Parameters.AddWithValue("@p_GroupID", GroupID);
+                command.Parameters.AddWithValue("@p_Desription", Desription);
+                command.Parameters.AddWithValue("@p_Active", Active);
+
 
 
                 command.Connection = connection;
@@ -675,7 +721,7 @@ namespace Data_Collector.DataTools {
 
             DataTable table = new DataTable();
             using (SqliteConnection connection = CreateConnection()) {
-                using (SqliteCommand command = new SqliteCommand("INSERT INTO [ShopOrder] ([ShopOrder],[PartID],[Qty],[Status]) VALUES (@p_ShopOrder,@p_PartID,@p_Qty,p_Status); SELECT last_insert_rowid();", connection)) {
+                using (SqliteCommand command = new SqliteCommand("INSERT INTO [ShopOrder] ([ShopOrder],[PartID],[Qty],[Status]) VALUES (@p_ShopOrder,@p_PartID,@p_Qty,@p_Status); SELECT last_insert_rowid();", connection)) {
                     command.Connection = connection;
                     command.Parameters.AddWithValue("@p_ShopOrder", ShopOrder);
                     command.Parameters.AddWithValue("@p_PartID", PartID);

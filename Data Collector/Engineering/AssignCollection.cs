@@ -66,6 +66,16 @@ namespace Data_Collector.Engineering {
 
         private void AssignCollection_Load(object sender, EventArgs e) {
 
+
+            //Load Group info
+            DataTable GotUserGroups = DataTools.DataMaster.GetUniqueGroups();
+
+            foreach (DataRow UserRows in GotUserGroups.Rows) {
+
+                cob_UserRole.Items.Add(UserRows.Field<string>("GroupID"));
+
+            }
+
             //We are all loaded. Lets fill out the form for the end user if there is old Data.
 
             DataTable OrderInspPN = DataTools.DataMaster.GetOrderInspPN_RowID(Convert.ToInt64(tb_OrderID.Text));
@@ -94,6 +104,9 @@ namespace Data_Collector.Engineering {
 
 
             }
+
+
+            
 
 
             CheckStatus(this, EventArgs.Empty);

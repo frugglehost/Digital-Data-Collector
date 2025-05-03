@@ -94,5 +94,19 @@ namespace Data_Collector.Support {
                 btn_Search_Click(null, EventArgs.Empty);
             }
         }
+
+        private void EditGroups_Load(object sender, EventArgs e) {
+
+            DataTable GotUserGroups = DataTools.DataMaster.GetUniqueGroups();
+
+            foreach(DataRow UserRows in GotUserGroups.Rows) {
+
+                list_Groups.Items.Add(UserRows.Field<string>("GroupID"));
+
+            }
+
+
+
+        }
     }
 }
