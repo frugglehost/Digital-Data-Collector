@@ -26,12 +26,6 @@ jobs:
     - name: Setup MSBuild
       uses: microsoft/setup-msbuild@v1
     
-    - name: Setup NuGet
-      uses: NuGet/setup-nuget@v1.0.5
-    
-    - name: Restore NuGet packages
-      run: nuget restore Digital Data Collector.sln
-    
     - name: Build the Solution
       run: msbuild Digital Data Collector.sln /p:Configuration=Release
     
