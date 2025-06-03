@@ -146,13 +146,22 @@ namespace Data_Collector.DataTools
 
             string FileName = string.Format("{0}_{1}_{2}_{3}.xlsx", ShopOrder, PartNumber, Rev, DateTime.UtcNow.ToString("yyyy-MM-dd HHmm"));
 
-            string LocalFolder = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"\Digital Data Collector";
-            IniFile MyIni = new IniFile(@LocalFolder + @"\Settings.ini");
-            string HomePage = MyIni.Read("RootFoder");
-            string FullPath = HomePage + @"\Report\" + FileName;
+            string obtain_value = System.Configuration.ConfigurationManager.AppSettings["DefaultRootFoder"];
 
-            if (!Directory.Exists(HomePage + @"\Report")) {
-                Directory.CreateDirectory(HomePage + @"\Report");
+            if (string.IsNullOrWhiteSpace(obtain_value)) {
+                obtain_value = AppContext.BaseDirectory;
+
+
+            }
+
+            if (!Directory.Exists(obtain_value + "Data\\")) {
+                Directory.CreateDirectory(obtain_value + "Data\\");
+            }
+
+            string FullPath = obtain_value + @"Data\Report\" + FileName;
+
+            if (!Directory.Exists(obtain_value + @"Data\Report")) {
+                Directory.CreateDirectory(obtain_value + @"Data\Report");
             }
 
             

@@ -56,7 +56,7 @@ namespace Data_Collector.DataTools {
             }
 
 
-            SqliteConnection connection = new SqliteConnection("Data Source='"+ obtain_value + "DataBase\\ProductionData.db';") {
+            SqliteConnection connection = new SqliteConnection("Data Source='"+ obtain_value + "Data\\ProductionData.db';") {
                 DefaultTimeout = 5
             };
             try {

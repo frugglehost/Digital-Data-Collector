@@ -455,11 +455,11 @@
             // 
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label12.Location = new System.Drawing.Point(20, 46);
+            this.label12.Location = new System.Drawing.Point(11, 46);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(72, 16);
+            this.label12.Size = new System.Drawing.Size(80, 16);
             this.label12.TabIndex = 4;
-            this.label12.Text = "Lot / Batch:";
+            this.label12.Text = "LOT / Batch:";
             // 
             // dtp_ChemExp
             // 
@@ -574,7 +574,7 @@
             this.tp_Serial.Location = new System.Drawing.Point(4, 22);
             this.tp_Serial.Name = "tp_Serial";
             this.tp_Serial.Padding = new System.Windows.Forms.Padding(3);
-            this.tp_Serial.Size = new System.Drawing.Size(616, 117);
+            this.tp_Serial.Size = new System.Drawing.Size(639, 117);
             this.tp_Serial.TabIndex = 3;
             this.tp_Serial.Text = "Serial Number";
             this.tp_Serial.UseVisualStyleBackColor = true;
@@ -638,7 +638,7 @@
             this.tb_ToolID.Location = new System.Drawing.Point(4, 22);
             this.tb_ToolID.Name = "tb_ToolID";
             this.tb_ToolID.Padding = new System.Windows.Forms.Padding(3);
-            this.tb_ToolID.Size = new System.Drawing.Size(616, 117);
+            this.tb_ToolID.Size = new System.Drawing.Size(639, 117);
             this.tb_ToolID.TabIndex = 4;
             this.tb_ToolID.Text = "Tool ID";
             this.tb_ToolID.UseVisualStyleBackColor = true;
@@ -688,7 +688,7 @@
             this.tb_Badge.Location = new System.Drawing.Point(4, 22);
             this.tb_Badge.Name = "tb_Badge";
             this.tb_Badge.Padding = new System.Windows.Forms.Padding(3);
-            this.tb_Badge.Size = new System.Drawing.Size(616, 117);
+            this.tb_Badge.Size = new System.Drawing.Size(639, 117);
             this.tb_Badge.TabIndex = 5;
             this.tb_Badge.Text = "Badge";
             this.tb_Badge.UseVisualStyleBackColor = true;
@@ -770,7 +770,7 @@
             this.tp_Timer.Location = new System.Drawing.Point(4, 22);
             this.tp_Timer.Name = "tp_Timer";
             this.tp_Timer.Padding = new System.Windows.Forms.Padding(3);
-            this.tp_Timer.Size = new System.Drawing.Size(616, 117);
+            this.tp_Timer.Size = new System.Drawing.Size(639, 117);
             this.tp_Timer.TabIndex = 7;
             this.tp_Timer.Text = "Timers";
             this.tp_Timer.UseVisualStyleBackColor = true;
@@ -889,7 +889,7 @@
             this.tp_stopWatch.Location = new System.Drawing.Point(4, 22);
             this.tp_stopWatch.Name = "tp_stopWatch";
             this.tp_stopWatch.Padding = new System.Windows.Forms.Padding(3);
-            this.tp_stopWatch.Size = new System.Drawing.Size(616, 117);
+            this.tp_stopWatch.Size = new System.Drawing.Size(639, 117);
             this.tp_stopWatch.TabIndex = 8;
             this.tp_stopWatch.Text = "Stop Watch";
             this.tp_stopWatch.UseVisualStyleBackColor = true;
@@ -995,7 +995,7 @@
             this.tp_File.Controls.Add(this.dgv_File);
             this.tp_File.Location = new System.Drawing.Point(4, 22);
             this.tp_File.Name = "tp_File";
-            this.tp_File.Size = new System.Drawing.Size(616, 117);
+            this.tp_File.Size = new System.Drawing.Size(639, 117);
             this.tp_File.TabIndex = 6;
             this.tp_File.Text = "File";
             this.tp_File.UseVisualStyleBackColor = true;
@@ -1099,7 +1099,7 @@
             this.tp_Text.Location = new System.Drawing.Point(4, 22);
             this.tp_Text.Name = "tp_Text";
             this.tp_Text.Padding = new System.Windows.Forms.Padding(3);
-            this.tp_Text.Size = new System.Drawing.Size(616, 117);
+            this.tp_Text.Size = new System.Drawing.Size(639, 117);
             this.tp_Text.TabIndex = 9;
             this.tp_Text.Text = "Text";
             this.tp_Text.UseVisualStyleBackColor = true;

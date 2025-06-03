@@ -47,12 +47,12 @@ namespace Data_Collector.DataTools {
 
             }
 
-            if (!Directory.Exists(obtain_value + "DataBase\\")) {
-                Directory.CreateDirectory(obtain_value + "DataBase\\");
+            if (!Directory.Exists(obtain_value + "Data\\")) {
+                Directory.CreateDirectory(obtain_value + "Data\\");
             }
 
             //string obtain_value = System.Configuration.ConfigurationManager.AppSettings["DataBaseRemote"];
-            SqliteConnection connection = new SqliteConnection("Data Source='" + obtain_value + "DataBase\\"+ NameDB+".db';");
+            SqliteConnection connection = new SqliteConnection("Data Source='" + obtain_value + "Data\\"+ NameDB+".db';");
             try {
                 connection.Open();
             } catch (Exception) {

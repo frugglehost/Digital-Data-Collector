@@ -54,7 +54,7 @@ namespace Data_Collector.DataTools {
 
             //string obtain_value = System.Configuration.ConfigurationManager.AppSettings["DataBaseRemote"];
 
-            SqliteConnection connection = new SqliteConnection("Data Source='" + obtain_value + "DataBase\\Quality.db';") {
+            SqliteConnection connection = new SqliteConnection("Data Source='" + obtain_value + "Data\\Quality.db';") {
                 DefaultTimeout = 5
             };
             try {

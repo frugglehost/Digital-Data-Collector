@@ -1129,12 +1129,21 @@ namespace Data_Collector.Production {
 
                     //Engineer defined save path
                     string PathToSave = (dgv_File.Rows[int_Row].Cells[dgv_File_SaveTo.Index].Value ?? "").ToString() ;
-                    
 
-                    IniFile MyIni = new IniFile(@LocalFolder + @"\Settings.ini");
-                    string RootFolder = MyIni.Read("RootFoder");
 
-                    
+                    string RootFolder = System.Configuration.ConfigurationManager.AppSettings["DefaultRootFoder"];
+
+                    if (string.IsNullOrWhiteSpace(RootFolder)) {
+                        RootFolder = AppContext.BaseDirectory;
+
+
+                    }
+
+                    if (!Directory.Exists(RootFolder + "Data\\")) {
+                        Directory.CreateDirectory(RootFolder + "Data\\");
+                    }
+
+
 
                     //Go to the default save folder.
                     if (string.IsNullOrWhiteSpace(PathToSave)) {

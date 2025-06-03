@@ -36,7 +36,9 @@ using System.Deployment.Application;
 namespace Data_Collector {
     public partial class Main : Form {
 
-        
+       
+
+
         /// Keep it Alive
         [FlagsAttribute]
         public enum EXECUTION_STATE : uint {
@@ -414,6 +416,8 @@ namespace Data_Collector {
                     DataForGrid.Columns.Add(MainColumn.Name);
                 }
 
+                DataForGrid.Columns["dgv_Main_OrderPOS"].DataType = typeof(Int32);
+
 
                 //We now have the documents now we need to get a list of Inspection points.
                 foreach (DataRow DocRow in DocumentsList.Rows) {
@@ -471,7 +475,7 @@ namespace Data_Collector {
 
                 foreach (DataRow ForGridRow in DataForGrid.Rows) {
                     Int64 OrderID = Convert.ToInt64(ForGridRow.Field<string>(dgv_Main_OrderID.Index) ?? "-1");
-                    Int64 OrderPOS = Convert.ToInt64(ForGridRow.Field<string>(dgv_Main_OrderPOS.Index) ?? "-1");
+                    Int32 OrderPOS =(ForGridRow.Field<Int32?>(dgv_Main_OrderPOS.Index) ?? -1);
                     Int64 ICID = Convert.ToInt64(ForGridRow.Field<string>(dgv_Main_ICID.Index) ?? "-1");
                     Int64 ReqOpen = Convert.ToInt64(ForGridRow.Field<string>(dgv_Main_ReqOpen.Index) ?? "0");
                     Int64 ReqClose = Convert.ToInt64(ForGridRow.Field<string>(dgv_Main_ReqClosed.Index) ?? "0");
@@ -613,7 +617,7 @@ namespace Data_Collector {
             int colIndex = dgv_Main.CurrentCell.ColumnIndex;
             if (dgv_Main.Rows[rowIndex].Cells[dgv_Main_Position.Index].Value != null) {
 
-                if (colIndex == 1 || colIndex == 0) {
+                if (colIndex == 1 || colIndex == 0 || colIndex == 2) {
 
                     //Read and sepperate the CSV (Page, X, Y)
                     char[] separator = new char[] { ',' };
@@ -1090,6 +1094,8 @@ namespace Data_Collector {
                 ss_Version.Text = ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString();
             } catch { }
 #endif
+            
+            ss_Version.Text = Assembly.GetExecutingAssembly().GetName().Version.ToString();
             ss_User.Text = Environment.UserName;
 
             SetThreadExecutionState(EXECUTION_STATE.ES_DISPLAY_REQUIRED | EXECUTION_STATE.ES_CONTINUOUS);

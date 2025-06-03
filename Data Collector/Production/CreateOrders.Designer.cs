@@ -165,7 +165,7 @@
             this.cob_ShopOrders.Name = "cob_ShopOrders";
             this.cob_ShopOrders.Size = new System.Drawing.Size(169, 21);
             this.cob_ShopOrders.TabIndex = 15;
-            this.cob_ShopOrders.SelectedIndexChanged += new System.EventHandler(this.cob_ShopOrders_SelectedIndexChanged);
+            this.cob_ShopOrders.TextChanged += new System.EventHandler(this.cob_ShopOrders_SelectedIndexChanged);
             // 
             // tb_Qty
             // 
