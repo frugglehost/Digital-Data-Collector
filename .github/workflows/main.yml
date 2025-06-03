@@ -27,5 +27,5 @@ jobs:
       uses: microsoft/setup-msbuild@v1
     
     - name: Build the Solution
-      run: msbuild Digital Data Collector.sln /p:Configuration=Release
+      run: msbuild 'Digital Data Collector.sln' /p:Configuration=Release
     
